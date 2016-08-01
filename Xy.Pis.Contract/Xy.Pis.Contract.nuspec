@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2016</copyright>
+    <tags>Contract Library</tags>
+  </metadata>
+  <files>
+    <file src="..\release\Xy.Pis.Contract.pdb" target="lib\net40" />
+    <!--
+    <file src="..\release\Xy.Pis.Contract.XML" target="lib\net40" />
+    -->
+  </files>
+</package>

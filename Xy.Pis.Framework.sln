@@ -1,0 +1,142 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xy.Pis.Domain", "Xy.Pis.Domain\Xy.Pis.Domain.csproj", "{DFAEAAAB-F35F-4D06-96F2-D3F896EED2FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xy.Pis.Contract", "Xy.Pis.Contract\Xy.Pis.Contract.csproj", "{445A7ABD-9BFD-4BB0-A92A-E790B9AA7F09}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05 Web", "05 Web", "{9DC7BE66-17AF-49F2-8D19-196C63E197D9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 Core", "02 Core", "{1D9AC42F-D531-416F-AA0B-D78D14F45EDE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "10 UnitTests", "10 UnitTests", "{9297020D-C958-49E3-9BC8-D225EF9E71C2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03 Contract", "03 Contract", "{62851D41-69EB-4BD7-837A-315D76223F9E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7E311623-58C3-4B26-9447-32851FFD8A2F}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		references.txt = references.txt
+		SharedAssemblyInfo.cs = SharedAssemblyInfo.cs
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xy.Pis.Common", "Xy.Pis.Common\Xy.Pis.Common.csproj", "{DA366FBA-8E90-42FA-9FC5-F18EC0006D98}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 Common", "01 Common", "{64A1E9F1-9338-4117-8C3E-4FDF7C7AE027}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xy.Pis.Core", "Xy.Pis.Core\Xy.Pis.Core.csproj", "{50BB2236-02DC-40FF-B0F0-AB37D093279D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xy.Pis.Service.UnitTests", "Xy.Pis.Service.UnitTests\Xy.Pis.Service.UnitTests.csproj", "{58088072-9A67-4748-9128-29CA43BE9458}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xy.Pis.Proxy.UnitTests", "Xy.Pis.Proxy.UnitTests\Xy.Pis.Proxy.UnitTests.csproj", "{FAED7743-A38B-483C-B5DA-A4019E9EDBAB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xy.Pis.Data", "Xy.Pis.Data\Xy.Pis.Data.csproj", "{49A6FDB7-71E1-4E90-924D-1558F27E149C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04 Proxy", "04 Proxy", "{EA25129C-81E9-41B3-80CA-9F983C233374}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xy.Pis.Proxy", "Xy.Pis.Proxy\Xy.Pis.Proxy.csproj", "{DF186572-37B9-45F9-BB9A-0FEA5151B322}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "db", "db", "{0EAF52DC-C99B-4431-99C3-0576B2F3CC62}"
+	ProjectSection(SolutionItems) = preProject
+		DB\AdditionalMeal.sql = DB\AdditionalMeal.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F1D915FA-CFDB-4764-A73E-ADC42BC8C1AB}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.Debug.bat = .nuget\NuGet.Debug.bat
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.Release.bat = .nuget\NuGet.Release.bat
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "packages", "packages", "{1D6BA8AF-236B-450D-92D5-89EB17F06C2E}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages\Xy.Pis.Client.1.16.0730.06.nupkg = .nuget\packages\Xy.Pis.Client.1.16.0730.06.nupkg
+		.nuget\packages\Xy.Pis.Client.1.16.0730.06.symbols.nupkg = .nuget\packages\Xy.Pis.Client.1.16.0730.06.symbols.nupkg
+		.nuget\packages\Xy.Pis.Common.1.16.0730.06.nupkg = .nuget\packages\Xy.Pis.Common.1.16.0730.06.nupkg
+		.nuget\packages\Xy.Pis.Common.1.16.0730.06.symbols.nupkg = .nuget\packages\Xy.Pis.Common.1.16.0730.06.symbols.nupkg
+		.nuget\packages\Xy.Pis.Contract.1.16.0730.06.nupkg = .nuget\packages\Xy.Pis.Contract.1.16.0730.06.nupkg
+		.nuget\packages\Xy.Pis.Contract.1.16.0730.06.symbols.nupkg = .nuget\packages\Xy.Pis.Contract.1.16.0730.06.symbols.nupkg
+		.nuget\packages\Xy.Pis.Domain.1.16.0730.06.nupkg = .nuget\packages\Xy.Pis.Domain.1.16.0730.06.nupkg
+		.nuget\packages\Xy.Pis.Domain.1.16.0730.06.symbols.nupkg = .nuget\packages\Xy.Pis.Domain.1.16.0730.06.symbols.nupkg
+		.nuget\packages\Xy.Pis.Repository.1.16.0730.06.nupkg = .nuget\packages\Xy.Pis.Repository.1.16.0730.06.nupkg
+		.nuget\packages\Xy.Pis.Repository.1.16.0730.06.symbols.nupkg = .nuget\packages\Xy.Pis.Repository.1.16.0730.06.symbols.nupkg
+		.nuget\packages\Xy.Pis.Service.1.16.0730.06.nupkg = .nuget\packages\Xy.Pis.Service.1.16.0730.06.nupkg
+		.nuget\packages\Xy.Pis.Service.1.16.0730.06.symbols.nupkg = .nuget\packages\Xy.Pis.Service.1.16.0730.06.symbols.nupkg
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nuget", ".nuget.server\nuget.csproj", "{AF612DC2-C7C6-4288-93AC-65B5D98309FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xy.Pis.WCF", "Xy.Pis.WCF\Xy.Pis.WCF.csproj", "{3A7E808F-7A83-473F-881C-2CDF62913474}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DFAEAAAB-F35F-4D06-96F2-D3F896EED2FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFAEAAAB-F35F-4D06-96F2-D3F896EED2FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFAEAAAB-F35F-4D06-96F2-D3F896EED2FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFAEAAAB-F35F-4D06-96F2-D3F896EED2FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{445A7ABD-9BFD-4BB0-A92A-E790B9AA7F09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{445A7ABD-9BFD-4BB0-A92A-E790B9AA7F09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{445A7ABD-9BFD-4BB0-A92A-E790B9AA7F09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{445A7ABD-9BFD-4BB0-A92A-E790B9AA7F09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA366FBA-8E90-42FA-9FC5-F18EC0006D98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA366FBA-8E90-42FA-9FC5-F18EC0006D98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA366FBA-8E90-42FA-9FC5-F18EC0006D98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA366FBA-8E90-42FA-9FC5-F18EC0006D98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50BB2236-02DC-40FF-B0F0-AB37D093279D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50BB2236-02DC-40FF-B0F0-AB37D093279D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50BB2236-02DC-40FF-B0F0-AB37D093279D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50BB2236-02DC-40FF-B0F0-AB37D093279D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58088072-9A67-4748-9128-29CA43BE9458}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58088072-9A67-4748-9128-29CA43BE9458}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58088072-9A67-4748-9128-29CA43BE9458}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58088072-9A67-4748-9128-29CA43BE9458}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAED7743-A38B-483C-B5DA-A4019E9EDBAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAED7743-A38B-483C-B5DA-A4019E9EDBAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAED7743-A38B-483C-B5DA-A4019E9EDBAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAED7743-A38B-483C-B5DA-A4019E9EDBAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49A6FDB7-71E1-4E90-924D-1558F27E149C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49A6FDB7-71E1-4E90-924D-1558F27E149C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49A6FDB7-71E1-4E90-924D-1558F27E149C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49A6FDB7-71E1-4E90-924D-1558F27E149C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF186572-37B9-45F9-BB9A-0FEA5151B322}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF186572-37B9-45F9-BB9A-0FEA5151B322}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF186572-37B9-45F9-BB9A-0FEA5151B322}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF186572-37B9-45F9-BB9A-0FEA5151B322}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF612DC2-C7C6-4288-93AC-65B5D98309FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF612DC2-C7C6-4288-93AC-65B5D98309FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF612DC2-C7C6-4288-93AC-65B5D98309FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF612DC2-C7C6-4288-93AC-65B5D98309FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A7E808F-7A83-473F-881C-2CDF62913474}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A7E808F-7A83-473F-881C-2CDF62913474}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A7E808F-7A83-473F-881C-2CDF62913474}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A7E808F-7A83-473F-881C-2CDF62913474}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DFAEAAAB-F35F-4D06-96F2-D3F896EED2FE} = {1D9AC42F-D531-416F-AA0B-D78D14F45EDE}
+		{445A7ABD-9BFD-4BB0-A92A-E790B9AA7F09} = {62851D41-69EB-4BD7-837A-315D76223F9E}
+		{DA366FBA-8E90-42FA-9FC5-F18EC0006D98} = {64A1E9F1-9338-4117-8C3E-4FDF7C7AE027}
+		{50BB2236-02DC-40FF-B0F0-AB37D093279D} = {1D9AC42F-D531-416F-AA0B-D78D14F45EDE}
+		{58088072-9A67-4748-9128-29CA43BE9458} = {9297020D-C958-49E3-9BC8-D225EF9E71C2}
+		{FAED7743-A38B-483C-B5DA-A4019E9EDBAB} = {9297020D-C958-49E3-9BC8-D225EF9E71C2}
+		{49A6FDB7-71E1-4E90-924D-1558F27E149C} = {1D9AC42F-D531-416F-AA0B-D78D14F45EDE}
+		{DF186572-37B9-45F9-BB9A-0FEA5151B322} = {EA25129C-81E9-41B3-80CA-9F983C233374}
+		{1D6BA8AF-236B-450D-92D5-89EB17F06C2E} = {F1D915FA-CFDB-4764-A73E-ADC42BC8C1AB}
+		{AF612DC2-C7C6-4288-93AC-65B5D98309FD} = {9DC7BE66-17AF-49F2-8D19-196C63E197D9}
+		{3A7E808F-7A83-473F-881C-2CDF62913474} = {9DC7BE66-17AF-49F2-8D19-196C63E197D9}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35;packages\Unity.2.1.505.0\lib\NET35
+	EndGlobalSection
+EndGlobal
