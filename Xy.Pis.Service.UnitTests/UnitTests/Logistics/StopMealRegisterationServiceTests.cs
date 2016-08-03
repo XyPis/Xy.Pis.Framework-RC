@@ -56,12 +56,6 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         }
 
         [TestMethod]
-        public void Test_GetServerDate()
-        {
-            var getResponse = stopMealRegisterationService.Invoke(x => x.GetDate());
-        }
-
-        [TestMethod]
         public void Test_GetById()
         {
             int ID = Add();

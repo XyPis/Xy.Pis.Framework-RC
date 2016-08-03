@@ -85,9 +85,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Xy.Pis.Common, Version=3.0.0.7, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Xy.Pis.Common, Version=3.0.0.8, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Xy.Pis.Common.3.0.0.7\lib\net40\Xy.Pis.Common.dll</HintPath>
+      <HintPath>..\packages\Xy.Pis.Common.3.0.0.8\lib\net40\Xy.Pis.Common.dll</HintPath>
     </Reference>
     <Reference Include="Z.EntityFramework.Extensions, Version=3.9.38.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
