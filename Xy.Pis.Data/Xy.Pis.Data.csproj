@@ -111,8 +111,12 @@
     <Compile Include="Domain\BsLocation.cs" />
     <Compile Include="Domain\BsUser.cs" />
     <Compile Include="Domain\InHosInfo.cs" />
+    <Compile Include="Domain\InStopMealRegister.cs" />
+    <Compile Include="Domain\InStopMealRegisterMap.cs" />
     <Compile Include="Domain\LmFood.cs" />
     <Compile Include="Domain\LmWeekFood.cs" />
+    <Compile Include="Domain\LmWorkRepair.cs" />
+    <Compile Include="Domain\LmWorkRepairMap.cs" />
     <Compile Include="Domain\Mapping\AdditionalMealDetailsMap.cs" />
     <Compile Include="Domain\Mapping\AdditionalMealMap.cs" />
     <Compile Include="Domain\Mapping\BsBedFloorMap.cs" />
@@ -124,6 +128,8 @@
     <Compile Include="Domain\Mapping\InHosInfoMap.cs" />
     <Compile Include="Domain\Mapping\LmFoodMap.cs" />
     <Compile Include="Domain\Mapping\LmWeekFoodMap.cs" />
+    <Compile Include="Service\Logistics\EngineeringMaintenanceService.cs" />
+    <Compile Include="Service\Logistics\StopMealRegisterationService.cs" />
     <Compile Include="XyDbContext.cs" />
     <Compile Include="Service\Constants.cs" />
     <Compile Include="DomainExtensions.cs" />
