@@ -20,7 +20,7 @@ namespace Xy.Pis.Contract.Message.Logistics
         public string AdditionalMealType { get; set; }
 
         [DataMember]
-        public decimal UnitPrice { get; set; }        
+        public decimal? UnitPrice { get; set; }
 
         [DataMember]
         public virtual FoodDTO Food { get; set; }

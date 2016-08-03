@@ -14,6 +14,7 @@ namespace Xy.Pis.Service.UnitTests
     public class TestBase : Base
     {
         protected static readonly IAdditionalMealService additionalMealService = ServiceManager.GetService<IAdditionalMealService>();
+        protected static readonly IDailyMenuService dailyMenuService = ServiceManager.GetService<IDailyMenuService>();
 
         protected AdditionalMealDTO PrepareData(int hospId, int locationId, DateTime orderDate, decimal unitPrice)
         {

@@ -24,7 +24,7 @@ namespace Xy.Pis.Domain
         public System.DateTime ModifyTime { get; set; }
         public string PyCode { get; set; }
         public string WbCode { get; set; }
-        public int ItemId { get; set; }
+        public Nullable<int> ItemId { get; set; }
 
         public virtual BsItem BsItem { get; set; }
         public virtual ICollection<AdditionalMealDetails> AdditionalMealDetails { get; set; }

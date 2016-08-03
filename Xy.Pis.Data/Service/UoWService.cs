@@ -64,7 +64,8 @@ namespace Xy.Pis.Service
             {                
                 return command.Execute(uow =>
                 {                  
-                    return uow.Get<TEntity>().ProjectTo<TDTO>().ToList();
+                    //return uow.Get<TEntity>().ProjectTo<TDTO>().ToList();
+                    return uow.Get<TEntity>().MapTo<TDTO>().ToList();
                 });
             }
         }

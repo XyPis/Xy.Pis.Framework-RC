@@ -23,17 +23,16 @@ namespace Xy.Pis.Service.Logistics
         #region AutoMapper Configuration
         protected override void Configure()
         {
-            Mapper.CreateMap<AdditionalMealDetails, AdditionalMealDetailsDTO>();                
+            Mapper.CreateMap<AdditionalMealDetails, AdditionalMealDetailsDTO>();                                           
             Mapper.CreateMap<AdditionalMealDetailsDTO, AdditionalMealDetails>();
 
             Mapper.CreateMap<AdditionalMeal, AdditionalMealDTO>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.InHosInfo.Name))
-                //.ForMember(dest => dest.LocFullName, opt => opt.ResolveUsing<LocFullNameResolver>())
+                .ForMember(dest => dest.LocFullName, opt => opt.ResolveUsing<LocFullNameResolver>())
                 ;
             Mapper.CreateMap<AdditionalMealDTO, AdditionalMeal>();
         }
         #endregion
-
         public AdditionalMealDTO GetLastAdditionalMealByHospId(int hospId)
         {
             using (var command = CommandWrapper)
@@ -263,7 +262,25 @@ namespace Xy.Pis.Service.Logistics
                 tx.Dispose();
             }
         }
-        #endregion Bulk Operations       
+        #endregion Bulk Operations               
+
+        protected string GetFullLocName(AdditionalMeal source)
+        {
+            if (source != null)
+            {
+                InHosInfo hosInfo = source.InHosInfo;
+                if (hosInfo != null)
+                {
+                    BsBed bedInfo = source.InHosInfo.BedInfo;
+                    if (bedInfo != null)
+                    {
+                        return string.Concat(bedInfo.BsBedFloor.Name, bedInfo.RoomNo, "号房", bedInfo.Name, "床");
+                    }
+                }
+            }
+
+            return string.Empty;
+        }
     }
 
     public class LocFullNameResolver : ValueResolver<AdditionalMeal, string>
@@ -286,5 +303,4 @@ namespace Xy.Pis.Service.Logistics
             return string.Empty;
         }
     }
-
 }

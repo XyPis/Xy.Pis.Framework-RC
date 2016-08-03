@@ -3,11 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xy.Pis.Domain", "Xy.Pis.Domain\Xy.Pis.Domain.csproj", "{DFAEAAAB-F35F-4D06-96F2-D3F896EED2FE}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xy.Pis.Contract", "Xy.Pis.Contract\Xy.Pis.Contract.csproj", "{445A7ABD-9BFD-4BB0-A92A-E790B9AA7F09}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05 Web", "05 Web", "{9DC7BE66-17AF-49F2-8D19-196C63E197D9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 Core", "02 Core", "{1D9AC42F-D531-416F-AA0B-D78D14F45EDE}"
 EndProject
@@ -19,6 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
+		log4net.config = log4net.config
 		references.txt = references.txt
 		SharedAssemblyInfo.cs = SharedAssemblyInfo.cs
 	EndProjectSection
@@ -69,20 +66,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "packages", "packages", "{1D
 		.nuget\packages\Xy.Pis.Service.1.16.0730.06.symbols.nupkg = .nuget\packages\Xy.Pis.Service.1.16.0730.06.symbols.nupkg
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nuget", ".nuget.server\nuget.csproj", "{AF612DC2-C7C6-4288-93AC-65B5D98309FD}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xy.Pis.WCF", "Xy.Pis.WCF\Xy.Pis.WCF.csproj", "{3A7E808F-7A83-473F-881C-2CDF62913474}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DFAEAAAB-F35F-4D06-96F2-D3F896EED2FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DFAEAAAB-F35F-4D06-96F2-D3F896EED2FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DFAEAAAB-F35F-4D06-96F2-D3F896EED2FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DFAEAAAB-F35F-4D06-96F2-D3F896EED2FE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{445A7ABD-9BFD-4BB0-A92A-E790B9AA7F09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{445A7ABD-9BFD-4BB0-A92A-E790B9AA7F09}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{445A7ABD-9BFD-4BB0-A92A-E790B9AA7F09}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -111,20 +100,11 @@ Global
 		{DF186572-37B9-45F9-BB9A-0FEA5151B322}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF186572-37B9-45F9-BB9A-0FEA5151B322}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF186572-37B9-45F9-BB9A-0FEA5151B322}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AF612DC2-C7C6-4288-93AC-65B5D98309FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AF612DC2-C7C6-4288-93AC-65B5D98309FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AF612DC2-C7C6-4288-93AC-65B5D98309FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AF612DC2-C7C6-4288-93AC-65B5D98309FD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3A7E808F-7A83-473F-881C-2CDF62913474}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3A7E808F-7A83-473F-881C-2CDF62913474}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3A7E808F-7A83-473F-881C-2CDF62913474}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3A7E808F-7A83-473F-881C-2CDF62913474}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{DFAEAAAB-F35F-4D06-96F2-D3F896EED2FE} = {1D9AC42F-D531-416F-AA0B-D78D14F45EDE}
 		{445A7ABD-9BFD-4BB0-A92A-E790B9AA7F09} = {62851D41-69EB-4BD7-837A-315D76223F9E}
 		{DA366FBA-8E90-42FA-9FC5-F18EC0006D98} = {64A1E9F1-9338-4117-8C3E-4FDF7C7AE027}
 		{50BB2236-02DC-40FF-B0F0-AB37D093279D} = {1D9AC42F-D531-416F-AA0B-D78D14F45EDE}
@@ -133,8 +113,6 @@ Global
 		{49A6FDB7-71E1-4E90-924D-1558F27E149C} = {1D9AC42F-D531-416F-AA0B-D78D14F45EDE}
 		{DF186572-37B9-45F9-BB9A-0FEA5151B322} = {EA25129C-81E9-41B3-80CA-9F983C233374}
 		{1D6BA8AF-236B-450D-92D5-89EB17F06C2E} = {F1D915FA-CFDB-4764-A73E-ADC42BC8C1AB}
-		{AF612DC2-C7C6-4288-93AC-65B5D98309FD} = {9DC7BE66-17AF-49F2-8D19-196C63E197D9}
-		{3A7E808F-7A83-473F-881C-2CDF62913474} = {9DC7BE66-17AF-49F2-8D19-196C63E197D9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35;packages\Unity.2.1.505.0\lib\NET35
