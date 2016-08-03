@@ -35,16 +35,19 @@ namespace Xy.Pis.Contract.Service
         [OperationContract]
         int DeleteBatch(IEnumerable<TDTO> dtos);
 
-        void BulkInsert(IEnumerable<TDTO> dtos);
+        //void BulkInsert(IEnumerable<TDTO> dtos);
 
-        void BulkUpdate(IEnumerable<TDTO> dtos);
+        //void BulkUpdate(IEnumerable<TDTO> dtos);
 
-        void BulkDelete(IEnumerable<TDTO> dtos);
+        //void BulkDelete(IEnumerable<TDTO> dtos);
 
-        IList<TDTO> Get(Expression<Func<TDTO, bool>> queryExpression);
+        [OperationContract]
+        Tuple<Int32, Int32> AddOrUpdate(IEnumerable<TDTO> dtos);
 
-        int Update(Expression<Func<TDTO, bool>> filterExpression, Expression<Func<TDTO, TDTO>> updateExpression);
+        //IList<TDTO> Get(Expression<Func<TDTO, bool>> queryExpression);
 
-        int Delete(Expression<Func<TDTO, bool>> queryExpression);
+        //int Update(Expression<Func<TDTO, bool>> filterExpression, Expression<Func<TDTO, TDTO>> updateExpression);
+
+        //int Delete(Expression<Func<TDTO, bool>> queryExpression);
     }
 }

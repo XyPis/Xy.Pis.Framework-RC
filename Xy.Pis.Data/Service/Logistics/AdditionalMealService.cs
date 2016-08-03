@@ -23,7 +23,7 @@ namespace Xy.Pis.Service.Logistics
         #region AutoMapper Configuration
         protected override void Configure()
         {
-            Mapper.CreateMap<AdditionalMealDetails, AdditionalMealDetailsDTO>();                                           
+            Mapper.CreateMap<AdditionalMealDetails, AdditionalMealDetailsDTO>();
             Mapper.CreateMap<AdditionalMealDetailsDTO, AdditionalMealDetails>();
 
             Mapper.CreateMap<AdditionalMeal, AdditionalMealDTO>()
@@ -189,18 +189,16 @@ namespace Xy.Pis.Service.Logistics
                     
                     foreach (var additionalMeal in additionalMeals)
                     {
-                        additionalMeal.Details.ToList()
-                            .ForEach(y => 
-                            {
-                                y.AdditionalMealId = additionalMeal.Id;
-                            });
+                        additionalMeal.Details.ToList().ForEach(y =>                             
+                        {                                
+                            y.AdditionalMealId = additionalMeal.Id;                            
+                        });
                     }
 
-                    additionalMeals.ToList()
-                        .ForEach(x =>
-                        {
-                            additionalMealDetails.AddRange(x.Details);
-                        });
+                    additionalMeals.ToList().ForEach(x =>                        
+                    {                    
+                        additionalMealDetails.AddRange(x.Details);                        
+                    });
 
                     uow.BulkInsert<AdditionalMealDetails>(additionalMealDetails);
                 });
@@ -249,11 +247,10 @@ namespace Xy.Pis.Service.Logistics
             {
                 command.Execute(uow =>
                 {
-                    additionalMeals.ToList()
-                       .ForEach(x =>
-                       {
-                           additionalMealDetails.AddRange(x.Details);
-                       });
+                    additionalMeals.ToList().ForEach(x =>                       
+                    {                    
+                        additionalMealDetails.AddRange(x.Details);                       
+                    });
 
                     uow.BulkDelete<AdditionalMealDetails>(additionalMealDetails);
                     uow.BulkDelete<AdditionalMeal>(additionalMeals);

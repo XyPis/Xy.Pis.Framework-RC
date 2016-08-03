@@ -29,6 +29,12 @@ namespace Xy.Pis.Service
             get { return Common.Unity.IoC.Resolve<ICommandWrapper>(); }
         }
 
+        protected override void Configure()
+        {
+            Mapper.CreateMap<TEntity, TDTO>();
+            Mapper.CreateMap<TDTO, TEntity>();
+        }
+
         public virtual TDTO Add(TDTO dto)
         {
             dto.Validation();
@@ -109,15 +115,18 @@ namespace Xy.Pis.Service
 
             using (var command = CommandWrapper)
             {
-                command.Execute(uow => 
+                return command.Execute(uow => 
                 {
+                    int effectedRows = 0;
+
                     entities.ToList().ForEach(entity => 
                     {
-                        uow.Insert<TEntity>(entity);                     
+                        uow.Insert<TEntity>(entity);
+                        effectedRows++;
                     });
-                });
 
-                return entities.Count();
+                    return effectedRows;
+                });
             }            
         }
 
@@ -129,15 +138,18 @@ namespace Xy.Pis.Service
 
             using (var command = CommandWrapper)
             {
-                command.Execute(uow =>
+                return command.Execute(uow =>
                 {
+                    int effectedRows = 0;
+
                     entities.ToList().ForEach(entity => 
                     {                    
-                        uow.Update<TEntity>(entity);                     
-                    });                 
-                });
+                        uow.Update<TEntity>(entity);
+                        effectedRows++;
+                    });
 
-                return entities.Count();
+                    return effectedRows;
+                });                
             }
         }
 
@@ -149,15 +161,18 @@ namespace Xy.Pis.Service
             
             using (var command = CommandWrapper)
             {
-                command.Execute(uow =>
+                return command.Execute(uow =>
                 {
+                    int effectedRows = 0;
+
                     entities.ToList().ForEach(entity =>
                     {
                         uow.Delete<TEntity>(entity);
-                    });                                            
-                });
+                        effectedRows++;
+                    });
 
-                return entities.Count();
+                    return effectedRows;        
+                });
             }
         }
 
@@ -243,5 +258,34 @@ namespace Xy.Pis.Service
             }
         }
 
+        public virtual Tuple<Int32, Int32> AddOrUpdate(IEnumerable<TDTO> dtos)
+        {
+            dtos.Validation();
+
+            var addedEntities = dtos.Where(x => x.Id == 0).MapTo<TEntity>();
+            var updatedEntities = dtos.Where(x => x.Id != 0).MapTo<TEntity>();
+            int addedRows = 0;
+            int updatedRows = 0;
+
+            using (var command = CommandWrapper)
+            {
+                command.Execute(uow => 
+                {
+                    addedEntities.ToList().ForEach(entity =>
+                    {
+                        uow.Insert(entity);
+                        addedRows++;
+                    });
+                    
+                    updatedEntities.ToList().ForEach(entity =>
+                    {
+                        uow.Update(entity);
+                        updatedRows++;
+                    }); 
+                });
+
+                return new Tuple<int, int>(addedRows, updatedRows);
+            }
+        }
     }
 }

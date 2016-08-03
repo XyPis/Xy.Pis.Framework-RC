@@ -61,8 +61,7 @@ namespace Xy.Pis.Core
         public IQueryable<TEntity> Get<TEntity>() 
             where TEntity : class, new()
         {
-            InitializeEFContext();
-
+            InitializeEFContext();            
             return GetRepository<TEntity>().Get();
         }
 

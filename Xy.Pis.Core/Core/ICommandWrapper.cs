@@ -9,8 +9,8 @@ namespace Xy.Pis.Core
     {
         IUnitOfWork UnitOfWork { get; }
 
-        void Execute(Action<IUnitOfWork> work);
+        void Execute(Action<IUnitOfWork> work, TransactionOption option = TransactionOption.None);
 
-        TResult Execute<TResult>(Func<IUnitOfWork, TResult> work);   
+        TResult Execute<TResult>(Func<IUnitOfWork, TResult> work, TransactionOption option = TransactionOption.None);   
     }
 }

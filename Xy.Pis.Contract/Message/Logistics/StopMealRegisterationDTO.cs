@@ -16,10 +16,10 @@ namespace Xy.Pis.Contract.Message.Logistics
         public int LocationID { get; set; }
 
         [DataMember]
-        public Nullable<int> OrderMealsCount { get; set; }
+        public Nullable<int> OrderQty { get; set; }
 
         [DataMember]
-        public Nullable<int> StopMealCount { get; set; }
+        public Nullable<int> CancelQty { get; set; }
 
         [DataMember]
         public int OperID { get; set; }

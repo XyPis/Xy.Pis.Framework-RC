@@ -24,7 +24,7 @@ namespace Xy.Pis.Service.Logistics
         {
             using (var command = CommandWrapper)
             {
-                return command.Execute(uow => 
+                return command.Execute((uow => 
                 {
                     var query = uow.Get<LmWeekFood>();
                     bool any = query.Any();
@@ -36,7 +36,7 @@ namespace Xy.Pis.Service.Logistics
                     {
                         return DateTime.MinValue;
                     }
-                });
+                }));
             }
         }
 

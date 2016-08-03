@@ -38,10 +38,10 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         public void Test_UpdateBatch()
         {
             int[] ids = new int[] { Add(), Add(), Add() };
-            var getResponse = additionalMealService.Invoke(x => x.Get(y => ids.Contains(y.Id)));
+            var getResponse = additionalMealService.Invoke(x => x.GetAll().Where(y => ids.Contains(y.Id)));
             Assert.IsTrue(getResponse.Status == ResponseStatus.OK);
 
-            foreach (var dto in getResponse.Result)
+            foreach(var dto in getResponse.Result)
             {
                 dto.OrderDate = DateTime.Now.AddDays(10);
                 dto.OrderStatus = 3;

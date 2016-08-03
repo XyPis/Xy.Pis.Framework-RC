@@ -10,11 +10,11 @@ using Xy.Pis.Contract.Service;
 
 namespace Xy.Pis.Proxy
 {
-    public static class ContractExtensions
+    public static class ProxyExtensions
     {
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        public static Response<object> Invoke<TContract>(this TContract proxy, Action<TContract> action)
+        public static Response<String> Invoke<TContract>(this TContract proxy, Action<TContract> action)
             where TContract : IServiceBase
         {
             bool isRemoteService = IsRemoteService(proxy);
@@ -73,14 +73,14 @@ namespace Xy.Pis.Proxy
             return (proxy as IClientChannel) != null ? true : false;
         }
 
-        private static Response<object> InvokeLocalService<TContract>(TContract proxy, Action<TContract> action)
+        private static Response<String> InvokeLocalService<TContract>(TContract proxy, Action<TContract> action)
              where TContract : IServiceBase
         {
-            Response<object> result = new Response<object>()
+            Response<String> result = new Response<String>()
             {
                 Status = ResponseStatus.Error,
                 Message = "Unknow Error",
-                Result = null,
+                Result = String.Empty,
                 ServiceType = ServiceType.Local,
             };
 
@@ -137,15 +137,15 @@ namespace Xy.Pis.Proxy
                     Log.ErrorFormat("InnerException: {0} \n{1}", ex.InnerException.Message, ex.InnerException.StackTrace);
             }
         }
-        
-        private static Response<object> InvokeRemoteService<TContract>(TContract proxy, Action<TContract> action)
+
+        private static Response<String> InvokeRemoteService<TContract>(TContract proxy, Action<TContract> action)
              where TContract : IServiceBase
         {
-            Response<object> result = new Response<object>()
+            Response<String> result = new Response<String>()
             {
                 Status = ResponseStatus.Error,
                 Message = "Unknow Error",
-                Result = null,
+                Result = String.Empty,
                 ServiceType = ServiceType.Remote,
             };
 

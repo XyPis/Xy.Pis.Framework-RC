@@ -6,6 +6,7 @@ using System.Linq;
 using log4net;
 using Microsoft.Practices.Unity;
 using System.Reflection;
+using System.Linq.Expressions;
 using Xy.Pis.Contract.Message.Logistics;
 using Xy.Pis.Contract.Service.Logistics;
 using Xy.Pis.Proxy;
@@ -21,10 +22,10 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         {
             var expectedDto = new StopMealRegisterationDTO() 
             {
-                OrderMealsCount = 10,
-                StopMealCount = 3,                
-                IsAudit = null,
                 LocationID = 1517,
+                OrderQty = 10,
+                CancelQty = 3,                
+                IsAudit = null,                
                 OperID = 999999,
                 OperTime = DateTime.Now
             };
@@ -68,7 +69,6 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         public void Test_Update()
         {
             int ID = Add();
-                    
             var getResponse = stopMealRegisterationService.Invoke(x => x.GetById(ID));
             Assert.IsTrue(getResponse.Status == ResponseStatus.OK);
             Assert.IsNotNull(getResponse.Result);
@@ -77,9 +77,10 @@ namespace Xy.Pis.Service.UnitTests.Logistics
             dto.AuditTime = DateTime.Now;
             dto.AuditID = 999999;
             dto.IsAudit = true;
-            dto.StopMealCount = 2;
-            int effectedRows = stopMealRegisterationService.Update(dto);
-            Assert.AreEqual(1, effectedRows);
+            dto.CancelQty = 2;
+            var updateResponse = stopMealRegisterationService.Invoke(x => x.Update(dto));
+            Assert.IsTrue(updateResponse.Status == ResponseStatus.OK);
+            Assert.AreEqual(1, updateResponse.Result);
         }
 
         [TestMethod]
@@ -96,5 +97,49 @@ namespace Xy.Pis.Service.UnitTests.Logistics
             Assert.IsTrue(deleteResponse.Status == ResponseStatus.OK);
             Assert.AreEqual(1, deleteResponse.Result);
         }
+
+        [TestMethod]
+        public void Test_AddOrUpdate()
+        {
+            var getResponse = stopMealRegisterationService.Invoke(x => x.GetAll());
+
+            List<StopMealRegisterationDTO> addDTOs = new List<StopMealRegisterationDTO>();
+            addDTOs.Add(new StopMealRegisterationDTO()
+            {
+                LocationID = 1510,
+                OrderQty = 100,
+                CancelQty = 10,
+                IsAudit = null,
+                OperID = 999999,
+                OperTime = DateTime.Now
+            });
+
+            addDTOs.Add(new StopMealRegisterationDTO()
+            {
+                LocationID = 1511,
+                OrderQty = 200,
+                CancelQty = 20,
+                IsAudit = null,
+                OperID = 999999,
+                OperTime = DateTime.Now
+            });
+
+            List<StopMealRegisterationDTO> addOrUpdateDTOs = new List<StopMealRegisterationDTO>();
+            var updateDTOs = getResponse.Result.Where(x => x.OperID == 999999).ToList();
+            updateDTOs.ForEach(x =>
+            {
+                x.IsAudit = true;
+                x.AuditID = 999999;
+                x.AuditTime = DateTime.Now.AddDays(-10);
+            });
+
+            addOrUpdateDTOs.AddRange(addDTOs);
+            addOrUpdateDTOs.AddRange(updateDTOs);
+
+            var updateResponse = stopMealRegisterationService.Invoke(x => x.AddOrUpdate(addOrUpdateDTOs));
+            Assert.IsTrue(updateResponse.Status == ResponseStatus.OK);
+            Assert.AreEqual(addDTOs.Count, updateResponse.Result.Item1);
+            Assert.AreEqual(updateDTOs.Count, updateResponse.Result.Item2);
+        }        
     }
 }
