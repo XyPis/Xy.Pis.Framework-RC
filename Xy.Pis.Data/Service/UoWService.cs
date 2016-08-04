@@ -287,5 +287,16 @@ namespace Xy.Pis.Service
                 return new Tuple<int, int>(addedRows, updatedRows);
             }
         }
+
+        public virtual int DeleteAll()
+        {
+            using (var command = CommandWrapper)
+            {
+                return command.Execute(uow => 
+                {
+                    return uow.DeleteAll<TEntity>();
+                });
+            }
+        }
     }
 }

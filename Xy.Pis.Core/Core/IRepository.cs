@@ -22,6 +22,8 @@ namespace Xy.Pis.Core
 
         void DeleteById(params object[] ids);
 
+        int DeleteAll();
+
         IQueryable<T> Get
             (Expression<Func<T, bool>> filter = null
             , Func<IQueryable<T>

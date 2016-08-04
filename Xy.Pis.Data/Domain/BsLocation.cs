@@ -7,7 +7,7 @@ namespace Xy.Pis.Domain
     {
         public BsLocation()
         {
-            //this.AdditionalMeal = new List<AdditionalMeal>();
+            this.EngineeringMaintenances = new List<LmWorkRepair>();
         }
 
         public int ID { get; set; }
@@ -42,6 +42,7 @@ namespace Xy.Pis.Domain
         public Nullable<int> OuRoomId { get; set; }
         public Nullable<int> InRoomId { get; set; }
         public Nullable<bool> IsPriceSub { get; set; }
-        //public virtual ICollection<AdditionalMeal> AdditionalMeal { get; set; }
+        
+        public virtual ICollection<LmWorkRepair> EngineeringMaintenances { get; set; }
     }
 }

@@ -38,9 +38,9 @@ namespace Xy.Pis.Domain.Mapping
             //this.HasOptional(t => t.BsLocation)
             //    .WithMany(t => t.LmWorkRepairs)
             //    .HasForeignKey(d => d.LocationId);
-            //this.HasOptional(t => t.BsLocation1)
-            //    .WithMany(t => t.LmWorkRepairs1)
-            //    .HasForeignKey(d => d.RepairLocationId);
+            this.HasOptional(t => t.ReponsiblityLoc)
+                .WithMany(t => t.EngineeringMaintenances)
+                .HasForeignKey(d => d.RepairLocationId);
             //this.HasOptional(t => t.BsUser)
             //    .WithMany(t => t.LmWorkRepairs)
             //    .HasForeignKey(d => d.OperId);

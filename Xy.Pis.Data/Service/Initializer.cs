@@ -7,6 +7,8 @@ using Microsoft.Practices.Unity;
 using log4net;
 using Xy.Pis.Contract.Service.Logistics;
 using Xy.Pis.Core;
+using Xy.Pis.Common.Unity;
+using Xy.Pis.Common.AutoMapper;
 
 namespace Xy.Pis.Service
 {
@@ -16,18 +18,19 @@ namespace Xy.Pis.Service
        
         public static void Init(params Type[] excludeTypes)
         {
-            Core.EF.Initializer.Init<XyDbContext>();
+            Core.Initializer.Init<XyDbContext>();
             
             var fromAssembly = typeof(IAdditionalMealService).Assembly;
             var toAssembly = typeof(Logistics.AdditionalMealService).Assembly;
             
-            Common.Unity.IoC.RegisterType(fromAssembly, toAssembly, excludeTypes);
+            IoC.RegisterType(fromAssembly, toAssembly, excludeTypes);
 
-            Common.AutoMapper.AutoMapperBootStrapper.Initialize(new Assembly[]
+            AutoMapperBootStrapper.Initialize(new Assembly[]
             {
                 typeof(Logistics.AdditionalMealService).Assembly
             });
-            Common.Unity.IoC.RegisterType<ICommandWrapper, CommandWrapper>();
+
+            IoC.RegisterType<ICommandWrapper, CommandWrapper>();
         }
     }
 }

@@ -89,13 +89,13 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Xy.Pis.Common, Version=3.0.0.13, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Xy.Pis.Common, Version=3.0.0.15, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Xy.Pis.Common.3.0.0.14\lib\net40\Xy.Pis.Common.dll</HintPath>
+      <HintPath>..\packages\Xy.Pis.Common.3.0.0.15\lib\net40\Xy.Pis.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Xy.Pis.Contract, Version=3.0.0.14, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Xy.Pis.Contract, Version=3.0.0.15, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Xy.Pis.Contract.3.0.0.14\lib\net40\Xy.Pis.Contract.dll</HintPath>
+      <HintPath>..\packages\Xy.Pis.Contract.3.0.0.15\lib\net40\Xy.Pis.Contract.dll</HintPath>
     </Reference>
     <Reference Include="Z.EntityFramework.Extensions, Version=3.9.38.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -116,11 +116,12 @@
     <Compile Include="Domain\BsUser.cs" />
     <Compile Include="Domain\InHosInfo.cs" />
     <Compile Include="Domain\InStopMealRegister.cs" />
-    <Compile Include="Domain\InStopMealRegisterMap.cs" />
+    <Compile Include="Domain\LocationEquipment.cs" />
+    <Compile Include="Domain\Mapping\InStopMealRegisterMap.cs" />
     <Compile Include="Domain\LmFood.cs" />
     <Compile Include="Domain\LmWeekFood.cs" />
     <Compile Include="Domain\LmWorkRepair.cs" />
-    <Compile Include="Domain\LmWorkRepairMap.cs" />
+    <Compile Include="Domain\Mapping\LmWorkRepairMap.cs" />
     <Compile Include="Domain\Mapping\AdditionalMealDetailsMap.cs" />
     <Compile Include="Domain\Mapping\AdditionalMealMap.cs" />
     <Compile Include="Domain\Mapping\BsBedFloorMap.cs" />
@@ -132,6 +133,8 @@
     <Compile Include="Domain\Mapping\InHosInfoMap.cs" />
     <Compile Include="Domain\Mapping\LmFoodMap.cs" />
     <Compile Include="Domain\Mapping\LmWeekFoodMap.cs" />
+    <Compile Include="Domain\Mapping\LocationEquipmentMap.cs" />
+    <Compile Include="Service\Logistics\FixedAssetsService.cs" />
     <Compile Include="Service\Logistics\EngineeringMaintenanceService.cs" />
     <Compile Include="Service\Logistics\StopMealRegisterationService.cs" />
     <Compile Include="XyDbContext.cs" />

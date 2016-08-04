@@ -16,6 +16,7 @@ namespace Xy.Pis.Service.UnitTests
         protected static readonly IAdditionalMealService additionalMealService = ServiceManager.GetService<IAdditionalMealService>();
         protected static readonly IDailyMenuService dailyMenuService = ServiceManager.GetService<IDailyMenuService>();
         protected static readonly IStopMealRegisterationService stopMealRegisterationService = ServiceManager.GetService<IStopMealRegisterationService>();
+        protected static readonly IEngineeringMaintenanceService engineeringMaintenanceService = ServiceManager.GetService<IEngineeringMaintenanceService>();
 
         protected AdditionalMealDTO PrepareData(int hospId, int locationId, DateTime orderDate, decimal unitPrice)
         {

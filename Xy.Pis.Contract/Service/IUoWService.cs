@@ -44,6 +44,7 @@ namespace Xy.Pis.Contract.Service
         [OperationContract]
         Tuple<Int32, Int32> AddOrUpdate(IEnumerable<TDTO> dtos);
 
+        int DeleteAll();
         //IList<TDTO> Get(Expression<Func<TDTO, bool>> queryExpression);
 
         //int Update(Expression<Func<TDTO, bool>> filterExpression, Expression<Func<TDTO, TDTO>> updateExpression);

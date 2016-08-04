@@ -72,17 +72,17 @@
     <Reference Include="System.Threading.Tasks">
       <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\net40\System.Threading.Tasks.dll</HintPath>
     </Reference>
-    <Reference Include="Xy.Pis.Common, Version=3.0.0.13, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Xy.Pis.Common, Version=3.0.0.15, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Xy.Pis.Common.3.0.0.14\lib\net40\Xy.Pis.Common.dll</HintPath>
+      <HintPath>..\packages\Xy.Pis.Common.3.0.0.15\lib\net40\Xy.Pis.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Xy.Pis.Contract, Version=3.0.0.14, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Xy.Pis.Contract, Version=3.0.0.15, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Xy.Pis.Contract.3.0.0.14\lib\net40\Xy.Pis.Contract.dll</HintPath>
+      <HintPath>..\packages\Xy.Pis.Contract.3.0.0.15\lib\net40\Xy.Pis.Contract.dll</HintPath>
     </Reference>
-    <Reference Include="Xy.Pis.Proxy, Version=3.0.0.14, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Xy.Pis.Proxy, Version=3.0.0.15, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Xy.Pis.Proxy.3.0.0.14\lib\net40\Xy.Pis.Proxy.dll</HintPath>
+      <HintPath>..\packages\Xy.Pis.Proxy.3.0.0.15\lib\net40\Xy.Pis.Proxy.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Choose>

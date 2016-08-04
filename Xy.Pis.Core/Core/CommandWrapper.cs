@@ -22,34 +22,34 @@ namespace Xy.Pis.Core
             set;
         }
 
-        public void Execute(Action<IUnitOfWork> work, TransactionOption option = TransactionOption.None)
+        public void Execute(Action<IUnitOfWork> work, TransactionOption option = TransactionOption.Default)
         {
             if (work == null)
                 throw new ArgumentNullException("work");
 
-            if (option == TransactionOption.None)
-                ProcessActionWithDefaultTX(work);
-            else if (option == TransactionOption.DB)
-                ProcessActionWithDatabaseTX(work);
-            else if (option == TransactionOption.MSDTC)
-                ProcessActionWithMsdtcTX(work);
+            if (option == TransactionOption.Default)
+                DoAction(work);
+            else if (option == TransactionOption.Database)
+                DoActionWithDatabaseTx(work);
+            else if (option == TransactionOption.Distributed)
+                DoActionWithDistributedTx(work);
             else
                 throw new ArgumentOutOfRangeException("option");
         }
 
-        public TResult Execute<TResult>(Func<IUnitOfWork, TResult> work, TransactionOption option = TransactionOption.None)
+        public TResult Execute<TResult>(Func<IUnitOfWork, TResult> work, TransactionOption option = TransactionOption.Default)
         {
-            if (option == TransactionOption.None)
-                return ProcessFunctionWithDefaultTX(work);
-            else if (option == TransactionOption.DB)
-                return ProcessFunctionWithDatabaseTX(work);
-            else if (option == TransactionOption.MSDTC)
-                return ProcessFunctionWithMsdtcTX(work);
+            if (option == TransactionOption.Default)
+                return DoFunction(work);
+            else if (option == TransactionOption.Database)
+                return DoFunctionWithDatabaseTx(work);
+            else if (option == TransactionOption.Distributed)
+                return DoFunctionWithDistributedTx(work);
             else
                 throw new ArgumentOutOfRangeException("option");
         }
 
-        private void ProcessActionWithDefaultTX(Action<IUnitOfWork> work)
+        private void DoAction(Action<IUnitOfWork> work)
         {
             using (var uow = UnitOfWork)
             {
@@ -58,7 +58,7 @@ namespace Xy.Pis.Core
             }
         }
 
-        private void ProcessActionWithDatabaseTX(Action<IUnitOfWork> work)
+        private void DoActionWithDatabaseTx(Action<IUnitOfWork> work)
         {
             using (var uow = UnitOfWork)
             {
@@ -87,7 +87,7 @@ namespace Xy.Pis.Core
             }
         }
 
-        private void ProcessActionWithMsdtcTX(Action<IUnitOfWork> work)
+        private void DoActionWithDistributedTx(Action<IUnitOfWork> work)
         {
             using (var uow = UnitOfWork)
             {                
@@ -114,20 +114,20 @@ namespace Xy.Pis.Core
             }
         }        
 
-        private TResult ProcessFunctionWithDefaultTX<TResult>(Func<IUnitOfWork, TResult> work)
+        private TResult DoFunction<TResult>(Func<IUnitOfWork, TResult> work)
         {
             TResult result = default(TResult);
 
             using (var uow = UnitOfWork)
             {
-                work(uow);
+                result = work(uow);
                 uow.SaveChanges();
             }
 
             return result;
         }
 
-        private TResult ProcessFunctionWithDatabaseTX<TResult>(Func<IUnitOfWork, TResult> work)
+        private TResult DoFunctionWithDatabaseTx<TResult>(Func<IUnitOfWork, TResult> work)
         {
             TResult result = default(TResult);
 
@@ -165,7 +165,7 @@ namespace Xy.Pis.Core
             return result;
         }
 
-        private TResult ProcessFunctionWithMsdtcTX<TResult>(Func<IUnitOfWork, TResult> work)
+        private TResult DoFunctionWithDistributedTx<TResult>(Func<IUnitOfWork, TResult> work)
         {
             TResult result = default(TResult);
 

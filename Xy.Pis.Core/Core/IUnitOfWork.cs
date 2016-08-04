@@ -105,5 +105,8 @@ namespace Xy.Pis.Core
 
         void BulkUpdate<TEntity>(IEnumerable<TEntity> entities)
             where TEntity : class, new();
+
+        int DeleteAll<TEntity>()
+            where TEntity : class, new();
     }
 }

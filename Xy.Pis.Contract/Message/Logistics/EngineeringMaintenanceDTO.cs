@@ -13,42 +13,33 @@ namespace Xy.Pis.Contract.Message.Logistics
         public int ID { get; set; }
 
         [DataMember]
-        public string Name { get; set; }
+        public string FacilityName { get; set; }
 
         [DataMember]
-        public string Position { get; set; }
+        public string LocationName { get; set; }
 
         [DataMember]
         public Nullable<int> LocationId { get; set; }
 
         [DataMember]
-        public Nullable<int> RepairLocationId { get; set; }
+        public Nullable<int> ResponsiblityLocId { get; set; }
 
         [DataMember]
-        public Nullable<System.DateTime> CompletionBeginTime { get; set; }
+        public Nullable<System.DateTime> ETC { get; set; }
 
         [DataMember]
-        public Nullable<System.DateTime> CompletionEndTime { get; set; }
+        public Nullable<System.DateTime> ATC { get; set; }
 
         [DataMember]
-        public string Memo { get; set; }
+        public string Remark { get; set; }
 
         [DataMember]
-        public Nullable<int> LsStatus { get; set; }
+        public Nullable<int> Status { get; set; }
 
         [DataMember]
         public Nullable<int> OperId { get; set; }
 
         [DataMember]
         public Nullable<System.DateTime> OperTime { get; set; }
-
-        [DataMember]
-        public virtual LocationDTO BsLocation { get; set; }
-
-        [DataMember]
-        public virtual LocationDTO BsLocation1 { get; set; }
-
-        [DataMember]
-        public virtual UserDTO BsUser { get; set; }
     }
 }

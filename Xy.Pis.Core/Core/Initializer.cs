@@ -6,7 +6,7 @@ using Microsoft.Practices.Unity;
 using System.Data.Entity;
 using System.Reflection;
 
-namespace Xy.Pis.Core.EF
+namespace Xy.Pis.Core
 {
     public class Initializer
     {

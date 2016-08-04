@@ -48,6 +48,7 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Message\LocationDTO.cs" />
+    <Compile Include="Message\Logistics\FixedAssetsDTO.cs" />
     <Compile Include="Message\Logistics\EngineeringMaintenanceDTO.cs" />
     <Compile Include="Message\Logistics\StopMealRegisterationDTO.cs" />
     <Compile Include="Message\UserDTO.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="EntityBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\Logistics\IDailyMenuService.cs" />
+    <Compile Include="Service\Logistics\IFixedAssetsService.cs" />
     <Compile Include="Service\Logistics\IEngineeringMaintenanceService.cs" />
     <Compile Include="Service\Logistics\IStopMealRegisterationService.cs" />
     <Compile Include="Service\Logistics\IWeeklyMenuService.cs" />

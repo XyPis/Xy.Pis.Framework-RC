@@ -17,8 +17,6 @@ namespace Xy.Pis.Domain
         public Nullable<int> LsStatus { get; set; }
         public Nullable<int> OperId { get; set; }
         public Nullable<System.DateTime> OperTime { get; set; }
-        public virtual BsLocation BsLocation { get; set; }
-        public virtual BsLocation BsLocation1 { get; set; }
-        public virtual BsUser BsUser { get; set; }
+        public virtual BsLocation ReponsiblityLoc { get; set; }        
     }
 }

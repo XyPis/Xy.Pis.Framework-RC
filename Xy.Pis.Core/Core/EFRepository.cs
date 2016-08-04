@@ -73,7 +73,12 @@ namespace Xy.Pis.Core
         public virtual void DeleteById(params object[] ids)
         {
             Delete(GetById(ids));
-        }        
+        }
+
+        public virtual int DeleteAll()
+        {
+            return EFSet.Delete();
+        }
 
         #region Lambda Expression Operations
         public virtual IQueryable<TEntity> Get

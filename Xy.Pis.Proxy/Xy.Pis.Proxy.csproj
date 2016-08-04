@@ -77,13 +77,13 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Xy.Pis.Common, Version=3.0.0.13, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Xy.Pis.Common, Version=3.0.0.15, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Xy.Pis.Common.3.0.0.14\lib\net40\Xy.Pis.Common.dll</HintPath>
+      <HintPath>..\packages\Xy.Pis.Common.3.0.0.15\lib\net40\Xy.Pis.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Xy.Pis.Contract, Version=3.0.0.14, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Xy.Pis.Contract, Version=3.0.0.15, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Xy.Pis.Contract.3.0.0.14\lib\net40\Xy.Pis.Contract.dll</HintPath>
+      <HintPath>..\packages\Xy.Pis.Contract.3.0.0.15\lib\net40\Xy.Pis.Contract.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

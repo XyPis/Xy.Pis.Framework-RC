@@ -295,5 +295,13 @@ namespace Xy.Pis.Core
             InitializeEFContext();
             GetRepository<TEntity>().BulkUpdate(entities);
         }
+
+        public virtual int DeleteAll<TEntity>()
+            where TEntity : class, new()
+        {
+            InitializeEFContext();
+
+            return GetRepository<TEntity>().DeleteAll();
+        }
     }
 }
