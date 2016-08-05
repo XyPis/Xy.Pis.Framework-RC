@@ -262,8 +262,8 @@ namespace Xy.Pis.Service
         {
             dtos.Validation();
 
-            var addedEntities = dtos.Where(x => x.Id == 0).MapTo<TEntity>();
-            var updatedEntities = dtos.Where(x => x.Id != 0).MapTo<TEntity>();
+            var addedEntities = dtos.Where(x => x.ID == 0).MapTo<TEntity>();
+            var updatedEntities = dtos.Where(x => x.ID != 0).MapTo<TEntity>();
             int addedRows = 0;
             int updatedRows = 0;
 
@@ -295,6 +295,17 @@ namespace Xy.Pis.Service
                 return command.Execute(uow => 
                 {
                     return uow.DeleteAll<TEntity>();
+                });
+            }
+        }
+
+        public virtual void DeleteById(object key)
+        {
+            using (var command = CommandWrapper)
+            {                
+                command.Execute(uow =>
+                {                    
+                    uow.DeleteById<TEntity>(key);
                 });
             }
         }

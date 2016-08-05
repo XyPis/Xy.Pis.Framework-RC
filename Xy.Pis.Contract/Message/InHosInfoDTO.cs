@@ -13,9 +13,6 @@ namespace Xy.Pis.Contract.Message
         }
 
         [DataMember]
-        public int ID { get; set; }
-
-        [DataMember]
         public string HospNo { get; set; }
 
         [DataMember]

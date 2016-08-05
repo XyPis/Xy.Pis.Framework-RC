@@ -71,7 +71,7 @@ namespace Xy.Pis.Service.Logistics
         {
             dto.Validation();
 
-            var additionMealID = dto.Id;
+            var additionMealID = dto.ID;
 
             using (var command = CommandWrapper)
             using (var tx = new TransactionScope())
@@ -121,7 +121,7 @@ namespace Xy.Pis.Service.Logistics
         {
             dtos.Validation();
             
-            var additionalMealIDs = dtos.Select(x => x.Id);
+            var additionalMealIDs = dtos.Select(x => x.ID);
 
             using (var command = CommandWrapper)
             using (var tx = new TransactionScope())

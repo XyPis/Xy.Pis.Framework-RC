@@ -10,5 +10,6 @@ namespace Xy.Pis.Contract.Service.Logistics
     [ServiceContract]
     public interface IEngineeringMaintenanceService : IUoWService<EngineeringMaintenanceDTO>
     {
+
     }
 }

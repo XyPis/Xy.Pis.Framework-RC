@@ -18,6 +18,9 @@ namespace Xy.Pis.Contract.Service
         TDTO GetById(object key);
 
         [OperationContract]
+        void DeleteById(object key);
+
+        [OperationContract]
         IList<TDTO> GetAll();
 
         [OperationContract]

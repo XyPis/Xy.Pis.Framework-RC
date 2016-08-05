@@ -34,9 +34,9 @@ namespace Xy.Pis.Service.UnitTests.Logistics
             
             Assert.IsTrue(response.Status == ResponseStatus.OK);
             Assert.IsNotNull(response.Result);
-            Assert.AreNotEqual(0, response.Result.Id);          
+            Assert.AreNotEqual(0, response.Result.ID);          
 
-            return response.Result.Id;
+            return response.Result.ID;
         }
 
         [TestMethod]
@@ -53,7 +53,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
             int ID = Add();
             var response = stopMealRegisterationService.Invoke(x => x.GetAll());
             Assert.IsTrue(response.Status == ResponseStatus.OK);
-            Assert.IsTrue(response.Result.Where(x => x.Id == ID).Any());
+            Assert.IsTrue(response.Result.Where(x => x.ID == ID).Any());
         }
 
         [TestMethod]

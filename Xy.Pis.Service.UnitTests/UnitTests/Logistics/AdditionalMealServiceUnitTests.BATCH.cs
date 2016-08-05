@@ -38,7 +38,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         public void Test_UpdateBatch()
         {
             int[] ids = new int[] { Add(), Add(), Add() };
-            var getResponse = additionalMealService.Invoke(x => x.GetAll().Where(y => ids.Contains(y.Id)));
+            var getResponse = additionalMealService.Invoke(x => x.GetAll().Where(y => ids.Contains(y.ID)));
             Assert.IsTrue(getResponse.Status == ResponseStatus.OK);
 
             foreach(var dto in getResponse.Result)

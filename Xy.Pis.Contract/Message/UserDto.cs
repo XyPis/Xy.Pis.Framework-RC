@@ -8,9 +8,6 @@ namespace Xy.Pis.Contract.Message
     public partial class UserDTO : DTOBase
     {
         [DataMember]
-        public int ID { get; set; }
-
-        [DataMember]
         public string Code { get; set; }
         
         [DataMember]

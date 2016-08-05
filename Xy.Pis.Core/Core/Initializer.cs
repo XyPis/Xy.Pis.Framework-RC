@@ -5,6 +5,7 @@ using System.Web;
 using Microsoft.Practices.Unity;
 using System.Data.Entity;
 using System.Reflection;
+using Xy.Pis.Common.Unity;
 
 namespace Xy.Pis.Core
 {
@@ -12,8 +13,8 @@ namespace Xy.Pis.Core
     {
         public static void Init<TDbContext>() where TDbContext : DbContext
         {
-            Common.Unity.IoC.RegisterType<DbContext, TDbContext>();
-            Common.Unity.IoC.RegisterType<IUnitOfWork, EFUnitOfWork<TDbContext>>();
+            IoC.RegisterType<DbContext, TDbContext>();
+            IoC.RegisterType<IUnitOfWork, EFUnitOfWork<TDbContext>>();
         }
     }
 }

@@ -22,14 +22,14 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         {
             var expectedDto = new EngineeringMaintenanceDTO() 
             {
-                FacilityName = "柜子",
-                LocationName = "万寿楼",                
+                Name = "柜子",
+                Position = "万寿楼",                
                 LocationId = 1517,
-                ResponsiblityLocId = 1559,
-                ETC = DateTime.Now.AddDays(-5),
-                ATC = DateTime.Now.AddDays(-4),
-                Status = 2,
-                Remark = "",
+                RepairLocationId = 1559,
+                CompletionBeginTime = DateTime.Now.AddDays(-5),
+                CompletionEndTime = DateTime.Now.AddDays(-4),
+                LsStatus = 2,
+                Memo = "",
                 OperId = 9,
                 OperTime = DateTime.Now
             };
@@ -38,9 +38,9 @@ namespace Xy.Pis.Service.UnitTests.Logistics
             
             Assert.IsTrue(response.Status == ResponseStatus.OK);
             Assert.IsNotNull(response.Result);
-            Assert.AreNotEqual(0, response.Result.Id);          
+            Assert.AreNotEqual(0, response.Result.ID);          
 
-            return response.Result.Id;
+            return response.Result.ID;
         }
 
         [TestMethod]
@@ -57,7 +57,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
             int ID = Add();
             var response = engineeringMaintenanceService.Invoke(x => x.GetAll());
             Assert.IsTrue(response.Status == ResponseStatus.OK);
-            Assert.IsTrue(response.Result.Where(x => x.Id == ID).Any());
+            Assert.IsTrue(response.Result.Where(x => x.ID == ID).Any());
         }
 
         [TestMethod]
@@ -78,7 +78,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
             Assert.IsNotNull(getResponse.Result);
 
             var dto = getResponse.Result;
-            dto.Remark = "数据更新测试...";
+            dto.Memo = "数据更新测试...";
             dto.OperId = 6768;
 
             var updateResponse = engineeringMaintenanceService.Invoke(x => x.Update(dto));
@@ -109,28 +109,28 @@ namespace Xy.Pis.Service.UnitTests.Logistics
             List<EngineeringMaintenanceDTO> addDTOs = new List<EngineeringMaintenanceDTO>();
             addDTOs.Add(new EngineeringMaintenanceDTO()
             {
-                FacilityName = "空调",
-                LocationName = "松鹤北",
+                Name = "空调",
+                Position = "松鹤北",
                 LocationId = 1517,
-                ResponsiblityLocId = 1559,
-                ETC = DateTime.Now.AddDays(-5),
-                ATC = null,
-                Status = 1,
-                Remark = "",
+                RepairLocationId = 1559,
+                CompletionBeginTime = DateTime.Now.AddDays(-5),
+                CompletionEndTime = null,
+                LsStatus = 1,
+                Memo = "",
                 OperId = 9,
                 OperTime = DateTime.Now
             });
 
             addDTOs.Add(new EngineeringMaintenanceDTO()
             {
-                FacilityName = "电风扇",
-                LocationName = "松鹤南",
+                Name = "电风扇",
+                Position = "松鹤南",
                 LocationId = 1517,
-                ResponsiblityLocId = 1559,
-                ETC = DateTime.Now.AddDays(-5),
-                ATC = null,
-                Status = 1,
-                Remark = "",
+                RepairLocationId = 1559,
+                CompletionBeginTime = DateTime.Now.AddDays(-5),
+                CompletionEndTime = null,
+                LsStatus = 1,
+                Memo = "",
                 OperId = 9,
                 OperTime = DateTime.Now
             });
@@ -139,7 +139,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
             var updateDTOs = getResponse.Result.Where(x => x.OperId == 9).ToList();
             updateDTOs.ForEach(x =>
             {
-                x.Remark = "AddOrUpdate 测试 ....";
+                x.Memo = "AddOrUpdate 测试 ....";
             });
 
             addOrUpdateDTOs.AddRange(addDTOs);

@@ -6,10 +6,7 @@ namespace Xy.Pis.Contract.Message.Logistics
 {
     [DataContract]
     public partial class FoodDTO : DTOBase
-    {
-        [DataMember]
-        public int ID { get; set; }
-        
+    {        
         [DataMember]
         public string Name { get; set; }
         

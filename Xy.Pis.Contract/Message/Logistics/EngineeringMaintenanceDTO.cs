@@ -8,33 +8,30 @@ namespace Xy.Pis.Contract.Message.Logistics
 {
     [DataContract]
     public class EngineeringMaintenanceDTO : DTOBase
-    {
+    {       
         [DataMember]
-        public int ID { get; set; }
+        public string Name { get; set; }
 
         [DataMember]
-        public string FacilityName { get; set; }
-
-        [DataMember]
-        public string LocationName { get; set; }
+        public string Position { get; set; }
 
         [DataMember]
         public Nullable<int> LocationId { get; set; }
 
         [DataMember]
-        public Nullable<int> ResponsiblityLocId { get; set; }
+        public Nullable<int> RepairLocationId { get; set; }
 
         [DataMember]
-        public Nullable<System.DateTime> ETC { get; set; }
+        public Nullable<System.DateTime> CompletionBeginTime { get; set; }
 
         [DataMember]
-        public Nullable<System.DateTime> ATC { get; set; }
+        public Nullable<System.DateTime> CompletionEndTime { get; set; }
 
         [DataMember]
-        public string Remark { get; set; }
+        public string Memo { get; set; }
 
         [DataMember]
-        public Nullable<int> Status { get; set; }
+        public Nullable<int> LsStatus { get; set; }
 
         [DataMember]
         public Nullable<int> OperId { get; set; }

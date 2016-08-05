@@ -10,9 +10,6 @@ namespace Xy.Pis.Contract.Message.Logistics
     public partial class FixedAssetsDTO : DTOBase
     {
         [DataMember]
-        public int ID { get; set; }
-
-        [DataMember]
         public string Code { get; set; }
 
         [DataMember]
