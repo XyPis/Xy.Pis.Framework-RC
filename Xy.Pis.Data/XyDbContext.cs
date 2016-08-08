@@ -27,6 +27,7 @@ namespace Xy.Pis
         public DbSet<BsItem> BsItems { get; set; }
         public DbSet<LmWorkRepair> LmWorkRepairs { get; set; }
         public DbSet<InStopMealRegister> InStopMealRegisters { get; set; }
+        public DbSet<LocationEquipment> LocationEquipments { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -45,6 +46,7 @@ namespace Xy.Pis
             modelBuilder.Configurations.Add(new BsBedRoomTypeMap());
             modelBuilder.Configurations.Add(new InStopMealRegisterMap());
             modelBuilder.Configurations.Add(new LmWorkRepairMap());
+            modelBuilder.Configurations.Add(new LocationEquipmentMap());
         }
     }
 }

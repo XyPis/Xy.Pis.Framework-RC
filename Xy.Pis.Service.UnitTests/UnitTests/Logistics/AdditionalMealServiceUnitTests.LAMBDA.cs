@@ -19,7 +19,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         {
             int ID = Add();
 
-            var response = additionalMealService.Invoke(x => x.GetById(ID));
+            var response = ServiceWrapper.Invoke<IAdditionalMealService, AdditionalMealDTO>(x => x.GetById(ID));
             Assert.IsTrue(response.Status == ResponseStatus.OK);
             Assert.IsNotNull(response.Result);
         }   

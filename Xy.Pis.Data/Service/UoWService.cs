@@ -85,7 +85,7 @@ namespace Xy.Pis.Service
             {
                 return command.Execute(uow =>
                 {
-                    uow.Update(entity);
+                    uow.Update<TEntity>(entity);
                     
                     return Constants.SINGLE_ROW;
                 });
@@ -95,17 +95,12 @@ namespace Xy.Pis.Service
         public virtual int Delete(TDTO dto)
         {
             dto.Validation();
-            var entity = dto.MapTo<TEntity>();
+            
+            //this.DeleteById(dto.ID);
 
-            using (var command = CommandWrapper)
-            {
-                return command.Execute(uow =>
-                {                    
-                    uow.Delete(entity);
-                    
-                    return Constants.SINGLE_ROW;
-                });
-            }
+            Delete(x => x.ID == dto.ID);
+
+            return Constants.SINGLE_ROW;
         }
 
         public virtual int AddBatch(IEnumerable<TDTO> dtos)
@@ -221,7 +216,7 @@ namespace Xy.Pis.Service
         public IList<TDTO> Get(Expression<Func<TDTO, bool>> predicate)
         {
             var expression = Mapper.Map<Expression<Func<TEntity, bool>>>(predicate);
-
+            
             using (var command = CommandWrapper)
             {
                 return command.Execute(uow =>
@@ -245,23 +240,22 @@ namespace Xy.Pis.Service
             }
         }
 
-        public int Delete(Expression<Func<TDTO, bool>> queryExpression)
+        public int Delete(Expression<Func<TDTO, bool>> predicate)
         {
-            var predicate = Mapper.Map<Expression<Func<TEntity, bool>>>(queryExpression);
+            var expression = Mapper.Map<Expression<Func<TEntity, bool>>>(predicate);
 
             using (var command = CommandWrapper)
             {
                 return command.Execute(uow =>
                 {
-                    return uow.Delete<TEntity>(predicate);
+                    return uow.Delete<TEntity>(expression);
                 });
             }
         }
 
         public virtual Tuple<Int32, Int32> AddOrUpdate(IEnumerable<TDTO> dtos)
         {
-            dtos.Validation();
-
+            dtos.Validation();            
             var addedEntities = dtos.Where(x => x.ID == 0).MapTo<TEntity>();
             var updatedEntities = dtos.Where(x => x.ID != 0).MapTo<TEntity>();
             int addedRows = 0;

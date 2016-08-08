@@ -97,9 +97,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Xy.Pis.Common.3.0.0.19\lib\net40\Xy.Pis.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Xy.Pis.Contract, Version=3.0.0.19, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Xy.Pis.Core, Version=3.0.0.19, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Xy.Pis.Contract.3.0.0.19\lib\net40\Xy.Pis.Contract.dll</HintPath>
+      <HintPath>..\packages\Xy.Pis.Core.3.0.0.19\lib\net40\Xy.Pis.Core.dll</HintPath>
     </Reference>
     <Reference Include="Z.EntityFramework.Extensions, Version=3.9.38.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -162,9 +162,9 @@
     <None Include="Xy.Pis.Data.nuspec" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Xy.Pis.Core\Xy.Pis.Core.csproj">
-      <Project>{50bb2236-02dc-40ff-b0f0-ab37d093279d}</Project>
-      <Name>Xy.Pis.Core</Name>
+    <ProjectReference Include="..\Xy.Pis.Contract\Xy.Pis.Contract.csproj">
+      <Project>{445a7abd-9bfd-4bb0-a92a-e790b9aa7f09}</Project>
+      <Name>Xy.Pis.Contract</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

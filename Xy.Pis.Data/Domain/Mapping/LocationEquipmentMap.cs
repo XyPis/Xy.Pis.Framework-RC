@@ -8,11 +8,11 @@ namespace Xy.Pis.Domain.Mapping
         public LocationEquipmentMap()
         {
             // Primary Key
-            this.HasKey(t => new { t.ID, t.Name, t.StorageLocation, t.Num, t.Price, t.Amount });
+            this.HasKey(t => t.ID);
 
             // Properties
-            this.Property(t => t.ID)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            //this.Property(t => t.ID)
+            //    .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
             this.Property(t => t.Code)
                 .HasMaxLength(100);

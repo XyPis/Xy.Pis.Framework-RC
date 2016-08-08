@@ -30,7 +30,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
                 dtoList.Add(PrepareData(hospId, locationId, orderDate, 20));
             }
 
-            var response = additionalMealService.Invoke(x => x.AddBatch(dtoList));
+            var response = ServiceWrapper.Invoke<IAdditionalMealService, int>(x => x.AddBatch(dtoList));
             Assert.IsTrue(response.Status == ResponseStatus.OK);
         }
 
@@ -38,7 +38,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         public void Test_UpdateBatch()
         {
             int[] ids = new int[] { Add(), Add(), Add() };
-            var getResponse = additionalMealService.Invoke(x => x.GetAll().Where(y => ids.Contains(y.ID)));
+            var getResponse = ServiceWrapper.Invoke<IAdditionalMealService, IEnumerable<AdditionalMealDTO>>(x => x.GetAll().Where(y => ids.Contains(y.ID)));
             Assert.IsTrue(getResponse.Status == ResponseStatus.OK);
 
             foreach(var dto in getResponse.Result)
@@ -53,7 +53,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
                 }
             }
 
-            var updateResponse = additionalMealService.Invoke(x => x.UpdateBatch(getResponse.Result));
+            var updateResponse = ServiceWrapper.Invoke<IAdditionalMealService, int>(x => x.UpdateBatch(getResponse.Result));
             Assert.IsTrue(updateResponse.Status == ResponseStatus.OK);
             //Assert.AreEqual(getResponse.Result.Count, updateResponse.Result);
         }
@@ -62,10 +62,10 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         public void Test_DeleteBatch()
         {
             Add();
-            var getResponse = additionalMealService.Invoke(x => x.GetAll());
+            var getResponse = ServiceWrapper.Invoke<IAdditionalMealService, IEnumerable<AdditionalMealDTO>>(x => x.GetAll());
             Assert.IsTrue(getResponse.Status == ResponseStatus.OK);
             Assert.IsNotNull(getResponse.Result);
-            var deleteResponse = additionalMealService.Invoke(x => x.DeleteBatch(getResponse.Result));
+            var deleteResponse = ServiceWrapper.Invoke<IAdditionalMealService, int>(x => x.DeleteBatch(getResponse.Result));
             Assert.IsTrue(deleteResponse.Status == ResponseStatus.OK);
         }
         #endregion Batch Method

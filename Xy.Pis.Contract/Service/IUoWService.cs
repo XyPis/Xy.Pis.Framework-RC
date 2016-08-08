@@ -48,10 +48,12 @@ namespace Xy.Pis.Contract.Service
         Tuple<Int32, Int32> AddOrUpdate(IEnumerable<TDTO> dtos);
 
         int DeleteAll();
-        //IList<TDTO> Get(Expression<Func<TDTO, bool>> queryExpression);
+        
+        // Lambda expression support
+        IList<TDTO> Get(Expression<Func<TDTO, bool>> queryExpression);
 
-        //int Update(Expression<Func<TDTO, bool>> filterExpression, Expression<Func<TDTO, TDTO>> updateExpression);
+        int Update(Expression<Func<TDTO, bool>> filterExpression, Expression<Func<TDTO, TDTO>> updateExpression);
 
-        //int Delete(Expression<Func<TDTO, bool>> queryExpression);
+        int Delete(Expression<Func<TDTO, bool>> queryExpression);
     }
 }

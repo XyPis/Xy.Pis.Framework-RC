@@ -11,11 +11,6 @@ using Xy.Pis.Domain;
 namespace Xy.Pis.Service.Logistics
 {
     public class EngineeringMaintenanceService : UoWService<LmWorkRepair, EngineeringMaintenanceDTO>, IEngineeringMaintenanceService
-    {
-        protected override void Configure()
-        {
-            Mapper.CreateMap<LmWorkRepair, EngineeringMaintenanceDTO>();
-            Mapper.CreateMap<EngineeringMaintenanceDTO, LmWorkRepair>();
-        }
+    {       
     }
 }

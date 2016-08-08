@@ -21,7 +21,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         public void Test_GetMenuByType_Return_Empty()
         {
             int type = 999999;
-            var getResponse = dailyMenuService.Invoke(x => x.GetMenuListByType(type));
+            var getResponse = ServiceWrapper.Invoke<IDailyMenuService, IEnumerable<FoodDTO>>(x => x.GetMenuListByType(type));            
             Assert.IsTrue(getResponse.Status == ResponseStatus.OK);
             Assert.IsTrue(!getResponse.Result.Any());
         }
@@ -30,7 +30,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         public void Test_GetMenuByType_Return_Ok()
         {
             int type = 0;
-            var getResponse = dailyMenuService.Invoke(x => x.GetMenuListByType(type));
+            var getResponse = ServiceWrapper.Invoke<IDailyMenuService, IEnumerable<FoodDTO>>(x => x.GetMenuListByType(type));
             Assert.IsTrue(getResponse.Status == ResponseStatus.OK);
             Assert.IsTrue(getResponse.Result.Any());            
         }
@@ -38,7 +38,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         [TestMethod]
         public void Tests_GetAll_Return_Ok()
         {
-            var getResponse = dailyMenuService.Invoke(x => x.GetAll());
+            var getResponse = ServiceWrapper.Invoke<IDailyMenuService, IEnumerable<FoodDTO>>(x => x.GetAll());
             Assert.IsTrue(getResponse.Status == ResponseStatus.OK);            
             Assert.IsTrue(getResponse.Result.Any());
         }

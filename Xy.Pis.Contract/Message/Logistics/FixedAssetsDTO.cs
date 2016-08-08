@@ -22,25 +22,25 @@ namespace Xy.Pis.Contract.Message.Logistics
         public Nullable<int> Type { get; set; }
 
         [DataMember]
-        public string UserLocation { get; set; }
+        public string UseLocation { get; set; }
 
         [DataMember]
-        public Nullable<int> ResponsibilityId { get; set; }
+        public Nullable<int> ManageManId { get; set; }
 
         [DataMember]
-        public string PlacementLoc { get; set; }
+        public string StorageLocation { get; set; }
 
         [DataMember]
-        public Nullable<System.DateTime> PurchaseDate { get; set; }
+        public Nullable<System.DateTime> BuyInDate { get; set; }
 
         [DataMember]
-        public int Qty { get; set; }
+        public int Num { get; set; }
 
         [DataMember]
-        public decimal UnitPrice { get; set; }
+        public decimal Price { get; set; }
 
         [DataMember]
-        public decimal TotalAmount { get; set; }
+        public decimal Amount { get; set; }
 
         [DataMember]
         public string HasUsedTime { get; set; }

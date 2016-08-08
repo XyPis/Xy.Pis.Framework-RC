@@ -10,7 +10,7 @@ using Xy.Pis.Contract.Service;
 
 namespace Xy.Pis.Proxy
 {
-    public class ServiceManager
+    public class ServiceWrapper
     {
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -19,7 +19,7 @@ namespace Xy.Pis.Proxy
            //typeof(IAdditionalMealService)
         };
        
-        static Response<String> Invoke<T, TResult>(Action<T> action)    
+        public static Response<String> Invoke<T>(Action<T> action)    
             where T : IServiceBase
         {
             T proxy = GetService<T>();
@@ -45,7 +45,7 @@ namespace Xy.Pis.Proxy
             return response;
         }
         
-        static Response<TResult> Invoke<T, TResult>(Func<T, TResult> func)
+        public static Response<TResult> Invoke<T, TResult>(Func<T, TResult> func)
             where T : IServiceBase
         {
             T proxy = GetService<T>();
@@ -59,7 +59,7 @@ namespace Xy.Pis.Proxy
                 Log.DebugFormat("Request to {0} service {1} ......", (isRemoteService ? "remote" : "local"), typeof(T));
                 Log.DebugFormat("Client Method: {0}", func.Method);
             }
-
+            
             var response = isRemoteService ? InvokeRemoteService(proxy, func) : InvokeLocalService(proxy, func);
 
             if (Log.IsDebugEnabled)
@@ -71,7 +71,7 @@ namespace Xy.Pis.Proxy
             return response;
         }
 
-        public static T GetService<T>() 
+        private static T GetService<T>() 
             where T : IServiceBase
         {
             try
@@ -92,44 +92,37 @@ namespace Xy.Pis.Proxy
             }
         }
 
-        static T GetLocalService<T>() 
+        private static T GetLocalService<T>() 
             where T : IServiceBase
         {
             return Common.Unity.IoC.Resolve<T>();
         }
 
-        static T GetRemoteService<T>()
+        private static T GetRemoteService<T>()
             where T : IServiceBase
         {
             ClientProxy proxy = new ClientProxy();
             return proxy.GetContract<T>();
         }
 
-        static bool IsRemoteService<T>(T service)
+        private static bool IsRemoteService<T>(T service)
             where T : IServiceBase
         {
             return (service as IClientChannel) != null ? true : false;
         }
 
-        static Response<String> InvokeLocalService<T>(T proxy, Action<T> action)
+        private static Response<String> InvokeLocalService<T>(T proxy, Action<T> action)
           where T : IServiceBase
         {
-            Response<String> result = new Response<String>()
-            {
-                Status = ResponseStatus.Error,
-                Message = "Unknow Error",
-                Result = String.Empty,
-                ServiceType = ServiceType.Local,
-            };
+            Response<String> result = new Response<String>(ServiceType.Local);
 
             try
             {
-                action(proxy);
-                result.Status = ResponseStatus.OK;
-                result.Message = string.Empty;
+                action(proxy);                              
             }
             catch (Exception ex)
             {
+                result.Status = ResponseStatus.Error;  
                 result.Message = ex.Message;
                 LogWriter("Exception", ex);
             }
@@ -137,33 +130,105 @@ namespace Xy.Pis.Proxy
             return result;
         }
 
-        static Response<TResult> InvokeLocalService<T, TResult>(T proxy, Func<T, TResult> func)
+        private static Response<TResult> InvokeLocalService<T, TResult>(T proxy, Func<T, TResult> func)
              where T : IServiceBase
         {
-            Response<TResult> result = new Response<TResult>()
-            {
-                Status = ResponseStatus.Error,
-                Message = "Unknow Error",
-                Result = default(TResult),
-                ServiceType = ServiceType.Local,
-            };
+            Response<TResult> result = new Response<TResult>(ServiceType.Local);           
 
             try
             {
                 result.Result = func(proxy);
-                result.Status = ResponseStatus.OK;
-                result.Message = string.Empty;
             }
             catch (Exception ex)
             {
+                result.Status = ResponseStatus.Error;
+                
                 result.Message = ex.Message;
                 LogWriter("Exception", ex);
             }
 
             return result;
+        }       
+
+        private static Response<String> InvokeRemoteService<T>(T proxy, Action<T> action)
+             where T : IServiceBase
+        {
+            Response<String> result = new Response<String>(ServiceType.Remote);           
+
+            try
+            {
+                action(proxy);
+                (proxy as IClientChannel).Close();
+            }
+            catch (System.ServiceModel.CommunicationException ce)
+            {
+                (proxy as IClientChannel).Abort();
+                result.Status = ResponseStatus.Error;
+                result.Message = ce.Message;
+
+                LogWriter("CommunicationException", ce);
+            }
+            catch (TimeoutException te)
+            {
+                (proxy as IClientChannel).Abort();
+                result.Status = ResponseStatus.Error;
+                result.Message = te.Message;
+
+                LogWriter("CommunicationException", te);
+            }
+            catch (Exception ex)
+            {
+                (proxy as IClientChannel).Abort();
+                result.Status = ResponseStatus.Error;
+                result.Message = ex.Message;
+
+                LogWriter("Exception", ex);
+                //throw;
+            }
+
+            return result;
         }
 
-        static void LogWriter(string type, Exception ex)
+        private static Response<TResult> InvokeRemoteService<T, TResult>(T proxy, Func<T, TResult> func)
+             where T : IServiceBase
+        {
+            Response<TResult> result = new Response<TResult>(ServiceType.Remote);           
+
+            try
+            {
+                result.Result = func(proxy);
+                (proxy as IClientChannel).Close();                                
+            }
+            catch (System.ServiceModel.CommunicationException ce)
+            {
+                (proxy as IClientChannel).Abort();
+                result.Status = ResponseStatus.Error;
+                result.Message = ce.Message;
+
+                LogWriter("CommunicationException", ce);
+            }
+            catch (TimeoutException te)
+            {
+                (proxy as IClientChannel).Abort();
+                result.Status = ResponseStatus.Error;
+                result.Message = te.Message;
+
+                LogWriter("TimeoutException", te);
+            }
+            catch (Exception ex)
+            {
+                (proxy as IClientChannel).Abort();
+                result.Status = ResponseStatus.Error;
+                result.Message = ex.Message;
+
+                LogWriter("Exception", ex);
+                //throw;
+            }
+
+            return result;
+        }
+
+        private static void LogWriter(string type, Exception ex)
         {
             if (ex != null)
             {
@@ -176,92 +241,5 @@ namespace Xy.Pis.Proxy
             }
         }
 
-        static Response<String> InvokeRemoteService<T>(T proxy, Action<T> action)
-             where T : IServiceBase
-        {
-            Response<String> result = new Response<String>()
-            {
-                Status = ResponseStatus.Error,
-                Message = "Unknow Error",
-                Result = String.Empty,
-                ServiceType = ServiceType.Remote,
-            };
-
-            try
-            {
-                action(proxy);
-                (proxy as IClientChannel).Close();
-                result.Status = ResponseStatus.OK;
-                result.Message = string.Empty;
-            }
-            catch (System.ServiceModel.CommunicationException ce)
-            {
-                (proxy as IClientChannel).Abort();
-                result.Message = ce.Message;
-
-                LogWriter("CommunicationException", ce);
-            }
-            catch (TimeoutException te)
-            {
-                (proxy as IClientChannel).Abort();
-                result.Message = te.Message;
-
-                LogWriter("CommunicationException", te);
-            }
-            catch (Exception ex)
-            {
-                (proxy as IClientChannel).Abort();
-                result.Message = ex.Message;
-
-                LogWriter("Exception", ex);
-                //throw;
-            }
-
-            return result;
-        }
-
-        static Response<TResult> InvokeRemoteService<T, TResult>(T proxy, Func<T, TResult> func)
-             where T : IServiceBase
-        {
-            Response<TResult> result = new Response<TResult>()
-            {
-                Status = ResponseStatus.Error,
-                Message = "Unknow Error",
-                Result = default(TResult),
-                ServiceType = ServiceType.Remote,
-            };
-
-            try
-            {
-                result.Result = func(proxy);
-                (proxy as IClientChannel).Close();
-                result.Status = ResponseStatus.OK;
-                result.Message = string.Empty;
-            }
-            catch (System.ServiceModel.CommunicationException ce)
-            {
-                (proxy as IClientChannel).Abort();
-                result.Message = ce.Message;
-
-                LogWriter("CommunicationException", ce);
-            }
-            catch (TimeoutException te)
-            {
-                (proxy as IClientChannel).Abort();
-                result.Message = te.Message;
-
-                LogWriter("TimeoutException", te);
-            }
-            catch (Exception ex)
-            {
-                (proxy as IClientChannel).Abort();
-                result.Message = ex.Message;
-
-                LogWriter("Exception", ex);
-                //throw;
-            }
-
-            return result;
-        }
     }
 }

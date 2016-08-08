@@ -1,4 +1,7 @@
-﻿using System;
+﻿//using System;
+//using Microsoft.VisualStudio.TestTools.UnitTesting;
+//using System.Collections.Generic;
+using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Collections;
@@ -10,6 +13,8 @@ using System.Linq.Expressions;
 using Xy.Pis.Contract.Message.Logistics;
 using Xy.Pis.Contract.Service.Logistics;
 using Xy.Pis.Proxy;
+using EntityFramework.Extensions;
+using Xy.Pis;
 
 namespace Xy.Pis.Service.UnitTests.Logistics
 {
@@ -30,7 +35,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
                 OperTime = DateTime.Now
             };
 
-            var response = stopMealRegisterationService.Invoke(x => x.Add(expectedDto));
+            var response = ServiceWrapper.Invoke<IStopMealRegisterationService, StopMealRegisterationDTO>(x => x.Add(expectedDto));
             
             Assert.IsTrue(response.Status == ResponseStatus.OK);
             Assert.IsNotNull(response.Result);
@@ -51,7 +56,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         public void Test_GetAll()
         {
             int ID = Add();
-            var response = stopMealRegisterationService.Invoke(x => x.GetAll());
+            var response = ServiceWrapper.Invoke<IStopMealRegisterationService, IEnumerable<StopMealRegisterationDTO>>(x => x.GetAll());
             Assert.IsTrue(response.Status == ResponseStatus.OK);
             Assert.IsTrue(response.Result.Where(x => x.ID == ID).Any());
         }
@@ -60,7 +65,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         public void Test_GetById()
         {
             int ID = Add();
-            var getResponse = stopMealRegisterationService.Invoke(x => x.GetById(ID));
+            var getResponse = ServiceWrapper.Invoke<IStopMealRegisterationService, StopMealRegisterationDTO>(x => x.GetById(ID));
             Assert.IsTrue(getResponse.Status == ResponseStatus.OK);
             Assert.IsNotNull(getResponse.Result);
         }
@@ -69,7 +74,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         public void Test_Update()
         {
             int ID = Add();
-            var getResponse = stopMealRegisterationService.Invoke(x => x.GetById(ID));
+            var getResponse = ServiceWrapper.Invoke<IStopMealRegisterationService, StopMealRegisterationDTO>(x => x.GetById(ID));
             Assert.IsTrue(getResponse.Status == ResponseStatus.OK);
             Assert.IsNotNull(getResponse.Result);
 
@@ -78,7 +83,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
             dto.AuditID = 999999;
             dto.IsAudit = true;
             dto.CancelQty = 2;
-            var updateResponse = stopMealRegisterationService.Invoke(x => x.Update(dto));
+            var updateResponse = ServiceWrapper.Invoke<IStopMealRegisterationService, int>(x => x.Update(dto));
             Assert.IsTrue(updateResponse.Status == ResponseStatus.OK);
             Assert.AreEqual(1, updateResponse.Result);
         }
@@ -87,13 +92,13 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         public void Test_Delete()
         {
             int ID = Add();
-            var getResponse = stopMealRegisterationService.Invoke(x => x.GetById(ID));
+            var getResponse = ServiceWrapper.Invoke<IStopMealRegisterationService, StopMealRegisterationDTO>(x => x.GetById(ID));
             Assert.IsTrue(getResponse.Status == ResponseStatus.OK);
 
             StopMealRegisterationDTO dto = getResponse.Result;
             Assert.IsNotNull(dto);
 
-            var deleteResponse = stopMealRegisterationService.Invoke(x => x.Delete(dto));
+            var deleteResponse = ServiceWrapper.Invoke<IStopMealRegisterationService, int>(x => x.Delete(dto));
             Assert.IsTrue(deleteResponse.Status == ResponseStatus.OK);
             Assert.AreEqual(1, deleteResponse.Result);
         }
@@ -101,7 +106,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         [TestMethod]
         public void Test_AddOrUpdate()
         {
-            var getResponse = stopMealRegisterationService.Invoke(x => x.GetAll());
+            var getResponse = ServiceWrapper.Invoke<IStopMealRegisterationService, IEnumerable<StopMealRegisterationDTO>>(x => x.GetAll());
 
             List<StopMealRegisterationDTO> addDTOs = new List<StopMealRegisterationDTO>();
             addDTOs.Add(new StopMealRegisterationDTO()
@@ -136,10 +141,34 @@ namespace Xy.Pis.Service.UnitTests.Logistics
             addOrUpdateDTOs.AddRange(addDTOs);
             addOrUpdateDTOs.AddRange(updateDTOs);
 
-            var updateResponse = stopMealRegisterationService.Invoke(x => x.AddOrUpdate(addOrUpdateDTOs));
+            var updateResponse = ServiceWrapper.Invoke<IStopMealRegisterationService, Tuple<int, int>>(x => x.AddOrUpdate(addOrUpdateDTOs));
             Assert.IsTrue(updateResponse.Status == ResponseStatus.OK);
             Assert.AreEqual(addDTOs.Count, updateResponse.Result.Item1);
             Assert.AreEqual(updateDTOs.Count, updateResponse.Result.Item2);
         }        
+    
+        [TestMethod]
+        public void Test_GetByLambdaExpression()
+        {
+            var getResponse = ServiceWrapper.Invoke<IStopMealRegisterationService, IList<StopMealRegisterationDTO>>(x => x.Get(y => y.AuditID.Value == 999999));
+            Assert.IsTrue(getResponse.Status == ResponseStatus.OK);
+
+            var date = DateTime.Now.AddDays(-6);
+            Expression<Func<StopMealRegisterationDTO, bool>> expression = (x => (x.LocationID == 1517 && x.AuditID == 999999 && x.AuditTime.Value > date));
+            getResponse = ServiceWrapper.Invoke<IStopMealRegisterationService, IList<StopMealRegisterationDTO>>(x => x.Get(expression));
+            Assert.IsTrue(getResponse.Status == ResponseStatus.OK);           
+        }
+
+        [TestMethod]
+        public void Test_DeleteByLambdaExpression()
+        {
+            int ID = Add();
+            Expression<Func<StopMealRegisterationDTO, bool>> predicate = (x => (x.ID == ID));
+            var getResponse = ServiceWrapper.Invoke<IStopMealRegisterationService>(x => x.Get(predicate));
+            Assert.IsTrue(getResponse.Status == ResponseStatus.OK);
+
+            var deleteResponse = ServiceWrapper.Invoke<IStopMealRegisterationService>(x => x.Delete(predicate));
+            Assert.IsTrue(deleteResponse.Status == ResponseStatus.OK);
+        }
     }
 }

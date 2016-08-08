@@ -86,21 +86,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Xy.Pis.Common.3.0.0.19\lib\net40\Xy.Pis.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Xy.Pis.Contract, Version=3.0.0.19, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Xy.Pis.Contract.3.0.0.19\lib\net40\Xy.Pis.Contract.dll</HintPath>
-    </Reference>
     <Reference Include="Xy.Pis.Core, Version=3.0.0.19, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Xy.Pis.Core.3.0.0.19\lib\net40\Xy.Pis.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Xy.Pis.Data, Version=3.0.0.19, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Xy.Pis.Data.3.0.0.19\lib\net40\Xy.Pis.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="Xy.Pis.Proxy, Version=3.0.0.19, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Xy.Pis.Proxy.3.0.0.19\lib\net40\Xy.Pis.Proxy.dll</HintPath>
     </Reference>
     <Reference Include="Z.EntityFramework.Extensions">
       <HintPath>..\packages\Z.EntityFramework.Extensions.3.9.38\lib\net40\Z.EntityFramework.Extensions.dll</HintPath>
@@ -119,14 +107,25 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="UnitTests\Logistics\AdditionalMealServiceUnitTests.LAMBDA.cs" />
-    <Compile Include="UnitTests\Logistics\AdditionalMealServiceUnitTests.BATCH.cs" />
-    <Compile Include="UnitTests\Logistics\AdditionalMealServiceUnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitTests\Base.cs" />
-    <Compile Include="UnitTests\Logistics\DailyMenuServiceUnitTests.cs" />
-    <Compile Include="UnitTests\Logistics\EngineeringMaintenanceServiceTests.cs" />
+    <Compile Include="UnitTests\Logistics\AdditionalMealServiceUnitTests.BATCH.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UnitTests\Logistics\AdditionalMealServiceUnitTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UnitTests\Logistics\AdditionalMealServiceUnitTests.LAMBDA.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UnitTests\Logistics\DailyMenuServiceUnitTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UnitTests\Logistics\EngineeringMaintenanceServiceTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="UnitTests\Logistics\StopMealRegisterationServiceTests.cs" />
+    <Compile Include="UnitTests\Logistics\WeeklyMenuServiceUnitTests.cs" />
     <Compile Include="UnitTests\TestBase.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +135,20 @@
     </None>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Xy.Pis.Contract\Xy.Pis.Contract.csproj">
+      <Project>{445a7abd-9bfd-4bb0-a92a-e790b9aa7f09}</Project>
+      <Name>Xy.Pis.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Xy.Pis.Data\Xy.Pis.Data.csproj">
+      <Project>{49a6fdb7-71e1-4e90-924d-1558f27e149c}</Project>
+      <Name>Xy.Pis.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Xy.Pis.Proxy\Xy.Pis.Proxy.csproj">
+      <Project>{df186572-37b9-45f9-bb9a-0fea5151b322}</Project>
+      <Name>Xy.Pis.Proxy</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

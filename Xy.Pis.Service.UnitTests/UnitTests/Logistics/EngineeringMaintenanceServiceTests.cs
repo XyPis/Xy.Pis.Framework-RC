@@ -34,7 +34,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
                 OperTime = DateTime.Now
             };
 
-            var response = engineeringMaintenanceService.Invoke(x => x.Add(expectedDto));
+            var response = ServiceWrapper.Invoke<IEngineeringMaintenanceService, EngineeringMaintenanceDTO>(x => x.Add(expectedDto));
             
             Assert.IsTrue(response.Status == ResponseStatus.OK);
             Assert.IsNotNull(response.Result);
@@ -55,7 +55,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         public void Test_GetAll()
         {
             int ID = Add();
-            var response = engineeringMaintenanceService.Invoke(x => x.GetAll());
+            var response = ServiceWrapper.Invoke<IEngineeringMaintenanceService, IEnumerable<EngineeringMaintenanceDTO>>(x => x.GetAll());
             Assert.IsTrue(response.Status == ResponseStatus.OK);
             Assert.IsTrue(response.Result.Where(x => x.ID == ID).Any());
         }
@@ -64,7 +64,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         public void Test_GetById()
         {
             int ID = Add();
-            var getResponse = engineeringMaintenanceService.Invoke(x => x.GetById(ID));
+            var getResponse = ServiceWrapper.Invoke<IEngineeringMaintenanceService, EngineeringMaintenanceDTO>(x => x.GetById(ID));
             Assert.IsTrue(getResponse.Status == ResponseStatus.OK);
             Assert.IsNotNull(getResponse.Result);
         }
@@ -73,7 +73,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         public void Test_Update()
         {
             int ID = Add();
-            var getResponse = engineeringMaintenanceService.Invoke(x => x.GetById(ID));
+            var getResponse = ServiceWrapper.Invoke<IEngineeringMaintenanceService, EngineeringMaintenanceDTO>(x => x.GetById(ID));
             Assert.IsTrue(getResponse.Status == ResponseStatus.OK);
             Assert.IsNotNull(getResponse.Result);
 
@@ -81,7 +81,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
             dto.Memo = "数据更新测试...";
             dto.OperId = 6768;
 
-            var updateResponse = engineeringMaintenanceService.Invoke(x => x.Update(dto));
+            var updateResponse = ServiceWrapper.Invoke<IEngineeringMaintenanceService, int>(x => x.Update(dto));
             Assert.IsTrue(updateResponse.Status == ResponseStatus.OK);
             Assert.AreEqual(1, updateResponse.Result);
         }
@@ -90,13 +90,13 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         public void Test_Delete()
         {
             int ID = Add();
-            var getResponse = engineeringMaintenanceService.Invoke(x => x.GetById(ID));
+            var getResponse = ServiceWrapper.Invoke<IEngineeringMaintenanceService, EngineeringMaintenanceDTO>(x => x.GetById(ID));
             Assert.IsTrue(getResponse.Status == ResponseStatus.OK);
 
             EngineeringMaintenanceDTO dto = getResponse.Result;
             Assert.IsNotNull(dto);
 
-            var deleteResponse = engineeringMaintenanceService.Invoke(x => x.Delete(dto));
+            var deleteResponse = ServiceWrapper.Invoke<IEngineeringMaintenanceService, int>(x => x.Delete(dto));
             Assert.IsTrue(deleteResponse.Status == ResponseStatus.OK);
             Assert.AreEqual(1, deleteResponse.Result);
         }
@@ -104,7 +104,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         [TestMethod]
         public void Test_AddOrUpdate()
         {
-            var getResponse = engineeringMaintenanceService.Invoke(x => x.GetAll().Where(y => y.OperId != 6768));
+            var getResponse = ServiceWrapper.Invoke<IEngineeringMaintenanceService, IEnumerable<EngineeringMaintenanceDTO>>(x => x.GetAll().Where(y => y.OperId != 6768));
 
             List<EngineeringMaintenanceDTO> addDTOs = new List<EngineeringMaintenanceDTO>();
             addDTOs.Add(new EngineeringMaintenanceDTO()
@@ -145,7 +145,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
             addOrUpdateDTOs.AddRange(addDTOs);
             addOrUpdateDTOs.AddRange(updateDTOs);
 
-            var updateResponse = engineeringMaintenanceService.Invoke(x => x.AddOrUpdate(addOrUpdateDTOs));
+            var updateResponse = ServiceWrapper.Invoke<IEngineeringMaintenanceService, Tuple<int, int>>(x => x.AddOrUpdate(addOrUpdateDTOs));
             Assert.IsTrue(updateResponse.Status == ResponseStatus.OK);
             Assert.AreEqual(addDTOs.Count, updateResponse.Result.Item1);
             Assert.AreEqual(updateDTOs.Count, updateResponse.Result.Item2);

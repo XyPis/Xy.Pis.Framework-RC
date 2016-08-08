@@ -26,7 +26,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
 
             var expectedDto = PrepareData(hospId, locationId, orderDate, unitPrice);
 
-            var response = additionalMealService.Invoke(x => x.Add(expectedDto));
+            var response = ServiceWrapper.Invoke<IAdditionalMealService, AdditionalMealDTO>(x => x.Add(expectedDto));
             
             Assert.IsTrue(response.Status == ResponseStatus.OK);
             Assert.IsNotNull(response.Result);
@@ -46,7 +46,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         public void Test_GetAll()
         {
             int ID = Add();
-            var response = additionalMealService.Invoke(x => x.GetAll());
+            var response = ServiceWrapper.Invoke<IAdditionalMealService, IEnumerable<AdditionalMealDTO>>(x => x.GetAll());
             Assert.IsTrue(response.Status == ResponseStatus.OK);
             Assert.IsTrue(response.Result.Where(x => x.ID == ID).Any());
         }
@@ -55,7 +55,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         public void Test_GetById()
         {
             int ID = Add();
-            var response = additionalMealService.Invoke(x => x.GetById(ID));
+            var response = ServiceWrapper.Invoke<IAdditionalMealService, AdditionalMealDTO>(x => x.GetById(ID));
             Assert.IsTrue(response.Status == ResponseStatus.OK);
             Assert.IsNotNull(response.Result);
         }
@@ -66,7 +66,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
             string additionalMealType = "L";
 
             int ID = Add();
-            var retrieveResponse = additionalMealService.Invoke(x => x.GetById(ID));            
+            var retrieveResponse = ServiceWrapper.Invoke<IAdditionalMealService, AdditionalMealDTO>(x => x.GetById(ID));            
             Assert.IsTrue(retrieveResponse.Status == ResponseStatus.OK);
 
             AdditionalMealDTO additionalMealDto = retrieveResponse.Result;
@@ -75,11 +75,11 @@ namespace Xy.Pis.Service.UnitTests.Logistics
             additionalMealDto.Details.FirstOrDefault().AdditionalMealType = additionalMealType;
             additionalMealDto.Details.FirstOrDefault().Food = null;
             additionalMealDto.Details.FirstOrDefault().FoodId = 15;
-            var updateResponse = additionalMealService.Invoke(x => x.Update(additionalMealDto));
+            var updateResponse = ServiceWrapper.Invoke<IAdditionalMealService, int>(x => x.Update(additionalMealDto));
 
             Assert.IsTrue(updateResponse.Status == ResponseStatus.OK);
 
-            retrieveResponse = additionalMealService.Invoke(x => x.GetById(ID));
+            retrieveResponse = ServiceWrapper.Invoke<IAdditionalMealService, AdditionalMealDTO>(x => x.GetById(ID));
             Assert.IsTrue(retrieveResponse.Status == ResponseStatus.OK);
             Assert.IsTrue(retrieveResponse.Result.Details.FirstOrDefault().AdditionalMealType == additionalMealType);
         }
@@ -88,13 +88,13 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         public void Test_Delete()
         {
             int ID = Add();
-            var retrieveResponse = additionalMealService.Invoke(x => x.GetById(ID));
+            var retrieveResponse = ServiceWrapper.Invoke<IAdditionalMealService, AdditionalMealDTO>(x => x.GetById(ID));
             Assert.IsTrue(retrieveResponse.Status == ResponseStatus.OK);
 
             AdditionalMealDTO additionalMealDto = retrieveResponse.Result;
             Assert.IsNotNull(additionalMealDto);
 
-            var deleteResponse = additionalMealService.Invoke(x => x.Delete(additionalMealDto));
+            var deleteResponse = ServiceWrapper.Invoke<IAdditionalMealService, int>(x => x.Delete(additionalMealDto));
             Assert.IsTrue(deleteResponse.Status == ResponseStatus.OK);
             Assert.AreEqual(1, deleteResponse.Result);
         }
@@ -105,7 +105,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
             int ID = Add();
             int hospId = 18;
 
-            var response = additionalMealService.Invoke(x => x.GetLastAdditionalMealByHospId(hospId));
+            var response = ServiceWrapper.Invoke<IAdditionalMealService, AdditionalMealDTO>(x => x.GetLastAdditionalMealByHospId(hospId));
             Assert.IsTrue(response.Status == ResponseStatus.OK);                     
         }
     }
