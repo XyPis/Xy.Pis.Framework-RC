@@ -104,12 +104,7 @@ namespace Xy.Pis.Core
             }
         }
 
-        public virtual List<TEntity> Get
-            ( Expression<Func<TEntity, bool>> filter = null
-            , Func<IQueryable<TEntity>
-            , IOrderedQueryable<TEntity>> orderBy = null
-            , string includeProperties = ""
-            )
+        public virtual List<TEntity> Get(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includeProperties = "")
         {
             IQueryable<TEntity> query = EFSet;
 

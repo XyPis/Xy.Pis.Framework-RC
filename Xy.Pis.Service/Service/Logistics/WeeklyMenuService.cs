@@ -65,15 +65,15 @@ namespace Xy.Pis.Service.Logistics
             }        
         }
 
-        public IList<WeeklyMenuDTO> GetWeeklyMenu() 
+        public IEnumerable<WeeklyMenuDTO> GetWeeklyMenu() 
         {
             using (var command = CommandWrapper)
             {
-                return command.Execute(uow => 
+                return command.Execute(uow =>
                 {
-                    return uow.Get<LmWeekFood>();
-                }).MapTo<WeeklyMenuDTO>()
-                .ToList();
+                    return uow.Get<LmWeekFood>()
+                        .MapTo<WeeklyMenuDTO>();
+                });              
             }            
         }
     }

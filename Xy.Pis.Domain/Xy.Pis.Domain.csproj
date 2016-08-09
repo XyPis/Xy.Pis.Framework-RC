@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DFAEAAAB-F35F-4D06-96F2-D3F896EED2FE}</ProjectGuid>
+    <ProjectGuid>{49A6FDB7-71E1-4E90-924D-1558F27E149C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Xy.Pis.Core</RootNamespace>
-    <AssemblyName>Xy.Pis.Core.Model</AssemblyName>
+    <RootNamespace>Xy.Pis</RootNamespace>
+    <AssemblyName>Xy.Pis.Domain</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -23,7 +23,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -45,57 +44,57 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Activation" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="Xy.Pis.Contract, Version=3.0.0.20, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Xy.Pis.Contract.3.0.0.20\lib\net40\Xy.Pis.Contract.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Model\AdditionalMealDetails.cs" />
-    <Compile Include="Model\AdditionalMeal.cs" />
-    <Compile Include="Model\BsBed.cs" />
-    <Compile Include="Model\BsBedFloor.cs" />
-    <Compile Include="Model\BsBedRoomType.cs" />
-    <Compile Include="Model\BsItem.cs" />
-    <Compile Include="Model\BsLocation.cs" />
-    <Compile Include="Model\BsUser.cs" />
-    <Compile Include="Model\InHosInfo.cs" />
-    <Compile Include="Model\LmFood.cs" />
-    <Compile Include="Model\LmWeekFood.cs" />
-    <Compile Include="Model\Mapping\AdditionalMealDetailsMap.cs" />
-    <Compile Include="Model\Mapping\AdditionalMealMap.cs" />
-    <Compile Include="Model\Mapping\BsBedFloorMap.cs" />
-    <Compile Include="Model\Mapping\BsBedMap.cs" />
-    <Compile Include="Model\Mapping\BsBedRoomTypeMap.cs" />
-    <Compile Include="Model\Mapping\BsItemMap.cs" />
-    <Compile Include="Model\Mapping\BsLocationMap.cs" />
-    <Compile Include="Model\Mapping\BsUserMap.cs" />
-    <Compile Include="Model\Mapping\InHosInfoMap.cs" />
-    <Compile Include="Model\Mapping\LmFoodMap.cs" />
-    <Compile Include="Model\Mapping\LmWeekFoodMap.cs" />
+    <Compile Include="Domain\AdditionalMeal.cs" />
+    <Compile Include="Domain\AdditionalMealDetails.cs" />
+    <Compile Include="Domain\BsBed.cs" />
+    <Compile Include="Domain\BsBedFloor.cs" />
+    <Compile Include="Domain\BsBedRoomType.cs" />
+    <Compile Include="Domain\BsItem.cs" />
+    <Compile Include="Domain\BsLocation.cs" />
+    <Compile Include="Domain\BsUser.cs" />
+    <Compile Include="Domain\InHosInfo.cs" />
+    <Compile Include="Domain\InStopMealRegister.cs" />
+    <Compile Include="Domain\LocationEquipment.cs" />
+    <Compile Include="Domain\Mapping\InStopMealRegisterMap.cs" />
+    <Compile Include="Domain\LmFood.cs" />
+    <Compile Include="Domain\LmWeekFood.cs" />
+    <Compile Include="Domain\LmWorkRepair.cs" />
+    <Compile Include="Domain\Mapping\LmWorkRepairMap.cs" />
+    <Compile Include="Domain\Mapping\AdditionalMealDetailsMap.cs" />
+    <Compile Include="Domain\Mapping\AdditionalMealMap.cs" />
+    <Compile Include="Domain\Mapping\BsBedFloorMap.cs" />
+    <Compile Include="Domain\Mapping\BsBedMap.cs" />
+    <Compile Include="Domain\Mapping\BsBedRoomTypeMap.cs" />
+    <Compile Include="Domain\Mapping\BsItemMap.cs" />
+    <Compile Include="Domain\Mapping\BsLocationMap.cs" />
+    <Compile Include="Domain\Mapping\BsUserMap.cs" />
+    <Compile Include="Domain\Mapping\InHosInfoMap.cs" />
+    <Compile Include="Domain\Mapping\LmFoodMap.cs" />
+    <Compile Include="Domain\Mapping\LmWeekFoodMap.cs" />
+    <Compile Include="Domain\Mapping\LocationEquipmentMap.cs" />
+    <Compile Include="XyDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-    <None Include="Xy.Pis.Core.Model.nuspec">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Xy.Pis.Contract\Xy.Pis.Contract.csproj">
-      <Project>{445a7abd-9bfd-4bb0-a92a-e790b9aa7f09}</Project>
-      <Name>Xy.Pis.Contract</Name>
-    </ProjectReference>
+    <None Include="Xy.Pis.Domain.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

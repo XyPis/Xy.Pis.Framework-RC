@@ -50,33 +50,16 @@ namespace Xy.Pis.Service
                 
                 return entity.MapTo<TDTO>();
             }
-        }
+        }        
 
-        public virtual TDTO GetById(object key) 
-        {            
-            using (var command = CommandWrapper)
-            {
-                return command.Execute(uow =>
-                {
-                    return uow.GetById<TEntity>(key)
-                        .MapTo<TDTO>();
-                });
-            }
-        }
-        
-        public virtual IList<TDTO> GetAll() 
+        public virtual int Delete(TDTO dto)
         {
-            using (var command = CommandWrapper)
-            {                
-                return command.Execute(uow =>
-                {                  
-                    //return uow.Get<TEntity>().ProjectTo<TDTO>().ToList();
-                    return uow.Get<TEntity>().MapTo<TDTO>().ToList();
-                });
-            }
+            dto.Validation();
+            int pid = dto.ID;
+            return this.Delete(x => x.ID == pid);
         }
 
-        public virtual int Update(TDTO dto) 
+        public virtual int Update(TDTO dto)
         {
             dto.Validation();
             var entity = dto.MapTo<TEntity>();
@@ -86,22 +69,59 @@ namespace Xy.Pis.Service
                 return command.Execute(uow =>
                 {
                     uow.Update<TEntity>(entity);
-                    
+
                     return Constants.SINGLE_ROW;
                 });
-            }            
+            }
         }
 
-        public virtual int Delete(TDTO dto)
+        public virtual TDTO GetById(object key) 
         {
-            dto.Validation();
-            
-            //this.DeleteById(dto.ID);
-
-            Delete(x => x.ID == dto.ID);
-
-            return Constants.SINGLE_ROW;
+            using (var command = CommandWrapper)
+            {
+                return command.Execute(uow =>
+                {
+                    return uow.GetById<TEntity>(key)
+                        .MapTo<TDTO>();
+                });
+            }
         }
+
+        public virtual void DeleteById(object key)
+        {
+            using (var command = CommandWrapper)
+            {
+                command.Execute(uow =>
+                {
+                    uow.DeleteById<TEntity>(key);
+                });
+            }
+        }
+        
+        public virtual IEnumerable<TDTO> GetAll() 
+        {
+            using (var command = CommandWrapper)
+            {                
+                return command.Execute(uow =>
+                {                  
+                    //return uow.Get<TEntity>()
+                    //    .ProjectTo<TDTO>();
+                    return uow.Get<TEntity>()
+                        .MapTo<TDTO>();
+                });
+            }
+        }
+
+        public virtual int DeleteAll()
+        {
+            using (var command = CommandWrapper)
+            {
+                return command.Execute(uow =>
+                {
+                    return uow.DeleteAll<TEntity>();
+                });
+            }
+        }      
 
         public virtual int AddBatch(IEnumerable<TDTO> dtos)
         {
@@ -185,20 +205,6 @@ namespace Xy.Pis.Service
             }
         }
 
-        public virtual void BulkUpdate(IEnumerable<TDTO> dtos)
-        {
-            dtos.Validation();
-            var entities = dtos.MapTo<TEntity>();
-
-            using (var command = CommandWrapper)
-            {
-                command.Execute(uow =>
-                {
-                    uow.BulkUpdate<TEntity>(entities);
-                });
-            }
-        }
-
         public virtual void BulkDelete(IEnumerable<TDTO> dtos)
         {
             dtos.Validation();
@@ -213,7 +219,21 @@ namespace Xy.Pis.Service
             }
         }
 
-        public IList<TDTO> Get(Expression<Func<TDTO, bool>> predicate)
+        public virtual void BulkUpdate(IEnumerable<TDTO> dtos)
+        {
+            dtos.Validation();
+            var entities = dtos.MapTo<TEntity>();
+
+            using (var command = CommandWrapper)
+            {
+                command.Execute(uow =>
+                {
+                    uow.BulkUpdate<TEntity>(entities);
+                });
+            }
+        }        
+
+        public virtual IEnumerable<TDTO> Get(Expression<Func<TDTO, bool>> predicate)
         {
             var expression = Mapper.Map<Expression<Func<TEntity, bool>>>(predicate);
             
@@ -221,15 +241,32 @@ namespace Xy.Pis.Service
             {
                 return command.Execute(uow =>
                 {
-                    return uow.Get<TEntity>(expression).MapTo<TDTO>().ToList();
+                    return uow.Get<TEntity>(expression).MapTo<TDTO>();
                 });
             }
         }
 
-        public int Update(Expression<Func<TDTO, bool>> filterExpression, Expression<Func<TDTO, TDTO>> updateExpression)
+        public virtual int Delete(Expression<Func<TDTO, bool>> expression)
         {
+            var predicate = Mapper.Map<Expression<Func<TEntity, bool>>>(expression);
+
+            using (var command = CommandWrapper)
+            {
+                return command.Execute(uow =>
+                {
+                    return uow.Delete<TEntity>(predicate);
+                });
+            }
+        }
+
+        public virtual int Update(Expression<Func<TDTO, bool>> filterExpression, Expression<Func<TDTO, TDTO>> updateExpression)
+        {
+            //dto.Validation();
+            
+            //TEntity entity1 = dto.MapTo<TEntity>();
+            
             var filterExpressionForEntity = Mapper.Map<Expression<Func<TEntity, bool>>>(filterExpression);
-            var updateExpressionForEntity = Mapper.Map<Expression<Func<TEntity, TEntity>>>(updateExpression);
+            var updateExpressionForEntity = Mapper.Map<Expression<Func<TEntity, TEntity>>>(updateExpression);            
 
             using (var command = CommandWrapper)
             {
@@ -238,24 +275,12 @@ namespace Xy.Pis.Service
                     return uow.Update<TEntity>(filterExpressionForEntity, updateExpressionForEntity);
                 });
             }
-        }
-
-        public int Delete(Expression<Func<TDTO, bool>> predicate)
-        {
-            var expression = Mapper.Map<Expression<Func<TEntity, bool>>>(predicate);
-
-            using (var command = CommandWrapper)
-            {
-                return command.Execute(uow =>
-                {
-                    return uow.Delete<TEntity>(expression);
-                });
-            }
-        }
+        }        
 
         public virtual Tuple<Int32, Int32> AddOrUpdate(IEnumerable<TDTO> dtos)
         {
-            dtos.Validation();            
+            dtos.Validation();
+
             var addedEntities = dtos.Where(x => x.ID == 0).MapTo<TEntity>();
             var updatedEntities = dtos.Where(x => x.ID != 0).MapTo<TEntity>();
             int addedRows = 0;
@@ -263,45 +288,23 @@ namespace Xy.Pis.Service
 
             using (var command = CommandWrapper)
             {
-                command.Execute(uow => 
+                command.Execute(uow =>
                 {
                     addedEntities.ToList().ForEach(entity =>
                     {
                         uow.Insert(entity);
                         addedRows++;
                     });
-                    
+
                     updatedEntities.ToList().ForEach(entity =>
                     {
                         uow.Update(entity);
                         updatedRows++;
-                    }); 
+                    });
                 });
 
                 return new Tuple<int, int>(addedRows, updatedRows);
             }
-        }
-
-        public virtual int DeleteAll()
-        {
-            using (var command = CommandWrapper)
-            {
-                return command.Execute(uow => 
-                {
-                    return uow.DeleteAll<TEntity>();
-                });
-            }
-        }
-
-        public virtual void DeleteById(object key)
-        {
-            using (var command = CommandWrapper)
-            {                
-                command.Execute(uow =>
-                {                    
-                    uow.DeleteById<TEntity>(key);
-                });
-            }
-        }
+        }        
     }
 }

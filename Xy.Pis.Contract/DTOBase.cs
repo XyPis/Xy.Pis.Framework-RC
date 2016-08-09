@@ -15,7 +15,6 @@ namespace Xy.Pis
 
         public override void Fill(System.Data.IDataReader datareader)
         {
-
         }
     }
 }

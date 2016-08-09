@@ -65,22 +65,16 @@ namespace Xy.Pis.Core
             return GetRepository<TEntity>().Get();
         }
 
-        public IQueryable<TEntity> Get<TEntity>
-            ( Expression<Func<TEntity, bool>> filter = null
-            , Func<IQueryable<TEntity>
-            , IOrderedQueryable<TEntity>> orderBy = null
-            ) where TEntity : class, new()
+        public IQueryable<TEntity> Get<TEntity>(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null) 
+            where TEntity : class, new()
         {
             InitializeEFContext();
 
             return GetRepository<TEntity>().Get(filter, orderBy);
         }
 
-        public IQueryable<TResult> Join<TEntityOuter, TEntityInner, TResult>
-            ( Func<TEntityOuter, object> outerKeySelector
-            , Func<TEntityInner, object> innerKeySelector
-            , Func<TEntityOuter, TEntityInner, TResult> resultSelector
-            ) where TEntityOuter : class, new()
+        public IQueryable<TResult> Join<TEntityOuter, TEntityInner, TResult>(Func<TEntityOuter, object> outerKeySelector, Func<TEntityInner, object> innerKeySelector, Func<TEntityOuter, TEntityInner, TResult> resultSelector) 
+            where TEntityOuter : class, new()
             where TEntityInner : class, new()
         {
             InitializeEFContext();
@@ -94,12 +88,8 @@ namespace Xy.Pis.Core
                 ;
         }
 
-        public IQueryable<TResult> Join<TEntityOuter, TEntityInner, TResult>
-            ( Func<TEntityOuter, object> outerKeySelector
-            , Func<TEntityInner, object> innerKeySelector
-            , Func<TEntityOuter, TEntityInner, TResult> resultSelector
-            , IEqualityComparer<object> comparer
-            ) where TEntityOuter : class, new()
+        public IQueryable<TResult> Join<TEntityOuter, TEntityInner, TResult>(Func<TEntityOuter, object> outerKeySelector, Func<TEntityInner, object> innerKeySelector, Func<TEntityOuter, TEntityInner, TResult> resultSelector, IEqualityComparer<object> comparer) 
+            where TEntityOuter : class, new()
             where TEntityInner : class, new()
         {
             InitializeEFContext();
@@ -114,11 +104,8 @@ namespace Xy.Pis.Core
                 ;
         }
 
-        public IQueryable<TResult> LeftJoin<TEntityOuter, TEntityInner, TResult>
-            ( Func<TEntityOuter, object> outerKeySelector
-            , Func<TEntityInner, object> innerKeySelector
-            , Func<TEntityOuter, TEntityInner, TResult> resultSelector
-            ) where TEntityOuter : class, new()
+        public IQueryable<TResult> LeftJoin<TEntityOuter, TEntityInner, TResult>(Func<TEntityOuter, object> outerKeySelector, Func<TEntityInner, object> innerKeySelector, Func<TEntityOuter, TEntityInner, TResult> resultSelector) 
+            where TEntityOuter : class, new()
             where TEntityInner : class, new()
         {
             InitializeEFContext();
@@ -132,12 +119,8 @@ namespace Xy.Pis.Core
                 ;
         }
 
-        public IQueryable<TResult> LeftJoin<TEntityOuter, TEntityInner, TResult>
-            ( Func<TEntityOuter, object> outerKeySelector
-            , Func<TEntityInner, object> innerKeySelector
-            , Func<TEntityOuter, TEntityInner, TResult> resultSelector
-            , IEqualityComparer<object> comparer
-            ) where TEntityOuter : class, new()
+        public IQueryable<TResult> LeftJoin<TEntityOuter, TEntityInner, TResult>(Func<TEntityOuter, object> outerKeySelector, Func<TEntityInner, object> innerKeySelector, Func<TEntityOuter, TEntityInner, TResult> resultSelector, IEqualityComparer<object> comparer) 
+            where TEntityOuter : class, new()
             where TEntityInner : class, new()
         {
             InitializeEFContext();
@@ -235,10 +218,8 @@ namespace Xy.Pis.Core
             return (IRepository<TEntity>)repositories[typeof(TEntity)];
         }
 
-        public int Update<TEntity>
-            ( Expression<Func<TEntity, bool>> filterExpression
-            , Expression<Func<TEntity, TEntity>> updateExpression
-            ) where TEntity : class, new()
+        public int Update<TEntity>(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, TEntity>> updateExpression)
+            where TEntity : class, new()
         {
             InitializeEFContext();
             return GetRepository<TEntity>().Update(filterExpression, updateExpression);

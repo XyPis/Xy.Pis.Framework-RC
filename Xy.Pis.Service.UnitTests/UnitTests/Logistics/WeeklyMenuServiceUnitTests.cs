@@ -29,7 +29,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         public void Test_GetWeeklyMenu() 
         {
             var response = ServiceWrapper.Invoke<IWeeklyMenuService, IEnumerable<WeeklyMenuDTO>> (x => x.GetWeeklyMenu());
-            Assert.AreEqual(ResponseStatus.OK, response.Status);
+            Assert.IsTrue(response.Status == ResponseStatus.OK);
             Assert.IsTrue(response.Result.Any());
         }
 

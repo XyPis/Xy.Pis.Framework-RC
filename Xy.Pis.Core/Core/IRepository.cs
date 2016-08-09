@@ -16,7 +16,7 @@ namespace Xy.Pis.Core
 
         void Delete(T entity);
 
-        IQueryable<T> Get();        
+        IQueryable<T> Get();
 
         T GetById(params object[] ids);
 
@@ -24,16 +24,9 @@ namespace Xy.Pis.Core
 
         int DeleteAll();
 
-        IQueryable<T> Get
-            (Expression<Func<T, bool>> filter = null
-            , Func<IQueryable<T>
-            , IOrderedQueryable<T>> orderBy = null
-            );        
+        IQueryable<T> Get(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null);
 
-        int Update
-            ( Expression<Func<T, bool>> filterExpression
-            , Expression<Func<T, T>> updateExpression
-            );
+        int Update(Expression<Func<T, bool>> filterExpression, Expression<Func<T, T>> updateExpression);
 
         int Delete(Expression<Func<T, bool>> queryExpression);
 

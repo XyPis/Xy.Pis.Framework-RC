@@ -8,7 +8,7 @@ namespace Xy.Pis.Contract.Message.Logistics
 {
     [DataContract]
     public class StopMealRegisterationDTO : DTOBase
-    {    
+    {
         [DataMember]
         public int LocationID { get; set; }
 

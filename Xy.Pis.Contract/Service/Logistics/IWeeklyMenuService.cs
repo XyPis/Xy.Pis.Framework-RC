@@ -17,6 +17,6 @@ namespace Xy.Pis.Contract.Service.Logistics
         void InsertOrUpdate(WeeklyMenuDTO weeklyMenuDto);
 
         [OperationContract]
-        IList<WeeklyMenuDTO> GetWeeklyMenu();
+        IEnumerable<WeeklyMenuDTO> GetWeeklyMenu();
     }
 }

@@ -21,7 +21,7 @@ namespace Xy.Pis.Contract.Service
         void DeleteById(object key);
 
         [OperationContract]
-        IList<TDTO> GetAll();
+        IEnumerable<TDTO> GetAll();
 
         [OperationContract]
         int Update(TDTO dto);
@@ -50,7 +50,7 @@ namespace Xy.Pis.Contract.Service
         int DeleteAll();
         
         // Lambda expression support
-        IList<TDTO> Get(Expression<Func<TDTO, bool>> queryExpression);
+        IEnumerable<TDTO> Get(Expression<Func<TDTO, bool>> queryExpression);
 
         int Update(Expression<Func<TDTO, bool>> filterExpression, Expression<Func<TDTO, TDTO>> updateExpression);
 

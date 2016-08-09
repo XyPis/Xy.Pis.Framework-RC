@@ -31,7 +31,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xy.Pis.Service.UnitTests", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xy.Pis.Proxy.UnitTests", "Xy.Pis.Proxy.UnitTests\Xy.Pis.Proxy.UnitTests.csproj", "{FAED7743-A38B-483C-B5DA-A4019E9EDBAB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xy.Pis.Data", "Xy.Pis.Data\Xy.Pis.Data.csproj", "{49A6FDB7-71E1-4E90-924D-1558F27E149C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xy.Pis.Domain", "Xy.Pis.Domain\Xy.Pis.Domain.csproj", "{49A6FDB7-71E1-4E90-924D-1558F27E149C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04 Proxy", "04 Proxy", "{EA25129C-81E9-41B3-80CA-9F983C233374}"
 EndProject
@@ -52,22 +52,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F1D915
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "packages", "packages", "{1D6BA8AF-236B-450D-92D5-89EB17F06C2E}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\packages\Xy.Pis.Client.1.16.0730.06.nupkg = .nuget\packages\Xy.Pis.Client.1.16.0730.06.nupkg
-		.nuget\packages\Xy.Pis.Client.1.16.0730.06.symbols.nupkg = .nuget\packages\Xy.Pis.Client.1.16.0730.06.symbols.nupkg
-		.nuget\packages\Xy.Pis.Common.1.16.0730.06.nupkg = .nuget\packages\Xy.Pis.Common.1.16.0730.06.nupkg
-		.nuget\packages\Xy.Pis.Common.1.16.0730.06.symbols.nupkg = .nuget\packages\Xy.Pis.Common.1.16.0730.06.symbols.nupkg
-		.nuget\packages\Xy.Pis.Contract.1.16.0730.06.nupkg = .nuget\packages\Xy.Pis.Contract.1.16.0730.06.nupkg
-		.nuget\packages\Xy.Pis.Contract.1.16.0730.06.symbols.nupkg = .nuget\packages\Xy.Pis.Contract.1.16.0730.06.symbols.nupkg
-		.nuget\packages\Xy.Pis.Domain.1.16.0730.06.nupkg = .nuget\packages\Xy.Pis.Domain.1.16.0730.06.nupkg
-		.nuget\packages\Xy.Pis.Domain.1.16.0730.06.symbols.nupkg = .nuget\packages\Xy.Pis.Domain.1.16.0730.06.symbols.nupkg
-		.nuget\packages\Xy.Pis.Repository.1.16.0730.06.nupkg = .nuget\packages\Xy.Pis.Repository.1.16.0730.06.nupkg
-		.nuget\packages\Xy.Pis.Repository.1.16.0730.06.symbols.nupkg = .nuget\packages\Xy.Pis.Repository.1.16.0730.06.symbols.nupkg
-		.nuget\packages\Xy.Pis.Service.1.16.0730.06.nupkg = .nuget\packages\Xy.Pis.Service.1.16.0730.06.nupkg
-		.nuget\packages\Xy.Pis.Service.1.16.0730.06.symbols.nupkg = .nuget\packages\Xy.Pis.Service.1.16.0730.06.symbols.nupkg
-	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xy.Pis.Domain", "Xy.Pis.Domain\Xy.Pis.Domain.csproj", "{DFAEAAAB-F35F-4D06-96F2-D3F896EED2FE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xy.Pis.Service", "Xy.Pis.Service\Xy.Pis.Service.csproj", "{CDCA187A-9833-4548-A056-EBBD187C09EC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -103,10 +89,10 @@ Global
 		{DF186572-37B9-45F9-BB9A-0FEA5151B322}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF186572-37B9-45F9-BB9A-0FEA5151B322}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF186572-37B9-45F9-BB9A-0FEA5151B322}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DFAEAAAB-F35F-4D06-96F2-D3F896EED2FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DFAEAAAB-F35F-4D06-96F2-D3F896EED2FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DFAEAAAB-F35F-4D06-96F2-D3F896EED2FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DFAEAAAB-F35F-4D06-96F2-D3F896EED2FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDCA187A-9833-4548-A056-EBBD187C09EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDCA187A-9833-4548-A056-EBBD187C09EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDCA187A-9833-4548-A056-EBBD187C09EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDCA187A-9833-4548-A056-EBBD187C09EC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -120,7 +106,7 @@ Global
 		{49A6FDB7-71E1-4E90-924D-1558F27E149C} = {1D9AC42F-D531-416F-AA0B-D78D14F45EDE}
 		{DF186572-37B9-45F9-BB9A-0FEA5151B322} = {EA25129C-81E9-41B3-80CA-9F983C233374}
 		{1D6BA8AF-236B-450D-92D5-89EB17F06C2E} = {F1D915FA-CFDB-4764-A73E-ADC42BC8C1AB}
-		{DFAEAAAB-F35F-4D06-96F2-D3F896EED2FE} = {1D9AC42F-D531-416F-AA0B-D78D14F45EDE}
+		{CDCA187A-9833-4548-A056-EBBD187C09EC} = {1D9AC42F-D531-416F-AA0B-D78D14F45EDE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35;packages\Unity.2.1.505.0\lib\NET35

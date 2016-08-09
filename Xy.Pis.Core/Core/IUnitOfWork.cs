@@ -26,11 +26,8 @@ namespace Xy.Pis.Core
         IQueryable<TEntity> Get<TEntity>() 
             where TEntity : class, new();
         
-        IQueryable<TEntity> Get<TEntity>
-            ( Expression<Func<TEntity, bool>> filter = null
-            , Func<IQueryable<TEntity>
-            , IOrderedQueryable<TEntity>> orderBy = null
-            ) where TEntity : class, new();
+        IQueryable<TEntity> Get<TEntity>(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null)
+            where TEntity : class, new();
                
         void DeleteById<TEntity>(params object[] ids) 
             where TEntity : class, new();
@@ -38,55 +35,32 @@ namespace Xy.Pis.Core
         void Delete<TEntity>(TEntity entity)
             where TEntity : class, new();
               
-        IQueryable<TResult> Join<TEntityOuter, TEntityInner, TResult>
-            ( Func<TEntityOuter, object> outerKeySelector
-            , Func<TEntityInner, object> innerKeySelector
-            , Func<TEntityOuter, TEntityInner, TResult> resultSelector
-            ) where TEntityInner : class, new()
-            where TEntityOuter : class, new()
-            ;
+        IQueryable<TResult> Join<TEntityOuter, TEntityInner, TResult>(Func<TEntityOuter, object> outerKeySelector, Func<TEntityInner, object> innerKeySelector, Func<TEntityOuter, TEntityInner, TResult> resultSelector) 
+            where TEntityInner : class, new()
+            where TEntityOuter : class, new();
       
-        IQueryable<TResult> Join<TEntityOuter, TEntityInner, TResult>
-            ( Func<TEntityOuter, object> outerKeySelector
-            , Func<TEntityInner, object> innerKeySelector
-            , Func<TEntityOuter, TEntityInner, TResult> resultSelector
-            , IEqualityComparer<object> comparer
-            ) where TEntityInner : class, new()
-            where TEntityOuter : class, new()
-            ;
+        IQueryable<TResult> Join<TEntityOuter, TEntityInner, TResult>(Func<TEntityOuter, object> outerKeySelector, Func<TEntityInner, object> innerKeySelector, Func<TEntityOuter, TEntityInner, TResult> resultSelector, IEqualityComparer<object> comparer) 
+            where TEntityInner : class, new()
+            where TEntityOuter : class, new();
     
-        IQueryable<TResult> LeftJoin<TEntityOuter, TEntityInner, TResult>
-            ( Func<TEntityOuter, object> outerKeySelector
-            , Func<TEntityInner, object> innerKeySelector
-            , Func<TEntityOuter, TEntityInner, TResult> resultSelector
-            ) where TEntityInner : class, new()
-            where TEntityOuter : class, new()
-            ;
+        IQueryable<TResult> LeftJoin<TEntityOuter, TEntityInner, TResult>(Func<TEntityOuter, object> outerKeySelector, Func<TEntityInner, object> innerKeySelector, Func<TEntityOuter, TEntityInner, TResult> resultSelector) 
+            where TEntityInner : class, new()
+            where TEntityOuter : class, new();
         
-        IQueryable<TResult> LeftJoin<TEntityOuter, TEntityInner, TResult>
-            ( Func<TEntityOuter, object> outerKeySelector
-            , Func<TEntityInner, object> innerKeySelector
-            , Func<TEntityOuter, TEntityInner, TResult> resultSelector
-            , IEqualityComparer<object> comparer
-            ) where TEntityInner : class, new()
-            where TEntityOuter : class, new()
-            ;
+        IQueryable<TResult> LeftJoin<TEntityOuter, TEntityInner, TResult>(Func<TEntityOuter, object> outerKeySelector, Func<TEntityInner, object> innerKeySelector, Func<TEntityOuter, TEntityInner, TResult> resultSelector, IEqualityComparer<object> comparer) 
+            where TEntityInner : class, new()
+            where TEntityOuter : class, new();
         
      
         void Query(Action query);
 
         void SaveChanges(bool withDisposing = false);
 
-        int Update<TEntity>
-            ( Expression<Func<TEntity, bool>> filterExpression
-            , Expression<Func<TEntity, TEntity>> updateExpression
-            ) where TEntity : class, new()
-            ;
+        int Update<TEntity>(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, TEntity>> updateExpression) 
+            where TEntity : class, new();
 
-        int Delete<TEntity>
-            ( Expression<Func<TEntity, bool>> queryExpression
-            ) where TEntity : class, new()
-            ;
+        int Delete<TEntity>(Expression<Func<TEntity, bool>> queryExpression) 
+            where TEntity : class, new();
 
         void AddBatch<TEntity>(IEnumerable<TEntity> entities)
             where TEntity : class, new();
