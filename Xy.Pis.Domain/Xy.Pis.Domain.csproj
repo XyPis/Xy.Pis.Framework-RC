@@ -51,10 +51,6 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Xy.Pis.Contract, Version=3.0.0.20, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Xy.Pis.Contract.3.0.0.20\lib\net40\Xy.Pis.Contract.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SharedAssemblyInfo.cs">
@@ -95,6 +91,12 @@
     <None Include="App.config" />
     <None Include="packages.config" />
     <None Include="Xy.Pis.Domain.nuspec" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Xy.Pis.Contract\Xy.Pis.Contract.csproj">
+      <Project>{445a7abd-9bfd-4bb0-a92a-e790b9aa7f09}</Project>
+      <Name>Xy.Pis.Contract</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

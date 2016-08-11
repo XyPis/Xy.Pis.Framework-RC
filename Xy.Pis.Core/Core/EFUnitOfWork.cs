@@ -16,8 +16,7 @@ namespace Xy.Pis.Core
     {
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        private IDictionary<Type, object> repositories = new Dictionary<Type, object>();
-        //private DbContext efContext;
+        private IDictionary<Type, object> repositories = new Dictionary<Type, object>();        
 
         private bool disposed = false;
         private bool bulkOperation = false;

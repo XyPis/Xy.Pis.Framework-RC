@@ -6,7 +6,7 @@ using System.Data.Entity;
 using System.Reflection;
 using System.Transactions;
 using System.Linq.Expressions;
-using EntityFramework.Extensions;
+using System.Data.Objects.SqlClient;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using log4net;
@@ -55,7 +55,7 @@ namespace Xy.Pis.Service.Logistics
                 return command.Execute(uow =>
                 {
                     return uow.Get<AdditionalMeal>()
-                        .Where(x => DbFunctions.DiffDays(x.OrderDate, orderDate) == 0)
+                        .Where(x => SqlFunctions.DateDiff("day", x.OrderDate, orderDate) == 0)
                         .ProjectTo<AdditionalMealDTO>();
                 });
             }

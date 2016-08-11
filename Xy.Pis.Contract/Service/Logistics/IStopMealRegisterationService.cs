@@ -10,5 +10,6 @@ namespace Xy.Pis.Contract.Service.Logistics
     [ServiceContract]
     public interface IStopMealRegisterationService : IUoWService<StopMealRegisterationDTO>
     {
+        IEnumerable<StopMealRegisterationDTO> QueryByLocationAndDateRange(DateTime startDate, DateTime endDate, int locationId = 0);
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace Xy.Pis.Common.Json
+namespace Xy.Pis.Utils.Json
 {
     public class JsonUtils
     {

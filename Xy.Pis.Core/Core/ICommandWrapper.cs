@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Xy.Pis.Core
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public interface ICommandWrapper : IDisposable
     {
         IUnitOfWork UnitOfWork { get; }

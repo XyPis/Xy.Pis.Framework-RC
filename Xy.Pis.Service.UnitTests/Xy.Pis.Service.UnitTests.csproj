@@ -38,28 +38,36 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper">
+    <Reference Include="AutoMapper, Version=4.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\AutoMapper.4.1.1\lib\net40\AutoMapper.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework">
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework.Extended">
+    <Reference Include="EntityFramework.Extended, Version=6.0.0.0, Culture=neutral, PublicKeyToken=05b7e29bdd433584, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.Extended.6.1.0.168\lib\net40\EntityFramework.Extended.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework.SqlServer">
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="log4net">
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.ServiceLocation">
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.Unity">
+    <Reference Include="Microsoft.Practices.Unity, Version=2.1.505.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Unity.2.1.505.2\lib\NET35\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.Unity.Configuration">
+    <Reference Include="Microsoft.Practices.Unity.Configuration, Version=2.1.505.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Unity.2.1.505.2\lib\NET35\Microsoft.Practices.Unity.Configuration.dll</HintPath>
     </Reference>
     <Reference Include="Model">
@@ -82,19 +90,32 @@
       <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\net40\System.Threading.Tasks.dll</HintPath>
     </Reference>
     <Reference Include="System.Transactions" />
-    <Reference Include="Xy.Pis.Common, Version=3.0.0.20, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Xy.Pis.Contract, Version=3.0.0.22, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Xy.Pis.Common.3.0.0.20\lib\net40\Xy.Pis.Common.dll</HintPath>
+      <HintPath>..\packages\Xy.Pis.Contract.3.0.0.22\lib\net40\Xy.Pis.Contract.dll</HintPath>
     </Reference>
-    <Reference Include="Xy.Pis.Contract, Version=3.0.0.20, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Xy.Pis.Core, Version=3.0.0.22, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Xy.Pis.Contract.3.0.0.20\lib\net40\Xy.Pis.Contract.dll</HintPath>
+      <HintPath>..\packages\Xy.Pis.Core.3.0.0.22\lib\net40\Xy.Pis.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Xy.Pis.Core, Version=3.0.0.20, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Xy.Pis.Domain, Version=3.0.0.22, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Xy.Pis.Core.3.0.0.20\lib\net40\Xy.Pis.Core.dll</HintPath>
+      <HintPath>..\packages\Xy.Pis.Domain.3.0.0.22\lib\net40\Xy.Pis.Domain.dll</HintPath>
     </Reference>
-    <Reference Include="Z.EntityFramework.Extensions">
+    <Reference Include="Xy.Pis.Proxy, Version=3.0.0.22, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Xy.Pis.Proxy.3.0.0.22\lib\net40\Xy.Pis.Proxy.dll</HintPath>
+    </Reference>
+    <Reference Include="Xy.Pis.Service, Version=3.0.0.22, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Xy.Pis.Service.3.0.0.22\lib\net40\Xy.Pis.Service.dll</HintPath>
+    </Reference>
+    <Reference Include="Xy.Pis.Utils, Version=3.0.0.22, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Xy.Pis.Utils.3.0.0.22\lib\net40\Xy.Pis.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="Z.EntityFramework.Extensions, Version=3.9.38.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Z.EntityFramework.Extensions.3.9.38\lib\net40\Z.EntityFramework.Extensions.dll</HintPath>
     </Reference>
   </ItemGroup>
@@ -140,16 +161,6 @@
     </None>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Xy.Pis.Proxy\Xy.Pis.Proxy.csproj">
-      <Project>{df186572-37b9-45f9-bb9a-0fea5151b322}</Project>
-      <Name>Xy.Pis.Proxy</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Xy.Pis.Service\Xy.Pis.Service.csproj">
-      <Project>{cdca187a-9833-4548-a056-ebbd187c09ec}</Project>
-      <Name>Xy.Pis.Service</Name>
-    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

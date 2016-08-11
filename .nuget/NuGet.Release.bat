@@ -1,4 +1,4 @@
-NuGet pack ..\Xy.Pis.Common\Xy.Pis.Common.csproj -o .\packages -Build -Properties Configuration=Release
+NuGet pack ..\Xy.Pis.Utils\Xy.Pis.Utils.csproj -o .\packages -Build -Properties Configuration=Release
 NuGet pack ..\Xy.Pis.Contract\Xy.Pis.Contract.csproj -o .\packages -Build -Properties Configuration=Release
 NuGet pack ..\Xy.Pis.Core\Xy.Pis.Core.csproj -o .\packages -Build -Properties Configuration=Release
 NuGet pack ..\Xy.Pis.Data\Xy.Pis.Data.csproj -o .\packages -Build -Properties Configuration=Release

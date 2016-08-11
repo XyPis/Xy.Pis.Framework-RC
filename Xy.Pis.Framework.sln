@@ -21,9 +21,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		SharedAssemblyInfo.cs = SharedAssemblyInfo.cs
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xy.Pis.Common", "Xy.Pis.Common\Xy.Pis.Common.csproj", "{DA366FBA-8E90-42FA-9FC5-F18EC0006D98}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xy.Pis.Utils", "Xy.Pis.Utils\Xy.Pis.Utils.csproj", "{DA366FBA-8E90-42FA-9FC5-F18EC0006D98}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 Common", "01 Common", "{64A1E9F1-9338-4117-8C3E-4FDF7C7AE027}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 Utils", "01 Utils", "{64A1E9F1-9338-4117-8C3E-4FDF7C7AE027}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xy.Pis.Core", "Xy.Pis.Core\Xy.Pis.Core.csproj", "{50BB2236-02DC-40FF-B0F0-AB37D093279D}"
 EndProject

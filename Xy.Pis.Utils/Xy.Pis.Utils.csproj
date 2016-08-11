@@ -7,8 +7,8 @@
     <ProjectGuid>{DA366FBA-8E90-42FA-9FC5-F18EC0006D98}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Xy.Pis.Common</RootNamespace>
-    <AssemblyName>Xy.Pis.Common</AssemblyName>
+    <RootNamespace>Xy.Pis.Utils</RootNamespace>
+    <AssemblyName>Xy.Pis.Utils</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -90,7 +90,7 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Xy.Pis.Common.nuspec" />
+    <None Include="Xy.Pis.Utils.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

@@ -7,6 +7,7 @@ using System.ServiceModel;
 using System.Diagnostics;
 using log4net;
 using Xy.Pis.Contract.Service;
+using Xy.Pis.Utils.Unity;
 
 namespace Xy.Pis.Proxy
 {
@@ -95,7 +96,7 @@ namespace Xy.Pis.Proxy
         private static T GetLocalService<T>() 
             where T : IServiceBase
         {
-            return Common.Unity.IoC.Resolve<T>();
+            return IoC.Resolve<T>();
         }
 
         private static T GetRemoteService<T>()

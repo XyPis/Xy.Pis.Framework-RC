@@ -23,5 +23,22 @@ namespace Xy.Pis.Service.Logistics
                 .ForMember(dest => dest.StopMealCount, opt => opt.MapFrom(src => src.CancelQty))
                 ;
         }
+
+        public virtual IEnumerable<StopMealRegisterationDTO> QueryByLocationAndDateRange(DateTime startDate, DateTime endDate, int locationId = 0)
+        {
+            using (var command = CommandWrapper)
+            {
+                return command.Execute(uow => 
+                {
+                    var query = uow.Get<InStopMealRegister>();
+                    if (locationId > 0)
+                        query = query.Where(x => x.LocationID == locationId);
+                    
+                    query = query.Where(x => x.OperTime >= startDate && x.OperTime <= endDate);
+
+                    return query.MapTo<StopMealRegisterationDTO>();
+                });
+            }
+        }
     }
 }

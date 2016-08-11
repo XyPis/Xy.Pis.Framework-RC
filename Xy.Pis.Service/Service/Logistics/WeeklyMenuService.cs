@@ -7,6 +7,7 @@ using Microsoft.Practices.Unity;
 using System.Reflection;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
+using System.Data.Objects.SqlClient;
 using System.Data.Entity;
 using log4net;
 using Xy.Pis.Contract.Message.Logistics;
@@ -47,8 +48,8 @@ namespace Xy.Pis.Service.Logistics
                 command.Execute(uow => 
                 {
                     var query = uow.Get<LmWeekFood>();
-                    var weeklyMenu = query.Where(x => DbFunctions.DiffDays(x.StartDate, weeklyMenuDto.StartDate) == 0
-                        && DbFunctions.DiffDays(x.EndDate, weeklyMenuDto.EndDate) == 0)
+                    var weeklyMenu = query.Where(x => SqlFunctions.DateDiff("day", x.StartDate, weeklyMenuDto.StartDate) == 0
+                        && SqlFunctions.DateDiff("day", x.EndDate, weeklyMenuDto.EndDate) == 0)
                         .AsNoTracking()
                         .FirstOrDefault();
 

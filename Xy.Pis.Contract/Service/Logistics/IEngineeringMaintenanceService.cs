@@ -10,6 +10,7 @@ namespace Xy.Pis.Contract.Service.Logistics
     [ServiceContract]
     public interface IEngineeringMaintenanceService : IUoWService<EngineeringMaintenanceDTO>
     {
-
+        [OperationContract]
+        IEnumerable<EngineeringMaintenanceDTO> FullTextSearch(string text);
     }
 }

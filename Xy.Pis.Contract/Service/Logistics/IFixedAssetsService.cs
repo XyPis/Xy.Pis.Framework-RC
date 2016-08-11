@@ -10,5 +10,7 @@ namespace Xy.Pis.Contract.Service.Logistics
     [ServiceContract]
     public interface IFixedAssetsService : IUoWService<FixedAssetsDTO>
     {
+        [OperationContract]
+        IEnumerable<FixedAssetsDTO> FullTextSearchByCategory(string text, int category = 0);
     }
 }

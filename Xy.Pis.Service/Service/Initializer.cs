@@ -7,8 +7,8 @@ using Microsoft.Practices.Unity;
 using log4net;
 using Xy.Pis.Contract.Service.Logistics;
 using Xy.Pis.Core;
-using Xy.Pis.Common.Unity;
-using Xy.Pis.Common.AutoMapper;
+using Xy.Pis.Utils.Unity;
+using Xy.Pis.Utils.AutoMapper;
 
 namespace Xy.Pis.Service
 {

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
 
-namespace Xy.Pis.Common.Unity
+namespace Xy.Pis.Utils.Unity
 {
     internal sealed class UnityContext
     {

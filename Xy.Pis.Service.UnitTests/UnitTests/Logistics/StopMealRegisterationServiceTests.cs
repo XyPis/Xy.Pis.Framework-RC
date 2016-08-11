@@ -10,7 +10,6 @@ using System.Linq.Expressions;
 using Xy.Pis.Contract.Message.Logistics;
 using Xy.Pis.Contract.Service.Logistics;
 using Xy.Pis.Proxy;
-using EntityFramework.Extensions;
 using Xy.Pis;
 
 namespace Xy.Pis.Service.UnitTests.Logistics
@@ -158,7 +157,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
             Expression<Func<StopMealRegisterationDTO, bool>> expression = (x => (x.LocationID == 1517 && x.AuditID == 999999 && x.AuditTime.Value > date));
             getResponse = ServiceWrapper.Invoke<IStopMealRegisterationService, IEnumerable<StopMealRegisterationDTO>>(x => x.Get(expression));
             Assert.IsTrue(getResponse.Status == ResponseStatus.OK);           
-        }
+        }       
 
         [TestMethod]
         public void Test_DeleteByLambdaWithKey()

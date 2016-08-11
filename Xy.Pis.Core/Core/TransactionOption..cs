@@ -5,10 +5,24 @@ using System.Text;
 
 namespace Xy.Pis.Core
 {
+    /// <summary>
+    /// 事务选项
+    /// </summary>
     public enum TransactionOption
     {
-        Default = 0, //默认,不开启新的事物
-        Database = 1, //数据库级别的事务
-        Distributed = 2, //分布式事务
+        /// <summary>
+        /// 默认,由DBContext支持事务
+        /// </summary>
+        Default = 0,
+
+        /// <summary>
+        /// 数据库连接级别事务
+        /// </summary>
+        Database = 1, 
+
+        /// <summary>
+        /// 支持分布式事务
+        /// </summary>
+        Distributed = 2,
     }
 }

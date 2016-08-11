@@ -150,5 +150,13 @@ namespace Xy.Pis.Service.UnitTests.Logistics
             Assert.AreEqual(addDTOs.Count, updateResponse.Result.Item1);
             Assert.AreEqual(updateDTOs.Count, updateResponse.Result.Item2);
         }        
+
+         [TestMethod]
+        public void Test_GetByLambdaExpression()
+        {
+            var getResponse = ServiceWrapper.Invoke<IEngineeringMaintenanceService, IEnumerable<EngineeringMaintenanceDTO>>(x => x.Get(y => y.Name.Contains("柜子") || y.Memo.Contains("柜子") || y.Position.Contains("万寿楼")));
+            Assert.IsTrue(getResponse.Status == ResponseStatus.OK);
+            Assert.IsTrue(getResponse.Result.Count() > 0);
+        }
     }
 }

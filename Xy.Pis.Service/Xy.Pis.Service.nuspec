@@ -8,14 +8,17 @@
     <owners>$author$</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes></releaseNotes>
+    <releaseNotes />
     <copyright>Copyright 2016</copyright>
-    <tags>Classes that provides service support</tags>
+    <tags />
+    <dependencies>
+      <dependency id="Xy.Pis.Contract" version="$version$" />
+      <dependency id="Xy.Pis.Core" version="$version$" />
+      <dependency id="Xy.Pis.Domain" version="$version$" />
+      <dependency id="Xy.Pis.Utils" version="$version$" />
+    </dependencies>
   </metadata>
   <files>
-    <file src="..\release\Xy.Pis.Service.pdb" target="lib\net40" />
-    <!--
-    <file src="..\release\Xy.Pis.Data.XML" target="lib\net40" />
-    -->
+    <file src="..\release\Xy.Pis.Service.pdb" target="lib\net40" />   
   </files>
 </package>

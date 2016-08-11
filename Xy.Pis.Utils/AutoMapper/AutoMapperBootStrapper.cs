@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Reflection;
 using AutoMapper;
 
-namespace Xy.Pis.Common.AutoMapper
+namespace Xy.Pis.Utils.AutoMapper
 {
     public sealed class AutoMapperBootStrapper
     {

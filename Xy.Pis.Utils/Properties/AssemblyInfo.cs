@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Xy.Pis.Common")]
+[assembly: AssemblyTitle("Xy.Pis.Utils")]
 [assembly: AssemblyDescription("Common functionality for PIS")]
 
 [assembly: ComVisible(false)]

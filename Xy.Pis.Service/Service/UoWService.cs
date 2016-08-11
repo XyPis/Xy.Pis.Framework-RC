@@ -5,15 +5,15 @@ using System.Text;
 using Microsoft.Practices.Unity;
 using System.Reflection;
 using System.Linq.Expressions;
-using AutoMapper;
 using log4net;
 using System.Transactions;
+using AutoMapper.QueryableExtensions;
+using System.Data.Entity;
+using AutoMapper;
 using Xy.Pis.Domain;
 using Xy.Pis.Core;
 using Xy.Pis.Contract.Service;
-using AutoMapper.QueryableExtensions;
-using System.Data.Entity;
-using EntityFramework.Extensions;
+using Xy.Pis.Utils.Unity;
 
 namespace Xy.Pis.Service
 {
@@ -26,7 +26,7 @@ namespace Xy.Pis.Service
         [Dependency]
         public virtual ICommandWrapper CommandWrapper
         {
-            get { return Common.Unity.IoC.Resolve<ICommandWrapper>(); }
+            get { return IoC.Resolve<ICommandWrapper>(); }
         }
 
         protected override void Configure()

@@ -6,7 +6,7 @@ using System.Reflection;
 using Microsoft.Practices.Unity;
 using log4net;
 
-namespace Xy.Pis.Common.Unity
+namespace Xy.Pis.Utils.Unity
 {
     public class IoC
     {

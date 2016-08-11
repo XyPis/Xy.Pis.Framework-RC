@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Reflection;
 using Microsoft.Practices.Unity;
 
-namespace Xy.Pis.Common.Unity
+namespace Xy.Pis.Utils.Unity
 {
     public static class UnityContainerExtensions
     {
