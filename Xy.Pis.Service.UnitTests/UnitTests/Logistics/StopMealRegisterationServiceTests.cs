@@ -183,6 +183,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
             Expression<Func<StopMealRegisterationDTO, bool>> predicate = x => (x.LocationID != 1517);
 
             var updateResponse = ServiceWrapper.Invoke<IStopMealRegisterationService, int>(x => x.Update(predicate, u => new StopMealRegisterationDTO() { OrderQty = 5, CancelQty = 2, IsAudit = true }));
+            
             Assert.IsTrue(updateResponse.Status == ResponseStatus.OK);
         }
     }

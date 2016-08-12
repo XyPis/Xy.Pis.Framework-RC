@@ -74,19 +74,14 @@ namespace Xy.Pis.Service.Logistics
             var additionMealID = dto.ID;
 
             using (var command = CommandWrapper)
-            using (var tx = new TransactionScope())
             {
-                int rows = command.Execute(uow =>
+                return command.Execute(uow =>
                 {                  
                     //Remove details first
                     uow.Delete<AdditionalMealDetails>(x => x.AdditionalMealId == additionMealID);
                    
                     return uow.Delete<AdditionalMeal>(x => x.Id == additionMealID);                                        
                 });
-
-                tx.Complete();
-                tx.Dispose();
-                return rows;
             }
         }
 
@@ -102,9 +97,7 @@ namespace Xy.Pis.Service.Logistics
                 {
                     uow.UpdateBatch<AdditionalMealDetails>(entity.Details);
 
-                    uow.Update<AdditionalMeal>(entity);
-
-                    return Constants.SINGLE_ROW;
+                    return uow.Update<AdditionalMeal>(x => x.Id == entity.Id, y => entity);
                 });
             }
         }
@@ -124,17 +117,12 @@ namespace Xy.Pis.Service.Logistics
             var additionalMealIDs = dtos.Select(x => x.ID);
 
             using (var command = CommandWrapper)
-            using (var tx = new TransactionScope())
-            {                
-                int rows = command.Execute(uow =>
+            {
+                return command.Execute(uow =>
                 {
                     uow.Delete<AdditionalMealDetails>(x => additionalMealIDs.Contains(x.AdditionalMealId));
                     return uow.Delete<AdditionalMeal>(x => additionalMealIDs.Contains(x.Id));
                 });
-
-                tx.Complete();
-                tx.Dispose(); 
-                return rows;
             }            
         }
 
@@ -148,12 +136,10 @@ namespace Xy.Pis.Service.Logistics
 
             var additionalMeals = dtos.MapTo<AdditionalMeal>();
             var additionalMealDetails = new List<AdditionalMealDetails>();
-
+            
             additionalMeals.ToList().ForEach(entity =>                 
             {
                 additionalMealDetails.AddRange(entity.Details);
-                //entity.Details.ToList().ForEach(x => x.Food = null);
-                //entity.Details.Clear();
             });
 
             using (var command = CommandWrapper)
@@ -220,17 +206,14 @@ namespace Xy.Pis.Service.Logistics
                 additionalMealDetails.AddRange(entity.Details);             
             });
 
-            using (var command = CommandWrapper)
-            using (var tx = new TransactionScope())
+            using (var command = CommandWrapper)            
             {                
                 command.Execute(uow =>
                 {
                     uow.BulkUpdate<AdditionalMealDetails>(additionalMealDetails);
 
                     uow.BulkUpdate<AdditionalMeal>(additionalMeals);
-                });
-                tx.Complete();
-                tx.Dispose();
+                });              
             }        
         }
 
@@ -242,8 +225,7 @@ namespace Xy.Pis.Service.Logistics
 
             List<AdditionalMealDetails> additionalMealDetails = new List<AdditionalMealDetails>();            
 
-            using (var command = CommandWrapper)
-            using (var tx = new TransactionScope())
+            using (var command = CommandWrapper)            
             {
                 command.Execute(uow =>
                 {
@@ -255,8 +237,6 @@ namespace Xy.Pis.Service.Logistics
                     uow.BulkDelete<AdditionalMealDetails>(additionalMealDetails);
                     uow.BulkDelete<AdditionalMeal>(additionalMeals);
                 });
-                tx.Complete();
-                tx.Dispose();
             }
         }
         #endregion Bulk Operations               

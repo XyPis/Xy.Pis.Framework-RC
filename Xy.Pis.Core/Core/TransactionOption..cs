@@ -13,16 +13,16 @@ namespace Xy.Pis.Core
         /// <summary>
         /// 默认,由DBContext支持事务
         /// </summary>
-        Default = 0,
+        CTX = 0,
 
         /// <summary>
         /// 数据库连接级别事务
         /// </summary>
-        Database = 1, 
+        DB = 1,
 
         /// <summary>
         /// 支持分布式事务
         /// </summary>
-        Distributed = 2,
+        DTC = 2,
     }
 }

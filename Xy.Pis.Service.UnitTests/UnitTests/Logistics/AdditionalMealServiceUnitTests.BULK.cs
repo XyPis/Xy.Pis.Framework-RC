@@ -28,14 +28,14 @@ namespace Xy.Pis.Service.UnitTests.Logistics
                 dtoList.Add(PrepareData(hospId, locationId, orderDate, unitPrice));
             }
 
-            var response = additionalMealService.Invoke(x => x.BulkInsert(dtoList));
+            var response = ServiceWrapper.Invoke<IAdditionalMealService>(x => x.BulkInsert(dtoList));
             Assert.IsTrue(response.Status == ResponseStatus.OK);
         }
 
         [TestMethod]
         public void Test_BulkUpdate()
         {
-            var getResponse = additionalMealService.Invoke(x => x.GetAll());
+            var getResponse = ServiceWrapper.Invoke<IAdditionalMealService>.Invoke(x => x.GetAll());
             Assert.IsTrue(getResponse.Status == ResponseStatus.OK);
             int orderLineNo = 0;
 

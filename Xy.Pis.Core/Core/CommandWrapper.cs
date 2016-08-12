@@ -22,184 +22,162 @@ namespace Xy.Pis.Core
             set;
         }
 
-        public void Execute(Action<IUnitOfWork> work, TransactionOption option = TransactionOption.Default)
+        public void Execute(Action<IUnitOfWork> work, TransactionOption option = TransactionOption.CTX)
         {
             if (work == null)
                 throw new ArgumentNullException("work");
 
-            if (option == TransactionOption.Default)
-                DoAction(work);
-            else if (option == TransactionOption.Database)
-                DoActionWithDatabaseTx(work);
-            else if (option == TransactionOption.Distributed)
-                DoActionWithDistributedTx(work);
-            else
-                throw new ArgumentOutOfRangeException("option");
-        }
-
-        public TResult Execute<TResult>(Func<IUnitOfWork, TResult> work, TransactionOption option = TransactionOption.Default)
-        {
-            if (option == TransactionOption.Default)
-                return DoFunction(work);
-            else if (option == TransactionOption.Database)
-                return DoFunctionWithDatabaseTx(work);
-            else if (option == TransactionOption.Distributed)
-                return DoFunctionWithDistributedTx(work);
-            else
-                throw new ArgumentOutOfRangeException("option");
-        }
-
-        private void DoAction(Action<IUnitOfWork> work)
-        {
             using (var uow = UnitOfWork)
+            {
+                switch (option)
+                {
+                    case TransactionOption.CTX:
+                        DoActionWithCTX(work, uow);
+                        break;
+
+                    case TransactionOption.DB:
+                        DoActionWithDB(work, uow);
+                        break;
+
+                    case TransactionOption.DTC:
+                        DoActionWithDTC(work, uow);
+                        break;
+
+                    default:
+                        DoActionWithCTX(work, uow);
+                        break;
+                }
+            }           
+        }
+
+        public TResult Execute<TResult>(Func<IUnitOfWork, TResult> work, TransactionOption option = TransactionOption.CTX)
+        {
+            if (work == null)
+                throw new ArgumentNullException("work");
+
+            using (var uow = UnitOfWork)
+            {
+                switch (option)
+                {
+                    case TransactionOption.CTX:
+                        return DoFunctionWithCTX(work, uow).Item2;
+
+                    case TransactionOption.DB:
+                        return DoFunctionWithDB(work, uow);
+
+                    case TransactionOption.DTC:
+                        return DoFunctionWithDTC(work, uow);
+
+                    default:
+                        return DoFunctionWithCTX(work, uow).Item2;
+                }          
+            }          
+        }
+
+        private bool DoActionWithCTX(Action<IUnitOfWork> work, IUnitOfWork uow)
+        {
+            bool flag = false;
+            try             
             {
                 work(uow);
                 uow.SaveChanges();
+                flag = true;
             }
-        }
-
-        private void DoActionWithDatabaseTx(Action<IUnitOfWork> work)
-        {
-            using (var uow = UnitOfWork)
+            catch(Exception ex)
             {
-                var db = uow.EFContext.Database;
-                using (var tx = db.BeginTransaction())
+                if (ex != null)
                 {
-                    try
-                    {
-                        work(uow);
-                        uow.SaveChanges();
-                        tx.Commit();
-                    }
-                    catch (Exception ex)
-                    {
-                        tx.Rollback();
-                        if (ex != null)
-                        {
-                            Log.ErrorFormat("Exception: {0} \n{1}", ex.Message, ex.StackTrace);
-                            if (ex.InnerException != null)
-                                Log.ErrorFormat("InnerException: {0} \n{1}", ex.InnerException.Message, ex.InnerException.StackTrace);
-                        }
-
-                        throw;
-                    }
+                    Log.ErrorFormat("Exception: {0} \n{1}", ex.Message, ex.StackTrace);
+                    if (ex.InnerException != null)
+                        Log.ErrorFormat("InnerException: {0} \n{1}", ex.InnerException.Message, ex.InnerException.StackTrace);
                 }
+
+                throw;
             }
+            finally
+            {
+                uow.Dispose();
+            }
+
+            return flag;
         }
 
-        private void DoActionWithDistributedTx(Action<IUnitOfWork> work)
+        private void DoActionWithDB(Action<IUnitOfWork> work, IUnitOfWork uow)
         {
-            using (var uow = UnitOfWork)
-            {                
-                using (var tx = new TransactionScope())
-                {
-                    try
-                    {
-                        work(uow);
-                        uow.SaveChanges();
-                        tx.Complete();
-                    }
-                    catch (Exception ex)
-                    {                        
-                        if (ex != null)
-                        {
-                            Log.ErrorFormat("Exception: {0} \n{1}", ex.Message, ex.StackTrace);
-                            if (ex.InnerException != null)
-                                Log.ErrorFormat("InnerException: {0} \n{1}", ex.InnerException.Message, ex.InnerException.StackTrace);
-                        }
+            var db = uow.EFContext.Database;
+            using (var tx = db.BeginTransaction())
+            {
+                bool flag = DoActionWithCTX(work, uow);
+                if (flag) tx.Commit();
+                else tx.Rollback();                  
+            }            
+        }
 
-                        throw;
-                    }
-                }
-            }
-        }        
-
-        private TResult DoFunction<TResult>(Func<IUnitOfWork, TResult> work)
+        private void DoActionWithDTC(Action<IUnitOfWork> work, IUnitOfWork uow)
         {
+            using (var tx = new TransactionScope())
+            {                    
+                bool flag = DoActionWithCTX(work, uow);                
+                if (flag)  tx.Complete();               
+            }            
+        }
+
+        private Tuple<bool, TResult> DoFunctionWithCTX<TResult>(Func<IUnitOfWork, TResult> work, IUnitOfWork uow)
+        {
+            bool flag = false;
+            
             TResult result = default(TResult);
 
-            using (var uow = UnitOfWork)
+            try
             {
                 result = work(uow);
                 uow.SaveChanges();
+                flag = true;
             }
-
-            return result;
-        }
-
-        private TResult DoFunctionWithDatabaseTx<TResult>(Func<IUnitOfWork, TResult> work)
-        {
-            TResult result = default(TResult);
-
-            using (var uow = UnitOfWork)
+            catch (Exception ex)
             {
-                var db = uow.EFContext.Database;
-                using (var tx = db.BeginTransaction())
+                if (ex != null)
                 {
-                    try
-                    {
-                        result = work(uow);
-                        uow.SaveChanges();
-                        tx.Commit();
-                    }
-                    catch (Exception ex)
-                    {
-                        tx.Rollback();
-                        if (ex != null)
-                        {
-                            Log.ErrorFormat("Exception: {0} \n{1}", ex.Message, ex.StackTrace);
-                            if (ex.InnerException != null)
-                                Log.ErrorFormat("InnerException: {0} \n{1}", ex.InnerException.Message, ex.InnerException.StackTrace);
-                        }
-
-                        throw;
-                    }
-                    finally
-                    {
-                        tx.Dispose();
-                        uow.Dispose();                        
-                    }
+                    Log.ErrorFormat("Exception: {0} \n{1}", ex.Message, ex.StackTrace);
+                    if (ex.InnerException != null)
+                        Log.ErrorFormat("InnerException: {0} \n{1}", ex.InnerException.Message, ex.InnerException.StackTrace);
                 }
+
+                throw;
             }
-
-            return result;
-        }
-
-        private TResult DoFunctionWithDistributedTx<TResult>(Func<IUnitOfWork, TResult> work)
-        {
-            TResult result = default(TResult);
-
-            using (var uow = UnitOfWork)
+            finally
             {
-                using (var tx = new TransactionScope())
-                {
-                    try
-                    {
-                        result = work(uow);
-                        uow.SaveChanges();
-                        tx.Complete();                        
-                    }
-                    catch (Exception ex)
-                    {
-                        if (ex != null)
-                        {
-                            Log.ErrorFormat("Exception: {0} \n{1}", ex.Message, ex.StackTrace);
-                            if (ex.InnerException != null)
-                                Log.ErrorFormat("InnerException: {0} \n{1}", ex.InnerException.Message, ex.InnerException.StackTrace);
-                        }
-
-                        throw;
-                    }
-                    finally
-                    {
-                        uow.Dispose();
-                        tx.Dispose();                        
-                    }
-                }
+                uow.Dispose();
             }
 
-            return result;
+            return new Tuple<bool, TResult>(flag, result);
         }
+
+        private TResult DoFunctionWithDB<TResult>(Func<IUnitOfWork, TResult> work, IUnitOfWork uow)
+        {   
+            var db = uow.EFContext.Database;
+            using (var tx = db.BeginTransaction())
+            {
+                var result = DoFunctionWithCTX(work, uow);
+                
+                if (result.Item1) tx.Commit();
+                else tx.Rollback();
+
+                return result.Item2;
+            }            
+        }
+
+        private TResult DoFunctionWithDTC<TResult>(Func<IUnitOfWork, TResult> work, IUnitOfWork uow)
+        { 
+            using (var tx = new TransactionScope())
+            {                         
+                var result = DoFunctionWithCTX(work, uow);                  
+                if (result.Item1) tx.Complete();
+
+                return result.Item2;
+            }
+        }
+
         public void Dispose()
         {
             Dispose(true);

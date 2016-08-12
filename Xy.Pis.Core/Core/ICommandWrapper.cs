@@ -12,8 +12,8 @@ namespace Xy.Pis.Core
     {
         IUnitOfWork UnitOfWork { get; }
 
-        void Execute(Action<IUnitOfWork> work, TransactionOption option = TransactionOption.Default);
+        void Execute(Action<IUnitOfWork> work, TransactionOption option = TransactionOption.CTX);
 
-        TResult Execute<TResult>(Func<IUnitOfWork, TResult> work, TransactionOption option = TransactionOption.Default);   
+        TResult Execute<TResult>(Func<IUnitOfWork, TResult> work, TransactionOption option = TransactionOption.CTX);   
     }
 }
