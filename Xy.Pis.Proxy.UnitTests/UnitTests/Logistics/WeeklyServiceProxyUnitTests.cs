@@ -16,7 +16,7 @@ namespace Xy.Pis.Proxy.UnitTests.Logistics
         private ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
        
         [TestMethod]
-        public void Test_GetLastSunday() 
+        public void Test_WeeklyMenuService_GetLastSunday() 
         {            
             ClientProxy proxy = new ClientProxy();
             var weeklyMenuService = proxy.GetContract<IWeeklyMenuService>();
@@ -25,7 +25,7 @@ namespace Xy.Pis.Proxy.UnitTests.Logistics
         }
 
         [TestMethod]
-        public void Test_GetWeeklyMenu()
+        public void Test_WeeklyMenuService_GetWeeklyMenu()
         {
             ClientProxy proxy = new ClientProxy();
             var weeklyMenuService = proxy.GetContract<IWeeklyMenuService>();

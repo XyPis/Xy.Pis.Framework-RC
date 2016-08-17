@@ -16,6 +16,6 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\release\Xy.Pis.Core.pdb" target="lib\net40" />   
+    <file src="..\release\$id$.pdb" target="lib\net40" />   
   </files>
 </package>

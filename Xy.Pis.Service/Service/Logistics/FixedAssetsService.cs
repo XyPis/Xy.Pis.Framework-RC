@@ -11,7 +11,7 @@ using Xy.Pis.Domain;
 
 namespace Xy.Pis.Service.Logistics
 {
-    public class FixedAssetsService : UoWService<LocationEquipment, FixedAssetsDTO>, IFixedAssetsService
+    public class FixedAssetsService : AbstractService<LocationEquipment, FixedAssetsDTO>, IFixedAssetsService
     {
         public virtual IEnumerable<FixedAssetsDTO> FullTextSearchByCategory(string text, int category = 0)
         {

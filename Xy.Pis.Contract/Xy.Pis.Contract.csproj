@@ -59,7 +59,7 @@
     <Compile Include="Message\Logistics\WeeklyMenuDTO.cs" />
     <Compile Include="DTOBase.cs" />
     <Compile Include="Service\IServiceBase.cs" />
-    <Compile Include="Service\IUoWService.cs" />
+    <Compile Include="Service\IService.cs" />
     <Compile Include="Service\Logistics\IAdditionalMealService.cs" />
     <Compile Include="EntityBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

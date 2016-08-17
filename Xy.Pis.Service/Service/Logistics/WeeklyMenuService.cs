@@ -17,7 +17,7 @@ using Xy.Pis.Domain;
 namespace Xy.Pis.Service.Logistics
 {
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]
-    public class WeeklyMenuService : UoWService<LmWeekFood, WeeklyMenuDTO>, IWeeklyMenuService
+    public class WeeklyMenuService : AbstractService<LmWeekFood, WeeklyMenuDTO>, IWeeklyMenuService
     {
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);       
 
@@ -60,7 +60,7 @@ namespace Xy.Pis.Service.Logistics
                     }
                     else
                     {
-                        uow.Insert<LmWeekFood>(weeklyMenu);
+                        uow.Add<LmWeekFood>(weeklyMenu);
                     }
                 });
             }        

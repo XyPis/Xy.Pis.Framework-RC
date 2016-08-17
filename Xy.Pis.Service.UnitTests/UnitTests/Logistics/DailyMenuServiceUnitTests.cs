@@ -18,7 +18,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);       
      
         [TestMethod]
-        public void Test_GetMenuByType_Return_Empty()
+        public void Test_DailyMenuService_GetMenuByType_ReturnEmpty()
         {
             int type = 999999;
             var getResponse = ServiceWrapper.Invoke<IDailyMenuService, IEnumerable<FoodDTO>>(x => x.GetMenuListByType(type));            
@@ -27,7 +27,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         }
 
         [TestMethod]
-        public void Test_GetMenuByType_Return_Ok()
+        public void Test_DailyMenuService_GetMenuByType_ReturnOk()
         {
             int type = 0;
             var getResponse = ServiceWrapper.Invoke<IDailyMenuService, IEnumerable<FoodDTO>>(x => x.GetMenuListByType(type));
@@ -36,7 +36,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         }
 
         [TestMethod]
-        public void Tests_GetAll_Return_Ok()
+        public void Test_DailyMenuService_GetAll()
         {
             var getResponse = ServiceWrapper.Invoke<IDailyMenuService, IEnumerable<FoodDTO>>(x => x.GetAll());
             Assert.IsTrue(getResponse.Status == ResponseStatus.OK);            

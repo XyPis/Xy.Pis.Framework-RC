@@ -16,7 +16,7 @@ using Xy.Pis.Domain;
 
 namespace Xy.Pis.Service.Logistics
 {
-    public class AdditionalMealService : UoWService<AdditionalMeal, AdditionalMealDTO>, IAdditionalMealService
+    public class AdditionalMealService : AbstractService<AdditionalMeal, AdditionalMealDTO>, IAdditionalMealService
     {
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -67,7 +67,7 @@ namespace Xy.Pis.Service.Logistics
             return base.Add(dto);
         }
 
-        public override int Delete(AdditionalMealDTO dto)
+        public override void Delete(AdditionalMealDTO dto)
         {
             dto.Validation();
 
@@ -75,17 +75,17 @@ namespace Xy.Pis.Service.Logistics
 
             using (var command = CommandWrapper)
             {
-                return command.Execute(uow =>
+                command.Execute(uow =>
                 {                  
                     //Remove details first
                     uow.Delete<AdditionalMealDetails>(x => x.AdditionalMealId == additionMealID);
                    
-                    return uow.Delete<AdditionalMeal>(x => x.Id == additionMealID);                                        
+                    uow.Delete<AdditionalMeal>(x => x.Id == additionMealID);                                        
                 });
             }
         }
 
-        public override int Update(AdditionalMealDTO dto)
+        public override void Update(AdditionalMealDTO dto)
         {
             dto.Validation();
 
@@ -93,11 +93,11 @@ namespace Xy.Pis.Service.Logistics
 
             using (var command = CommandWrapper)
             {
-                return command.Execute(uow =>
+                command.Execute(uow =>
                 {
                     uow.UpdateBatch<AdditionalMealDetails>(entity.Details);
 
-                    return uow.Update<AdditionalMeal>(x => x.Id == entity.Id, y => entity);
+                    uow.Update<AdditionalMeal>(entity);
                 });
             }
         }

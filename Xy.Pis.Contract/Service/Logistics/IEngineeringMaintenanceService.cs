@@ -8,7 +8,7 @@ using Xy.Pis.Contract.Message.Logistics;
 namespace Xy.Pis.Contract.Service.Logistics
 {
     [ServiceContract]
-    public interface IEngineeringMaintenanceService : IUoWService<EngineeringMaintenanceDTO>
+    public interface IEngineeringMaintenanceService : IService<EngineeringMaintenanceDTO>
     {
         [OperationContract]
         IEnumerable<EngineeringMaintenanceDTO> FullTextSearch(string text);

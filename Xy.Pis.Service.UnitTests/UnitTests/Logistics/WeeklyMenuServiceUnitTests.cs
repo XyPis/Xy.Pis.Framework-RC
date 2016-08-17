@@ -18,7 +18,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
      
         [TestMethod]
-        public void Test_GetLastSunday()
+        public void Test_WeeklyMenuService_GetLastSunday()
         {
             var response = ServiceWrapper.Invoke<IWeeklyMenuService, DateTime>(x => x.GetLastSunday());
             Assert.AreEqual(ResponseStatus.OK, response.Status);
@@ -26,7 +26,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         }
 
         [TestMethod]
-        public void Test_GetWeeklyMenu() 
+        public void Test_WeeklyMenuService_GetWeeklyMenu() 
         {
             var response = ServiceWrapper.Invoke<IWeeklyMenuService, IEnumerable<WeeklyMenuDTO>> (x => x.GetWeeklyMenu());
             Assert.IsTrue(response.Status == ResponseStatus.OK);
@@ -34,7 +34,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         }
 
         [TestMethod]
-        public void Test_Retrieve()
+        public void Test_WeeklyMenuService_Retrieve()
         {
             int weeklyMenuId = 15;
             var response = ServiceWrapper.Invoke<IWeeklyMenuService, IEnumerable<WeeklyMenuDTO>>(y => 

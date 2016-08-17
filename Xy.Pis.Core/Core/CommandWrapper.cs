@@ -15,166 +15,196 @@ namespace Xy.Pis.Core
         
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        [Dependency]
-        public virtual IUnitOfWork UnitOfWork
+        public CommandWrapper(IUnitOfWork uow)
         {
-            get;
-            set;
+            this.UnitOfWork = uow;
         }
-
+        
+        public IUnitOfWork UnitOfWork { get; set; }
+       
         public void Execute(Action<IUnitOfWork> work, TransactionOption option = TransactionOption.CTX)
         {
             if (work == null)
-                throw new ArgumentNullException("work");
+                throw new ArgumentException("Work can not be null", "work");
+
+            Tuple<bool, Exception> result = null;
 
             using (var uow = UnitOfWork)
             {
                 switch (option)
                 {
                     case TransactionOption.CTX:
-                        DoActionWithCTX(work, uow);
+                        result = DoCommand(work, uow);
                         break;
 
                     case TransactionOption.DB:
-                        DoActionWithDB(work, uow);
+                        result = DoDBCommand(work, uow);
                         break;
 
                     case TransactionOption.DTC:
-                        DoActionWithDTC(work, uow);
+                        result = DoDTCCommand(work, uow);
                         break;
 
                     default:
-                        DoActionWithCTX(work, uow);
+                        result = DoCommand(work, uow);
                         break;
                 }
-            }           
+
+                if (!result.Item1)
+                {
+                    Exception ex = result.Item2;
+
+                    Log.ErrorFormat("Exception: {0} \n{1}", ex.Message, ex.StackTrace);
+                    if (ex.InnerException != null)
+                    {
+                        Log.ErrorFormat("InnerException: {0} \n{1}", ex.InnerException.Message, ex.InnerException.StackTrace);
+                    }
+                    Log.Debug("***********************************************************");
+                    throw ex;
+                }
+            }
         }
 
         public TResult Execute<TResult>(Func<IUnitOfWork, TResult> work, TransactionOption option = TransactionOption.CTX)
         {
             if (work == null)
-                throw new ArgumentNullException("work");
+                throw new ArgumentException("Work can not be null", "work");
+
+            Tuple<bool, Exception, TResult> result = null;
 
             using (var uow = UnitOfWork)
             {
                 switch (option)
                 {
                     case TransactionOption.CTX:
-                        return DoFunctionWithCTX(work, uow).Item2;
+                        result = DoCommand(work, uow);
+                        break;
 
                     case TransactionOption.DB:
-                        return DoFunctionWithDB(work, uow);
+                        result = DoDBCommand(work, uow);
+                        break;
 
                     case TransactionOption.DTC:
-                        return DoFunctionWithDTC(work, uow);
+                        result = DoDTCCommand(work, uow);
+                        break;
 
                     default:
-                        return DoFunctionWithCTX(work, uow).Item2;
-                }          
-            }          
+                        result = DoCommand(work, uow);
+                        break;
+                }        
+            }
+
+            if (!result.Item1)
+            {
+                Exception ex = result.Item2;
+
+                Log.ErrorFormat("Exception: {0} \n{1}", ex.Message, ex.StackTrace);
+                if (ex.InnerException != null)
+                {
+                    Log.ErrorFormat("InnerException: {0} \n{1}", ex.InnerException.Message, ex.InnerException.StackTrace);
+                }
+                Log.Debug("------------------------------------------------------------");
+                throw ex;
+            }
+
+            return result.Item3;
         }
 
-        private bool DoActionWithCTX(Action<IUnitOfWork> work, IUnitOfWork uow)
-        {
-            bool flag = false;
-            try             
+        private Tuple<bool, Exception> DoCommand(Action<IUnitOfWork> work, IUnitOfWork uow)
+        {            
+            Exception exception = null;
+            bool doneFlag = false;
+
+            try
             {
                 work(uow);
                 uow.SaveChanges();
-                flag = true;
+                doneFlag = true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                if (ex != null)
-                {
-                    Log.ErrorFormat("Exception: {0} \n{1}", ex.Message, ex.StackTrace);
-                    if (ex.InnerException != null)
-                        Log.ErrorFormat("InnerException: {0} \n{1}", ex.InnerException.Message, ex.InnerException.StackTrace);
-                }
-
-                throw;
+                exception = ex;
             }
             finally
             {
                 uow.Dispose();
             }
 
-            return flag;
+            return new Tuple<bool, Exception>(doneFlag, exception);
         }
 
-        private void DoActionWithDB(Action<IUnitOfWork> work, IUnitOfWork uow)
+        private Tuple<bool, Exception> DoDBCommand(Action<IUnitOfWork> work, IUnitOfWork uow)
         {
             var db = uow.EFContext.Database;
             using (var tx = db.BeginTransaction())
             {
-                bool flag = DoActionWithCTX(work, uow);
-                if (flag) tx.Commit();
-                else tx.Rollback();                  
+                var result = DoCommand(work, uow);
+
+                if (result.Item1) tx.Commit();
+                else tx.Rollback();
+
+                return result;
             }            
         }
 
-        private void DoActionWithDTC(Action<IUnitOfWork> work, IUnitOfWork uow)
+        private Tuple<bool, Exception> DoDTCCommand(Action<IUnitOfWork> work, IUnitOfWork uow)
         {
             using (var tx = new TransactionScope())
-            {                    
-                bool flag = DoActionWithCTX(work, uow);                
-                if (flag)  tx.Complete();               
+            {
+                var result = DoCommand(work, uow);                
+                
+                if (result.Item1) tx.Complete();
+
+                return result;
             }            
         }
 
-        private Tuple<bool, TResult> DoFunctionWithCTX<TResult>(Func<IUnitOfWork, TResult> work, IUnitOfWork uow)
-        {
-            bool flag = false;
-            
+        private Tuple<bool, Exception, TResult> DoCommand<TResult>(Func<IUnitOfWork, TResult> work, IUnitOfWork uow)
+        {            
             TResult result = default(TResult);
+            Exception exception = null;
+            bool doneFlag = false;
 
             try
             {
                 result = work(uow);
                 uow.SaveChanges();
-                flag = true;
+                doneFlag = true;
             }
             catch (Exception ex)
             {
-                if (ex != null)
-                {
-                    Log.ErrorFormat("Exception: {0} \n{1}", ex.Message, ex.StackTrace);
-                    if (ex.InnerException != null)
-                        Log.ErrorFormat("InnerException: {0} \n{1}", ex.InnerException.Message, ex.InnerException.StackTrace);
-                }
-
-                throw;
+                exception = ex;
             }
             finally
             {
                 uow.Dispose();
             }
 
-            return new Tuple<bool, TResult>(flag, result);
+            return new Tuple<bool, Exception, TResult>(doneFlag, exception, result);
         }
 
-        private TResult DoFunctionWithDB<TResult>(Func<IUnitOfWork, TResult> work, IUnitOfWork uow)
-        {   
+        private Tuple<bool, Exception, TResult> DoDBCommand<TResult>(Func<IUnitOfWork, TResult> work, IUnitOfWork uow)
+        {
             var db = uow.EFContext.Database;
             using (var tx = db.BeginTransaction())
             {
-                var result = DoFunctionWithCTX(work, uow);
+                var result = DoCommand(work, uow);
                 
                 if (result.Item1) tx.Commit();
                 else tx.Rollback();
 
-                return result.Item2;
-            }            
+                return result;
+            }
         }
 
-        private TResult DoFunctionWithDTC<TResult>(Func<IUnitOfWork, TResult> work, IUnitOfWork uow)
+        private Tuple<bool, Exception, TResult> DoDTCCommand<TResult>(Func<IUnitOfWork, TResult> work, IUnitOfWork uow)
         { 
             using (var tx = new TransactionScope())
-            {                         
-                var result = DoFunctionWithCTX(work, uow);                  
+            {
+                var result = DoCommand(work, uow);
                 if (result.Item1) tx.Complete();
 
-                return result.Item2;
+                return result;
             }
         }
 

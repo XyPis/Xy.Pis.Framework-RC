@@ -9,7 +9,7 @@ using Xy.Pis.Domain;
 
 namespace Xy.Pis.Service.Logistics
 {
-    public class DailyMenuService : UoWService<LmFood, FoodDTO>, IDailyMenuService
+    public class DailyMenuService : AbstractService<LmFood, FoodDTO>, IDailyMenuService
     {
         protected override void Configure()
         {

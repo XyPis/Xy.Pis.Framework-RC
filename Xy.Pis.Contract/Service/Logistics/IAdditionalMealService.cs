@@ -8,7 +8,7 @@ using Xy.Pis.Contract.Message.Logistics;
 namespace Xy.Pis.Contract.Service.Logistics
 {
     [ServiceContract]
-    public interface IAdditionalMealService : IUoWService<AdditionalMealDTO>
+    public interface IAdditionalMealService : IService<AdditionalMealDTO>
     {
         [OperationContract]
         AdditionalMealDTO GetLastAdditionalMealByHospId(int hospId);

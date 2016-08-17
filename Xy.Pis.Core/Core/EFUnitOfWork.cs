@@ -14,145 +14,76 @@ namespace Xy.Pis.Core
     public class EFUnitOfWork<TDbContext> : IUnitOfWork 
         where TDbContext : DbContext
     {
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
-        private IDictionary<Type, object> repositories = new Dictionary<Type, object>();        
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);              
 
         private bool disposed = false;
-        private bool bulkOperation = false;
+        private bool bulkOperationFlag = false;
+        private IDictionary<Type, object> repositories = new Dictionary<Type, object>();
 
-        [Dependency]
-        public DbContext EFContext
+        public EFUnitOfWork(DbContext ctx)
         {
-            get;
-            set;
+            EFContext = ctx;
         }
 
-        public bool IsConnectionOpen 
+        public DbContext EFContext { get; set; }
+
+        public bool IsConnectionOpen { get { return EFContext != null; } }
+
+        private IRepository<TEntity> GetRepository<TEntity>()
+           where TEntity : class, new()
         {
-            get { return EFContext != null; } 
+            if (!repositories.ContainsKey(typeof(TEntity)))
+            {
+                repositories.Add(new KeyValuePair<Type, object>(typeof(TEntity), new EFRepository<TEntity>(EFContext)));
+            }
+
+            return (IRepository<TEntity>)repositories[typeof(TEntity)];
         }
 
-        public void Insert<TEntity>(TEntity entity) 
+        public void Add<TEntity>(TEntity entity) 
             where TEntity : class, new()
         {
-            InitializeEFContext();
+            GetRepository<TEntity>().Add(entity);
+        }
 
-            GetRepository<TEntity>().Insert(entity);
+        public void Delete<TEntity>(TEntity entity)
+            where TEntity : class, new()
+        {
+            GetRepository<TEntity>().Delete(entity);
+        }
+
+        public void DeleteById<TEntity>(params object[] ids)
+            where TEntity : class, new()
+        {
+            GetRepository<TEntity>().DeleteById(ids);
+        }
+
+        public virtual int DeleteAll<TEntity>()
+            where TEntity : class, new()
+        {
+            return GetRepository<TEntity>().DeleteAll();
         }
 
         public void Update<TEntity>(TEntity entity) 
             where TEntity : class, new()
         {
-            InitializeEFContext();
-
             GetRepository<TEntity>().Update(entity);
         }
 
         public TEntity GetById<TEntity>(params object[] ids) 
             where TEntity : class, new()
         {
-            InitializeEFContext();
-
             return GetRepository<TEntity>().GetById(ids);
         }
 
         public IQueryable<TEntity> Get<TEntity>() 
             where TEntity : class, new()
         {
-            InitializeEFContext();            
             return GetRepository<TEntity>().Get();
         }
 
-        public IQueryable<TEntity> Get<TEntity>(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null) 
-            where TEntity : class, new()
-        {
-            InitializeEFContext();
-
-            return GetRepository<TEntity>().Get(filter, orderBy);
-        }
-
-        public IQueryable<TResult> Join<TEntityOuter, TEntityInner, TResult>(Func<TEntityOuter, object> outerKeySelector, Func<TEntityInner, object> innerKeySelector, Func<TEntityOuter, TEntityInner, TResult> resultSelector) 
-            where TEntityOuter : class, new()
-            where TEntityInner : class, new()
-        {
-            InitializeEFContext();
-
-            return GetRepository<TEntityOuter>().Get().Join
-                ( GetRepository<TEntityInner>().Get()
-                , outerKeySelector
-                , innerKeySelector
-                , resultSelector
-                ).AsQueryable()
-                ;
-        }
-
-        public IQueryable<TResult> Join<TEntityOuter, TEntityInner, TResult>(Func<TEntityOuter, object> outerKeySelector, Func<TEntityInner, object> innerKeySelector, Func<TEntityOuter, TEntityInner, TResult> resultSelector, IEqualityComparer<object> comparer) 
-            where TEntityOuter : class, new()
-            where TEntityInner : class, new()
-        {
-            InitializeEFContext();
-
-            return GetRepository<TEntityOuter>().Get().Join
-                ( GetRepository<TEntityInner>().Get()
-                , outerKeySelector
-                , innerKeySelector
-                , resultSelector
-                , comparer
-                ).AsQueryable()
-                ;
-        }
-
-        public IQueryable<TResult> LeftJoin<TEntityOuter, TEntityInner, TResult>(Func<TEntityOuter, object> outerKeySelector, Func<TEntityInner, object> innerKeySelector, Func<TEntityOuter, TEntityInner, TResult> resultSelector) 
-            where TEntityOuter : class, new()
-            where TEntityInner : class, new()
-        {
-            InitializeEFContext();
-
-            return GetRepository<TEntityOuter>().Get().GroupJoin
-                ( GetRepository<TEntityInner>().Get()
-                , outerKeySelector
-                , innerKeySelector
-                , (p, q) => resultSelector(p, q.FirstOrDefault())
-                ).AsQueryable()
-                ;
-        }
-
-        public IQueryable<TResult> LeftJoin<TEntityOuter, TEntityInner, TResult>(Func<TEntityOuter, object> outerKeySelector, Func<TEntityInner, object> innerKeySelector, Func<TEntityOuter, TEntityInner, TResult> resultSelector, IEqualityComparer<object> comparer) 
-            where TEntityOuter : class, new()
-            where TEntityInner : class, new()
-        {
-            InitializeEFContext();
-
-            return GetRepository<TEntityOuter>().Get().GroupJoin
-                ( GetRepository<TEntityInner>().Get()
-                , outerKeySelector
-                , innerKeySelector
-                , (p, q) => resultSelector(p, q.FirstOrDefault()), comparer
-                ).AsQueryable()
-                ;
-        }
-
-        public void DeleteById<TEntity>(params object[] ids) 
-            where TEntity : class, new()
-        {
-            InitializeEFContext();
-
-            GetRepository<TEntity>().DeleteById(ids);
-        }
-
-        public void Delete<TEntity>(TEntity entity) 
-            where TEntity : class, new()
-        {
-            InitializeEFContext();
-
-            GetRepository<TEntity>().Delete(entity);
-        }       
-        
         public void Query(Action query)
         {
-            InitializeEFContext();
-
             query.Invoke();
 
             SaveChanges(true);
@@ -160,12 +91,12 @@ namespace Xy.Pis.Core
 
         public void SaveChanges(bool withDisposing = false)
         {
-            if (bulkOperation)
+            if (bulkOperationFlag)
                 EFContext.BulkSaveChanges();
             else
                 EFContext.SaveChanges();
             
-            bulkOperation = false;
+            bulkOperationFlag = false;
 
             if (withDisposing)
             {
@@ -198,90 +129,89 @@ namespace Xy.Pis.Core
             this.disposed = true;
         }
 
-        private void InitializeEFContext()
-        {
-            //if (efContext == null)
-            //{
-            //    efContext = typeof(TDbContext).GetConstructor(new Type[] { }).Invoke(new object[] { }) as DbContext;
-            //}
-        }
-
-        private IRepository<TEntity> GetRepository<TEntity>() 
-            where TEntity : class, new()
-        {
-            if (!repositories.ContainsKey(typeof(TEntity)))
-            {
-                repositories.Add(new KeyValuePair<Type, object>(typeof(TEntity), new EFRepository<TEntity>(EFContext)));
-            }
-
-            return (IRepository<TEntity>)repositories[typeof(TEntity)];
-        }
-
-        public int Update<TEntity>(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, TEntity>> updateExpression)
-            where TEntity : class, new()
-        {
-            InitializeEFContext();
-            return GetRepository<TEntity>().Update(filterExpression, updateExpression);
-        }
-
-        public int Delete<TEntity>(Expression<Func<TEntity, bool>> queryExpression)
-            where TEntity : class, new()
-        {
-            InitializeEFContext();
-            return GetRepository<TEntity>().Delete(queryExpression);
-        }
-
         public void AddBatch<TEntity>(IEnumerable<TEntity> entities)
            where TEntity : class, new()
-        {
-            InitializeEFContext();
+        {            
             GetRepository<TEntity>().AddBatch(entities);
-        }
-
-        public void UpdateBatch<TEntity>(IEnumerable<TEntity> entities)
-            where TEntity : class, new()
-        {
-            InitializeEFContext();
-            GetRepository<TEntity>().UpdateBatch(entities);
-        }
+        }       
 
         public void DeleteBatch<TEntity>(IEnumerable<TEntity> entities)
             where TEntity : class, new()
-        {
-            InitializeEFContext();
+        {            
             GetRepository<TEntity>().DeleteBatch(entities);
+        }
+
+        public void UpdateBatch<TEntity>(IEnumerable<TEntity> entities)
+           where TEntity : class, new()
+        {
+            GetRepository<TEntity>().UpdateBatch(entities);
         }
 
         public void BulkInsert<TEntity>(IEnumerable<TEntity> entities) 
             where TEntity : class, new()
         {
-            bulkOperation = true;
-            InitializeEFContext();
+            bulkOperationFlag = true;            
             GetRepository<TEntity>().BulkInsert(entities);
         }
 
         public void BulkDelete<TEntity>(IEnumerable<TEntity> entities) 
             where TEntity : class, new()
         {
-            bulkOperation = true;
-            InitializeEFContext();
+            bulkOperationFlag = true;            
             GetRepository<TEntity>().BulkDelete(entities);
         }
 
         public void BulkUpdate<TEntity>(IEnumerable<TEntity> entities)
             where TEntity : class, new()
         {
-            bulkOperation = true;
-            InitializeEFContext();
+            bulkOperationFlag = true;            
             GetRepository<TEntity>().BulkUpdate(entities);
-        }
+        }        
 
-        public virtual int DeleteAll<TEntity>()
+        public IQueryable<TEntity> Get<TEntity>(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null)
             where TEntity : class, new()
         {
-            InitializeEFContext();
+            return GetRepository<TEntity>().Get(filter, orderBy);
+        }        
 
-            return GetRepository<TEntity>().DeleteAll();
+        public int Delete<TEntity>(Expression<Func<TEntity, bool>> queryExpression)
+            where TEntity : class, new()
+        {
+            return GetRepository<TEntity>().Delete(queryExpression);
         }
+
+        public int Update<TEntity>(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, TEntity>> updateExpression)
+            where TEntity : class, new()
+        {
+            return GetRepository<TEntity>().Update(filterExpression, updateExpression);
+        }
+
+        public IQueryable<TResult> Join<TEntityOuter, TEntityInner, TResult>(Func<TEntityOuter, object> outerKeySelector, Func<TEntityInner, object> innerKeySelector, Func<TEntityOuter, TEntityInner, TResult> resultSelector)
+            where TEntityOuter : class, new()
+            where TEntityInner : class, new()
+        {
+            return GetRepository<TEntityOuter>().Get().Join(GetRepository<TEntityInner>().Get(), outerKeySelector, innerKeySelector, resultSelector).AsQueryable();
+        }
+
+        public IQueryable<TResult> Join<TEntityOuter, TEntityInner, TResult>(Func<TEntityOuter, object> outerKeySelector, Func<TEntityInner, object> innerKeySelector, Func<TEntityOuter, TEntityInner, TResult> resultSelector, IEqualityComparer<object> comparer)
+            where TEntityOuter : class, new()
+            where TEntityInner : class, new()
+        {
+            return GetRepository<TEntityOuter>().Get().Join(GetRepository<TEntityInner>().Get(), outerKeySelector, innerKeySelector, resultSelector, comparer).AsQueryable();
+        }
+
+        public IQueryable<TResult> LeftJoin<TEntityOuter, TEntityInner, TResult>(Func<TEntityOuter, object> outerKeySelector, Func<TEntityInner, object> innerKeySelector, Func<TEntityOuter, TEntityInner, TResult> resultSelector)
+            where TEntityOuter : class, new()
+            where TEntityInner : class, new()
+        {
+            return GetRepository<TEntityOuter>().Get().GroupJoin(GetRepository<TEntityInner>().Get(), outerKeySelector, innerKeySelector, (p, q) => resultSelector(p, q.FirstOrDefault())).AsQueryable();
+        }
+
+        public IQueryable<TResult> LeftJoin<TEntityOuter, TEntityInner, TResult>(Func<TEntityOuter, object> outerKeySelector, Func<TEntityInner, object> innerKeySelector, Func<TEntityOuter, TEntityInner, TResult> resultSelector, IEqualityComparer<object> comparer)
+            where TEntityOuter : class, new()
+            where TEntityInner : class, new()
+        {
+            return GetRepository<TEntityOuter>().Get().GroupJoin(GetRepository<TEntityInner>().Get(), outerKeySelector, innerKeySelector, (p, q) => resultSelector(p, q.FirstOrDefault()), comparer).AsQueryable();
+        }        
     }
 }

@@ -2,17 +2,18 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AutoMapper;
 using System.Linq.Expressions;
+using Xy.Pis.Core;
+using Xy.Pis.Contract.Message.Logistics;
 
 namespace Xy.Pis.Service.UnitTests
 {
     [TestClass]
-    public class AutoMapperUnitTests
+    public class UnitTests
     {
         [TestMethod]
-        public void TestMethod1()
-        { 
+        public void Test_UnitTests_TestMethod1()
+        {
         }
-
 
         public abstract class Parent
         {

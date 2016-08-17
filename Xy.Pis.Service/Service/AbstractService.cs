@@ -5,19 +5,18 @@ using System.Text;
 using Microsoft.Practices.Unity;
 using System.Reflection;
 using System.Linq.Expressions;
-using log4net;
 using System.Transactions;
-using AutoMapper.QueryableExtensions;
 using System.Data.Entity;
+using log4net;
 using AutoMapper;
-using Xy.Pis.Domain;
+using AutoMapper.QueryableExtensions;
 using Xy.Pis.Core;
 using Xy.Pis.Contract.Service;
 using Xy.Pis.Utils.Unity;
 
 namespace Xy.Pis.Service
 {
-    public abstract class UoWService<TEntity, TDTO> : Profile, IUoWService<TDTO> 
+    public abstract class AbstractService<TEntity, TDTO> : Profile, IService<TDTO> 
         where TEntity: EntityBase, new()
         where TDTO : DTOBase, new()
     {
@@ -45,46 +44,50 @@ namespace Xy.Pis.Service
             {                
                 command.Execute(uow =>
                 {
-                    uow.Insert<TEntity>(entity);
+                    uow.Add<TEntity>(entity);
                 });
                 
                 return entity.MapTo<TDTO>();
             }
-        }        
+        }
 
-        public virtual int Delete(TDTO dto)
+        public virtual Tuple<Int32, Int32> AddOrUpdate(IEnumerable<TDTO> dtos)
+        {
+            dtos.Validation();
+
+            var addedEntities = dtos.Where(x => x.ID == 0).MapTo<TEntity>().ToList();
+            var updatedEntities = dtos.Where(x => x.ID != 0).MapTo<TEntity>().ToList();
+            int addedRows = 0;
+            int updatedRows = 0;
+
+            using (var command = CommandWrapper)
+            {
+                command.Execute(uow =>
+                {
+                    addedEntities.ForEach(entity =>
+                    {
+                        uow.Add(entity);
+                        addedRows++;
+                    });
+
+                    updatedEntities.ForEach(entity =>
+                    {
+                        uow.Update(entity);
+                        updatedRows++;
+                    });
+                });
+
+                return new Tuple<int, int>(addedRows, updatedRows);
+            }
+        }
+
+        public virtual void Delete(TDTO dto)
         {
             dto.Validation();
+
             int pid = dto.ID;
-            return this.Delete(x => x.ID == pid);
-        }
-
-        public virtual int Update(TDTO dto)
-        {
-            dto.Validation();
-            var entity = dto.MapTo<TEntity>();
-
-            using (var command = CommandWrapper)
-            {
-                return command.Execute(uow =>
-                {
-                    uow.Update<TEntity>(entity);
-
-                    return Constants.SINGLE_ROW;
-                });
-            }
-        }
-
-        public virtual TDTO GetById(object key) 
-        {
-            using (var command = CommandWrapper)
-            {
-                return command.Execute(uow =>
-                {
-                    return uow.GetById<TEntity>(key)
-                        .MapTo<TDTO>();
-                });
-            }
+            
+            this.Delete(x => x.ID == pid);
         }
 
         public virtual void DeleteById(object key)
@@ -94,20 +97,6 @@ namespace Xy.Pis.Service
                 command.Execute(uow =>
                 {
                     uow.DeleteById<TEntity>(key);
-                });
-            }
-        }
-        
-        public virtual IEnumerable<TDTO> GetAll() 
-        {
-            using (var command = CommandWrapper)
-            {                
-                return command.Execute(uow =>
-                {                  
-                    //return uow.Get<TEntity>()
-                    //    .ProjectTo<TDTO>();
-                    return uow.Get<TEntity>()
-                        .MapTo<TDTO>();
                 });
             }
         }
@@ -123,10 +112,47 @@ namespace Xy.Pis.Service
             }
         }      
 
+        public virtual void Update(TDTO dto)
+        {
+            dto.Validation();
+            
+            var entity = dto.MapTo<TEntity>();
+
+            using (var command = CommandWrapper)
+            {
+                command.Execute(uow =>
+                {
+                    uow.Update<TEntity>(entity);
+                });
+            }
+        }
+
+        public virtual TDTO GetById(object key) 
+        {
+            using (var command = CommandWrapper)
+            {
+                return command.Execute(uow =>
+                {
+                    return uow.GetById<TEntity>(key).MapTo<TDTO>();                    
+                });
+            }
+        }        
+        
+        public virtual IEnumerable<TDTO> GetAll() 
+        {
+            using (var command = CommandWrapper)
+            {                
+                return command.Execute(uow =>
+                {
+                    return uow.Get<TEntity>().MapTo<TDTO>();//.ProjectTo<TDTO>();
+                });
+            }
+        }        
+
         public virtual int AddBatch(IEnumerable<TDTO> dtos)
         {
             dtos.Validation();
-            var entities = dtos.MapTo<TEntity>();
+            var entities = dtos.MapTo<TEntity>().ToList();
 
             using (var command = CommandWrapper)
             {
@@ -134,9 +160,9 @@ namespace Xy.Pis.Service
                 {
                     int effectedRows = 0;
 
-                    entities.ToList().ForEach(entity => 
+                    entities.ForEach(entity => 
                     {
-                        uow.Insert<TEntity>(entity);
+                        uow.Add<TEntity>(entity);
                         effectedRows++;
                     });
 
@@ -145,11 +171,11 @@ namespace Xy.Pis.Service
             }            
         }
 
-        public virtual int UpdateBatch(IEnumerable<TDTO> dtos)
+        public virtual int DeleteBatch(IEnumerable<TDTO> dtos)
         {
             dtos.Validation();
 
-            var entities = dtos.MapTo<TEntity>();
+            var entities = dtos.MapTo<TEntity>().ToList();
 
             using (var command = CommandWrapper)
             {
@@ -157,7 +183,30 @@ namespace Xy.Pis.Service
                 {
                     int effectedRows = 0;
 
-                    entities.ToList().ForEach(entity => 
+                    entities.ForEach(entity =>
+                    {
+                        uow.Delete<TEntity>(entity);
+                        effectedRows++;
+                    });
+
+                    return effectedRows;
+                });
+            }
+        }
+
+        public virtual int UpdateBatch(IEnumerable<TDTO> dtos)
+        {
+            dtos.Validation();
+
+            var entities = dtos.MapTo<TEntity>().ToList();
+
+            using (var command = CommandWrapper)
+            {
+                return command.Execute(uow =>
+                {
+                    int effectedRows = 0;
+
+                    entities.ForEach(entity => 
                     {                    
                         uow.Update<TEntity>(entity);
                         effectedRows++;
@@ -166,30 +215,7 @@ namespace Xy.Pis.Service
                     return effectedRows;
                 });                
             }
-        }
-
-        public virtual int DeleteBatch(IEnumerable<TDTO> dtos)
-        {
-            dtos.Validation();
-
-            var entities = dtos.MapTo<TEntity>();
-            
-            using (var command = CommandWrapper)
-            {
-                return command.Execute(uow =>
-                {
-                    int effectedRows = 0;
-
-                    entities.ToList().ForEach(entity =>
-                    {
-                        uow.Delete<TEntity>(entity);
-                        effectedRows++;
-                    });
-
-                    return effectedRows;        
-                });
-            }
-        }
+        }        
 
         public virtual void BulkInsert(IEnumerable<TDTO> dtos)
         {
@@ -276,35 +302,6 @@ namespace Xy.Pis.Service
                 });
             }
         }        
-
-        public virtual Tuple<Int32, Int32> AddOrUpdate(IEnumerable<TDTO> dtos)
-        {
-            dtos.Validation();
-
-            var addedEntities = dtos.Where(x => x.ID == 0).MapTo<TEntity>();
-            var updatedEntities = dtos.Where(x => x.ID != 0).MapTo<TEntity>();
-            int addedRows = 0;
-            int updatedRows = 0;
-
-            using (var command = CommandWrapper)
-            {
-                command.Execute(uow =>
-                {
-                    addedEntities.ToList().ForEach(entity =>
-                    {
-                        uow.Insert(entity);
-                        addedRows++;
-                    });
-
-                    updatedEntities.ToList().ForEach(entity =>
-                    {
-                        uow.Update(entity);
-                        updatedRows++;
-                    });
-                });
-
-                return new Tuple<int, int>(addedRows, updatedRows);
-            }
-        }        
+        
     }
 }

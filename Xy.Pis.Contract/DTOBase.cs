@@ -8,13 +8,9 @@ using System.Runtime.Serialization;
 namespace Xy.Pis
 {
     [DataContract]
-    public abstract class DTOBase //: Model.absModel
+    public abstract class DTOBase
     {
         [DataMember]
         public int ID { get; set; }
-
-        //public override void Fill(System.Data.IDataReader datareader)
-        //{
-        //}
     }
 }

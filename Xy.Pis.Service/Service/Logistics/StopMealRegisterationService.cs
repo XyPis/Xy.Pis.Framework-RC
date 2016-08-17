@@ -9,7 +9,7 @@ using AutoMapper;
 
 namespace Xy.Pis.Service.Logistics
 {
-    public class StopMealRegisterationService : UoWService<InStopMealRegister, StopMealRegisterationDTO>, IStopMealRegisterationService
+    public class StopMealRegisterationService : AbstractService<InStopMealRegister, StopMealRegisterationDTO>, IStopMealRegisterationService
     {
         protected override void Configure()
         {

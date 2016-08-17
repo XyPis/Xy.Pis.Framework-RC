@@ -10,7 +10,7 @@ namespace Xy.Pis.Core
     internal interface IRepository<T> 
         where T : class, new()
     {
-        void Insert(T entity);
+        void Add(T entity);
 
         void Update(T entity);
 

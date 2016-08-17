@@ -28,7 +28,7 @@ namespace Xy.Pis.Core
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="entity">待插入实体对象</param>
-        void Insert<TEntity>(TEntity entity) where TEntity : class, new();
+        void Add<TEntity>(TEntity entity) where TEntity : class, new();
        
         void Update<TEntity>(TEntity entity) where TEntity : class, new();
        

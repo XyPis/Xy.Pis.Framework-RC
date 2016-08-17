@@ -8,7 +8,7 @@ using Xy.Pis.Contract.Message.Logistics;
 namespace Xy.Pis.Contract.Service.Logistics
 {
     [ServiceContract]
-    public interface IWeeklyMenuService : IUoWService<WeeklyMenuDTO>
+    public interface IWeeklyMenuService : IService<WeeklyMenuDTO>
     {
         [OperationContract]
         DateTime GetLastSunday();

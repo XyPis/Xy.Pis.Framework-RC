@@ -30,14 +30,23 @@ namespace Xy.Pis.Core
             EFContext = efContext;            
         }
 
-        public void Insert(TEntity entity)
+        public virtual void Add(TEntity entity)
         {
             EFSet.Add(entity);
+        }        
+
+        public virtual void Delete(TEntity entity)
+        {
+            if (EFContext.Entry<TEntity>(entity).State == EntityState.Detached)
+            {
+                EFSet.Attach(entity);
+            }
+
+            EFSet.Remove(entity);
         }
 
-        public void Update(TEntity entity)
+        public virtual void Update(TEntity entity)
         {
-             
             if (EFContext.Entry<TEntity>(entity).State == EntityState.Detached)
             {
                 EFSet.Attach(entity);
@@ -47,17 +56,7 @@ namespace Xy.Pis.Core
                 EFContext.Entry<TEntity>(entity).CurrentValues.SetValues(entity);
             }
 
-            EFContext.Entry<TEntity>(entity).State = EntityState.Modified;            
-        }
-
-        public void Delete(TEntity entity)
-        {
-            if (EFContext.Entry<TEntity>(entity).State == EntityState.Detached)
-            {
-                EFSet.Attach(entity);
-            }
-
-            EFSet.Remove(entity);
+            EFContext.Entry<TEntity>(entity).State = EntityState.Modified;
         }
 
         public virtual TEntity GetById(params object[] ids)
@@ -81,11 +80,7 @@ namespace Xy.Pis.Core
         }
 
         #region Lambda Expression Operations
-        public virtual IQueryable<TEntity> Get
-           ( Expression<Func<TEntity, bool>> filter = null
-           , Func<IQueryable<TEntity>
-           , IOrderedQueryable<TEntity>> orderBy = null
-           )
+        public virtual IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null)
         {
             IQueryable<TEntity> query = EFSet;
 
@@ -129,10 +124,7 @@ namespace Xy.Pis.Core
             }
         }
 
-        public virtual int Update
-            ( Expression<Func<TEntity, bool>> filterExpression
-            , Expression<Func<TEntity, TEntity>> updateExpression
-            )
+        public virtual int Update(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, TEntity>> updateExpression)
         {
             return EFSet.Where(filterExpression).Update(updateExpression);
         }
@@ -144,32 +136,32 @@ namespace Xy.Pis.Core
         #endregion
 
         #region Batch Operations
-        public void AddBatch(IEnumerable<TEntity> entities)
+        public virtual void AddBatch(IEnumerable<TEntity> entities)
         {
             entities.ToList().ForEach(entity =>
             {            
-                this.Insert(entity);
+                this.Add(entity);
             });
         }
 
-        public void UpdateBatch(IEnumerable<TEntity> entities) 
+        public virtual void DeleteBatch(IEnumerable<TEntity> entities)
+        {
+            entities.ToList().ForEach(entity =>
+            {
+                this.Delete(entity);
+            });
+        }
+
+        public virtual void UpdateBatch(IEnumerable<TEntity> entities) 
         {
             entities.ToList().ForEach(entity =>
             {            
                 this.Update(entity);
             });
-        }
-
-        public void DeleteBatch(IEnumerable<TEntity> entities)
-        {
-            entities.ToList().ForEach(entity => 
-            {
-                this.Delete(entity);
-            });
-        }
+        }        
         #endregion        
 
-        #region Bulk Operation
+        #region Bulk Operations
         public virtual void BulkInsert(IEnumerable<TEntity> entities)
         {
             this.EFContext.BulkInsert(entities);

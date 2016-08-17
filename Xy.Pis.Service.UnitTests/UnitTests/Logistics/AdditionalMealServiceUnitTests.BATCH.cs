@@ -16,7 +16,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
     {
         #region Batch Method
         [TestMethod]
-        public void Test_AddBatch()
+        public void Test_AdditionalMealService_AddBatch()
         {
             IList<AdditionalMealDTO> dtoList = new List<AdditionalMealDTO>();             
             decimal unitPrice = 21;
@@ -35,7 +35,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         }
 
         [TestMethod]
-        public void Test_UpdateBatch()
+        public void Test_AdditionalMealService_UpdateBatch()
         {
             int[] ids = new int[] { Add(), Add(), Add() };
             var getResponse = ServiceWrapper.Invoke<IAdditionalMealService, IEnumerable<AdditionalMealDTO>>(x => x.GetAll().Where(y => ids.Contains(y.ID)));
@@ -59,7 +59,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         }
 
         [TestMethod]
-        public void Test_DeleteBatch()
+        public void Test_AdditionalMealService_DeleteBatch()
         {
             Add();
             var getResponse = ServiceWrapper.Invoke<IAdditionalMealService, IEnumerable<AdditionalMealDTO>>(x => x.GetAll());

@@ -41,13 +41,13 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         }
 
         [TestMethod]
-        public void Test_Add()
+        public void Test_StopMealRegisterationService_Add()
         {
             int ID = Add();
         }
 
         [TestMethod]
-        public void Test_Delete()
+        public void Test_StopMealRegisterationService_Delete()
         {
             int ID = Add();
             var deleteResponse = ServiceWrapper.Invoke<IStopMealRegisterationService>(x => x.DeleteById(ID));
@@ -59,7 +59,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         }
 
         [TestMethod]
-        public void Test_Update()
+        public void Test_StopMealRegisterationService_Update()
         {
             int ID = Add();
             var getResponse = ServiceWrapper.Invoke<IStopMealRegisterationService, StopMealRegisterationDTO>(x => x.GetById(ID));
@@ -71,13 +71,12 @@ namespace Xy.Pis.Service.UnitTests.Logistics
             dto.AuditID = 999999;
             dto.IsAudit = true;
             dto.CancelQty = 2;
-            var updateResponse = ServiceWrapper.Invoke<IStopMealRegisterationService, int>(x => x.Update(dto));
-            Assert.IsTrue(updateResponse.Status == ResponseStatus.OK);
-            Assert.AreEqual(1, updateResponse.Result);
+            var updateResponse = ServiceWrapper.Invoke<IStopMealRegisterationService>(x => x.Update(dto));
+            Assert.IsTrue(updateResponse.Status == ResponseStatus.OK);            
         }
 
         [TestMethod]
-        public void Test_GetAll()
+        public void Test_StopMealRegisterationService_GetAll()
         {
             int ID = Add();
             var response = ServiceWrapper.Invoke<IStopMealRegisterationService, IEnumerable<StopMealRegisterationDTO>>(x => x.GetAll());
@@ -86,7 +85,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         }
 
         [TestMethod]
-        public void Test_GetById()
+        public void Test_StopMealRegisterationService_GetById()
         {
             int ID = Add();
             var getResponse = ServiceWrapper.Invoke<IStopMealRegisterationService, StopMealRegisterationDTO>(x => x.GetById(ID));
@@ -95,7 +94,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         }       
 
         [TestMethod]
-        public void Test_AddOrUpdate()
+        public void Test_StopMealRegisterationService_AddOrUpdate()
         {
             var getResponse = ServiceWrapper.Invoke<IStopMealRegisterationService, IEnumerable<StopMealRegisterationDTO>>(x => x.GetAll());
 
@@ -139,7 +138,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         }        
     
         [TestMethod]
-        public void Test_GetByLambdaExpressionWithKey()
+        public void Test_StopMealRegisterationService_GetByLambdaExpressionWithKey()
         {
             int registerationId = Add();
             Expression<Func<StopMealRegisterationDTO, bool>> predicate = (y => (y.ID == registerationId));
@@ -148,7 +147,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         }
 
         [TestMethod]
-        public void Test_GetByLambdaExpression()
+        public void Test_StopMealRegisterationService_GetByLambdaExpression()
         {
             var getResponse = ServiceWrapper.Invoke<IStopMealRegisterationService, IEnumerable<StopMealRegisterationDTO>>(x => x.Get(y => y.AuditID.Value == 999999));
             Assert.IsTrue(getResponse.Status == ResponseStatus.OK);
@@ -160,7 +159,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         }       
 
         [TestMethod]
-        public void Test_DeleteByLambdaWithKey()
+        public void Test_StopMealRegisterationService_DeleteByLambdaWithKey()
         {
             int registerationId = Add();            
             var getResponse = ServiceWrapper.Invoke<IStopMealRegisterationService>(x => x.Delete(y => y.ID == registerationId));
@@ -168,7 +167,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         }
 
         [TestMethod]
-        public void Test_DeleteByLambdaExpression()
+        public void Test_StopMealRegisterationService_DeleteByLambdaExpression()
         {
             //var date = DateTime.Now.AddDays(-10);
             Expression<Func<StopMealRegisterationDTO, bool>> expression = (x => (x.LocationID != 1517 && x.AuditID == 999999));
@@ -178,7 +177,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         }
 
         [TestMethod]
-        public void Test_UpdateByLambdaExpression()
+        public void Test_StopMealRegisterationService_UpdateByLambdaExpression()
         {
             Expression<Func<StopMealRegisterationDTO, bool>> predicate = x => (x.LocationID != 1517);
 
