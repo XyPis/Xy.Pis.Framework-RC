@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xy.Pis.Contract", "Xy.Pis.Contract\Xy.Pis.Contract.csproj", "{445A7ABD-9BFD-4BB0-A92A-E790B9AA7F09}"
 EndProject
@@ -51,9 +51,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F1D915
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "packages", "packages", "{1D6BA8AF-236B-450D-92D5-89EB17F06C2E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xy.Pis.Service", "Xy.Pis.Service\Xy.Pis.Service.csproj", "{CDCA187A-9833-4548-A056-EBBD187C09EC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Package", "Package", "{187EE907-6B54-4587-BAEF-C1FA0F62AC57}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -105,8 +105,8 @@ Global
 		{FAED7743-A38B-483C-B5DA-A4019E9EDBAB} = {9297020D-C958-49E3-9BC8-D225EF9E71C2}
 		{49A6FDB7-71E1-4E90-924D-1558F27E149C} = {1D9AC42F-D531-416F-AA0B-D78D14F45EDE}
 		{DF186572-37B9-45F9-BB9A-0FEA5151B322} = {EA25129C-81E9-41B3-80CA-9F983C233374}
-		{1D6BA8AF-236B-450D-92D5-89EB17F06C2E} = {F1D915FA-CFDB-4764-A73E-ADC42BC8C1AB}
 		{CDCA187A-9833-4548-A056-EBBD187C09EC} = {1D9AC42F-D531-416F-AA0B-D78D14F45EDE}
+		{187EE907-6B54-4587-BAEF-C1FA0F62AC57} = {F1D915FA-CFDB-4764-A73E-ADC42BC8C1AB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35;packages\Unity.2.1.505.0\lib\NET35
