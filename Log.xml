@@ -1,0 +1,295 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<log4net>
+  <!--<root>
+            <level value="ALL" />
+            <appender-ref ref="rollingFile" />
+          <appender-ref ref="ADONetAppender" />
+        </root>-->
+  <appender  name="rollingFile" type="log4net.Appender.RollingFileAppender,log4net" >
+    <param name="File" type="txt" value="Error/" />
+    <param name="AppendToFile" value="true" />
+    <param name="RollingStyle" value="Date" />
+    <param name="maxSizeRollBackups" value="10" />
+    <lockingModel type="log4net.Appender.FileAppender+MinimalLock" />
+    <param name="DatePattern" value="yyyyMMdd'.txt'" />
+    <param name="StaticLogFileName" value="false" />
+    <Encoding value="UTF-8" />
+    <securityContext type="log4net.Util.WindowsSecurityContext">
+      <credentials value="Process" />
+    </securityContext>
+
+    <!--<filter type="log4net.Filter.LevelRangeFilter">
+            <param name="LevelMin" value="DEBUG" />
+            <param name="LevelMax" value="WARN" />
+        </filter>-->
+    <layout type=" JasonLog.ExpandLayout2.ReflectionLayout, JasonLog">
+      <param name="ConversionPattern"
+     value="【%level】记录时间：%date 线程ID：[%thread] 操作者ID：%property{UserName} IP：%property{IP} 操作系统：%property{MachineName}%n消息描述：%property{Message}%n 异常：%exception %n ------------------------------------------------------------------------------%n" />
+    </layout>
+  </appender>
+
+  <appender  name="rollingFile_NoException" type="log4net.Appender.RollingFileAppender,log4net" >
+    <param name="File" type="txt" value="Info/" />
+    <param name="AppendToFile" value="true" />
+    <param name="RollingStyle" value="Date" />
+    <param name="maxSizeRollBackups" value="10" />
+    <lockingModel type="log4net.Appender.FileAppender+MinimalLock" />
+    <param name="DatePattern" value="yyyyMMdd'.txt'" />
+    <param name="StaticLogFileName" value="false" />
+    <Encoding value="UTF-8" />
+    <securityContext type="log4net.Util.WindowsSecurityContext">
+      <credentials value="Process" />
+    </securityContext>
+
+    <layout type=" JasonLog.ExpandLayout2.ReflectionLayout, JasonLog">
+      <param name="ConversionPattern"
+     value="【%level】记录时间：%date 线程ID：[%thread]  操作者ID：%property{UserName} IP：%property{IP} 操作系统：%property{MachineName} Url:%property{Url} %n消息描述：%property{Message} %n ------------------------------------------------------------------------------%n" />
+    </layout>
+  </appender>
+
+  <!--access-->
+  <appender name="ADONetAppender_Access" type="log4net.Appender.ADONetAppender">
+    <bufferSize value="0" />
+    <!--Jet OLEDB:Database-->
+    <connectionString value="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=~/Error/Logs.mdb;Password=Jason"  />
+    <commandText value="INSERT INTO [Logs]([Message], [UserName], [Operand], [ActionType],[IP],[MachineName],[Brower]) 
+                               VALUES (@message, @userName, @operand, @actionType, @ip, @machineName, @brower)" />
+    <!---信息-->
+    <parameter>
+      <parameterName value="@message" />
+      <dbType value="String" />
+      <size value="500" />
+      <layout type=" JasonLog.ExpandLayout2.ReflectionLayout, JasonLog">
+        <conversionPattern value="%property{Message}"/>
+      </layout>
+    </parameter>
+    <!--操作者Name-->
+    <parameter>
+      <parameterName value="@userName"/>
+      <dbType value="String" />
+      <size value="50" />
+      <layout type=" JasonLog.ExpandLayout2.ReflectionLayout, JasonLog">
+        <conversionPattern value="%property{UserName}"/>
+      </layout>
+    </parameter>
+    <!--操作对象-->
+    <parameter>
+      <parameterName value="@operand"/>
+      <dbType value="Int16"/>
+      <layout type=" JasonLog.ExpandLayout2.ReflectionLayout, JasonLog">
+        <conversionPattern value="%property{Operand}"/>
+      </layout>
+    </parameter>
+    <!--操作类型-->
+    <parameter>
+      <parameterName value="@actionType"/>
+      <dbType value="Int16"/>
+      <layout type=" JasonLog.ExpandLayout2.ReflectionLayout, JasonLog">
+        <conversionPattern value="%property{ActionType}"/>
+      </layout>
+    </parameter>
+    <!--IP-->
+    <parameter>
+      <parameterName value="@ip"/>
+      <dbType value="String" />
+      <size value="50" />
+      <layout type=" JasonLog.ExpandLayout2.ReflectionLayout, JasonLog">
+        <conversionPattern value="%property{IP}"/>
+      </layout>
+    </parameter>
+    <!--浏览器-->
+    <parameter>
+      <parameterName value="@brower"/>
+      <dbType value="String" />
+      <size value="50" />
+      <layout type=" JasonLog.ExpandLayout2.ReflectionLayout, JasonLog">
+        <conversionPattern value="%property{Brower}"/>
+      </layout>
+    </parameter>
+    <!--客户端操作系统-->
+    <parameter>
+      <parameterName value="@machineName"/>
+      <dbType value="String" />
+      <size value="50" />
+      <layout type=" JasonLog.ExpandLayout2.ReflectionLayout, JasonLog">
+        <conversionPattern value="%property{MachineName}"/>
+      </layout>
+    </parameter>
+  </appender>
+
+  <!--sql server-->
+  <appender name="ADONetAppender_SqlServer" type="log4net.Appender.ADONetAppender">
+    <bufferSize value="0" />
+    <connectionType value="System.Data.SqlClient.SqlConnection, System.Data, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+    <connectionString value="data source=192.168.10.9;initial catalog=CantonFairProjmgr;user id=sa;pwd=123" />
+    <commandText value="INSERT INTO [Logs]([Message], [UserID], [Operand], [ActionType]) VALUES (@message, @userID, @operand, @actionType)" />
+    <!---信息-->
+    <parameter>
+      <parameterName value="@message" />
+      <dbType value="String" />
+      <size value="500" />
+      <layout type=" JasonLog.ExpandLayout2.ReflectionLayout, JasonLog">
+        <conversionPattern value="%property{Message}"/>
+      </layout>
+    </parameter>
+    <!--操作者ID-->
+    <parameter>
+      <parameterName value="@userID"/>
+      <dbType value="Int16"/>
+      <layout type=" JasonLog.ExpandLayout2.ReflectionLayout, JasonLog">
+        <conversionPattern value="%property{UserID}"/>
+      </layout>
+    </parameter>
+    <!--操作对象-->
+    <parameter>
+      <parameterName value="@operand"/>
+      <dbType value="Int16"/>
+      <layout type=" JasonLog.ExpandLayout2.ReflectionLayout, JasonLog">
+        <conversionPattern value="%property{Operand}"/>
+      </layout>
+    </parameter>
+    <!--操作类型-->
+    <parameter>
+      <parameterName value="@actionType"/>
+      <dbType value="Int16"/>
+      <layout type=" JasonLog.ExpandLayout2.ReflectionLayout, JasonLog">
+        <conversionPattern value="%property{ActionType}"/>
+      </layout>
+    </parameter>
+  </appender>
+
+  <!--redis-->
+  <appender name="redisAppender" type="JasonLog.Redis.Appender.RedisAppender, JasonLog">
+    <Host value="192.168.10.9" />
+    <Port value="6379" />
+    <MaxPoolSize value="500" />
+    <ListId value="logstash" />
+
+    <layout type="JasonLog.Redis.Layout.JsonLayout,JasonLog" >
+      <LogType value="iis_log" />
+      <AppName value="SHYLY" />
+    </layout>
+
+  </appender>
+
+  <!--sqlite-->
+  <!-- 创建表
+  CREATE TABLE Log (
+  LogId         INTEGER PRIMARY KEY,
+  Date          DATETIME NOT NULL,
+  Level         VARCHAR(50) NOT NULL,
+  Message       TEXT DEFAULT NULL,
+  Exception     TEXT DEFAULT NULL,
+  IP            VARCHAR(20) NOT NULL,
+  Browser       VARCHAR(50) NOT NULL,
+  MachineName   VARCHAR(50) NOT NULL,
+  Url           VARCHAR(500) NOT NULL
+  );
+  -->
+  <appender name="sqliteAppender" type="log4net.Appender.AdoNetAppender">
+    <bufferSize value="100" />
+    <connectionType value="Finisar.SQLite.SQLiteConnection, SQLite.NET, Version=0.21.1869.3794, Culture=neutral, PublicKeyToken=c273bd375e695f9c" />
+    <!--使用绝对路径-->
+    <connectionString value="Data Source=C:\\logs\\log4net.db;Version=3;" />
+    <commandText value="INSERT INTO Log (Date, Level, Message, Exception, IP,  Browser, MachineName, Url) VALUES (@Date, @Level, @Message, @Exception, @IP, @Browser, @MachineName, @Url)" />
+    <!--记录时间-->
+    <parameter>
+      <parameterName value="@Date" />
+      <dbType value="DateTime" />
+      <layout type="log4net.Layout.RawTimeStampLayout" />
+    </parameter>
+
+    <!--日志等级-->
+    <parameter>
+      <parameterName value="@Level" />
+      <dbType value="String" />
+      <layout type="log4net.Layout.PatternLayout">
+        <conversionPattern value="%level" />
+      </layout>
+    </parameter>
+
+    <!--消息-->
+    <parameter>
+      <parameterName value="@Message" />
+      <dbType value="String" />
+      <size value="5000" />
+      <layout type=" JasonLog.ExpandLayout2.ReflectionLayout, JasonLog">
+        <conversionPattern value="%property{Message}"/>
+      </layout>
+    </parameter>
+
+    <!--客户端ip-->
+    <parameter>
+      <parameterName value="@IP"/>
+      <dbType value="String"/>
+      <layout type=" JasonLog.ExpandLayout2.ReflectionLayout, JasonLog">
+        <conversionPattern value="%property{IP}"/>
+      </layout>
+    </parameter>
+
+    <!--客户端浏览器-->
+    <parameter>
+      <parameterName value="@Browser"/>
+      <dbType value="String"/>
+      <layout type=" JasonLog.ExpandLayout2.ReflectionLayout, JasonLog">
+        <conversionPattern value="%property{Browser}"/>
+      </layout>
+    </parameter>
+
+    <!--客户端主机-->
+    <parameter>
+      <parameterName value="@MachineName"/>
+      <dbType value="String"/>
+      <layout type=" JasonLog.ExpandLayout2.ReflectionLayout, JasonLog">
+        <conversionPattern value="%property{MachineName}"/>
+      </layout>
+    </parameter>
+
+    <!--当前页面的url-->
+    <parameter>
+      <parameterName value="@Url"/>
+      <dbType value="String"/>
+      <layout type=" JasonLog.ExpandLayout2.ReflectionLayout, JasonLog">
+        <conversionPattern value="%property{Url}"/>
+      </layout>
+    </parameter>
+
+    <!--错误-->
+    <parameter>
+      <parameterName value="@Exception" />
+      <dbType value="String" />
+      <layout type="log4net.Layout.PatternLayout">
+        <conversionPattern value="%exception" />
+      </layout>
+    </parameter>
+
+  </appender>
+
+  <!--<logger name="JasonADOLogger">
+        <level value="INFO"/>
+        <appender-ref ref="ADONetAppender" />
+    </logger>-->
+  <logger name="JasonLogger_Error">
+    <level value="ERROR" />
+    <appender-ref  ref="rollingFile" />
+    <appender-ref  ref="redisAppender" />
+    <appender-ref  ref="sqliteAppender" />
+    <!--<appender-ref  ref="ADONetAppender_SqlServer" />-->
+  </logger>
+
+  <logger name="JasonLogger_Warn">
+    <level value="WARN" />
+    <appender-ref  ref="rollingFile" />
+    <appender-ref  ref="redisAppender" />
+    <appender-ref  ref="sqliteAppender" />
+    <!--<appender-ref  ref="ADONetAppender_SqlServer" />-->
+  </logger>
+
+  <logger name="JasonLogger_Basic">
+    <level value="ALL" />
+    <appender-ref  ref="rollingFile_NoException" />
+    <appender-ref  ref="redisAppender" />
+    <appender-ref  ref="sqliteAppender" />
+  </logger>
+</log4net>
