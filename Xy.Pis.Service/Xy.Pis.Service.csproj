@@ -89,6 +89,7 @@
     <Compile Include="DomainExtensions.cs" />
     <Compile Include="DTOExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\AbstractService.cs" />
     <Compile Include="Service\Constants.cs" />
     <Compile Include="Service\Initializer.cs" />
     <Compile Include="Service\Logistics\AdditionalMealService.cs" />
@@ -97,7 +98,6 @@
     <Compile Include="Service\Logistics\FixedAssetsService.cs" />
     <Compile Include="Service\Logistics\StopMealRegisterationService.cs" />
     <Compile Include="Service\Logistics\WeeklyMenuService.cs" />
-    <Compile Include="Service\AbstractService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

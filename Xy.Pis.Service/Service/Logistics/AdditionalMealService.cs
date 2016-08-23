@@ -76,7 +76,7 @@ namespace Xy.Pis.Service.Logistics
             using (var command = CommandWrapper)
             {
                 command.Execute(uow =>
-                {                  
+                {
                     //Remove details first
                     uow.Delete<AdditionalMealDetails>(x => x.AdditionalMealId == additionMealID);
                    
