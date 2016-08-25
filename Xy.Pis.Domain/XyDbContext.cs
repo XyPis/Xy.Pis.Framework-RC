@@ -13,10 +13,11 @@ namespace Xy.Pis
             Database.SetInitializer<XyDbContext>(null);
         }
 
-        public XyDbContext()
-            : base(string.Format("Name={0}", "testdbContext"))
+        public XyDbContext(string connectionString)
+            : base(string.Format("Name={0}", connectionString))
         { 
         }
+
         public DbSet<AdditionalMealDetails> AdditionalMealDetails { get; set; }
         public DbSet<AdditionalMeal> AdditionalMeals { get; set; }
         public DbSet<BsLocation> BsLocations { get; set; }

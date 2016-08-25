@@ -108,7 +108,9 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Xy.Pis.Core.nuspec" />
+    <None Include="Xy.Pis.Core.nuspec">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Xy.Pis.Utils\Xy.Pis.Utils.csproj">

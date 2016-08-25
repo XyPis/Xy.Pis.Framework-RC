@@ -12,4 +12,3 @@ NuGet pack ..\Xy.Pis.Proxy\Xy.Pis.Proxy.csproj -o .\packages -Build -Properties 
 
 NuGet push .\packages\*.nupkg -s http://localhost:8080 123
 Del /Q .\packages\* 
-pause

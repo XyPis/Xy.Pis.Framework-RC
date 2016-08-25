@@ -8,6 +8,7 @@ using System.Diagnostics;
 using log4net;
 using Xy.Pis.Contract.Service;
 using Xy.Pis.Utils.Unity;
+using Xy.Pis.Utils.Exceptions;
 
 namespace Xy.Pis.Proxy
 {
@@ -19,12 +20,12 @@ namespace Xy.Pis.Proxy
         {
            //typeof(IAdditionalMealService)
         };
-       
-        public static Response<String> Invoke<T>(Action<T> action)    
+
+        public static Response<String> Invoke<T>(Action<T> action)
             where T : IServiceBase
         {
             T proxy = GetService<T>();
-            
+
             bool isRemoteService = IsRemoteService(proxy);
 
             var st = new Stopwatch();
@@ -45,7 +46,7 @@ namespace Xy.Pis.Proxy
 
             return response;
         }
-        
+
         public static Response<TResult> Invoke<T, TResult>(Func<T, TResult> func)
             where T : IServiceBase
         {
@@ -60,7 +61,7 @@ namespace Xy.Pis.Proxy
                 Log.DebugFormat("Request to {0} service {1} ......", (isRemoteService ? "remote" : "local"), typeof(T));
                 Log.DebugFormat("Client Method: {0}", func.Method);
             }
-            
+
             var response = isRemoteService ? InvokeRemoteService(proxy, func) : InvokeLocalService(proxy, func);
 
             if (Log.IsDebugEnabled)
@@ -72,7 +73,7 @@ namespace Xy.Pis.Proxy
             return response;
         }
 
-        private static T GetService<T>() 
+        private static T GetService<T>()
             where T : IServiceBase
         {
             try
@@ -93,7 +94,7 @@ namespace Xy.Pis.Proxy
             }
         }
 
-        private static T GetLocalService<T>() 
+        private static T GetLocalService<T>()
             where T : IServiceBase
         {
             return IoC.Resolve<T>();
@@ -119,13 +120,13 @@ namespace Xy.Pis.Proxy
 
             try
             {
-                action(proxy);                              
+                action(proxy);
             }
             catch (Exception ex)
             {
-                result.Status = ResponseStatus.Error;  
-                result.Message = ex.Message;
-                LogWriter("Exception", ex);
+                result.Status = ResponseStatus.Error;
+                result.Message = GetErrMessage(ex, EnumExeptionType.Exception);
+                Log.Error(result.Message);
             }
 
             return result;
@@ -134,7 +135,7 @@ namespace Xy.Pis.Proxy
         private static Response<TResult> InvokeLocalService<T, TResult>(T proxy, Func<T, TResult> func)
              where T : IServiceBase
         {
-            Response<TResult> result = new Response<TResult>(ServiceType.Local);           
+            Response<TResult> result = new Response<TResult>(ServiceType.Local);
 
             try
             {
@@ -143,48 +144,56 @@ namespace Xy.Pis.Proxy
             catch (Exception ex)
             {
                 result.Status = ResponseStatus.Error;
-                
-                result.Message = ex.Message;
-                LogWriter("Exception", ex);
+
+                result.Message = GetErrMessage(ex, EnumExeptionType.Exception);
+                Log.Error(result.Message);
             }
 
             return result;
-        }       
+        }
 
         private static Response<String> InvokeRemoteService<T>(T proxy, Action<T> action)
              where T : IServiceBase
         {
-            Response<String> result = new Response<String>(ServiceType.Remote);           
+            Response<String> result = new Response<String>(ServiceType.Remote);
+            ResponseStatus responseStatus = ResponseStatus.Error;
+            string message = string.Empty;
 
             try
             {
                 action(proxy);
                 (proxy as IClientChannel).Close();
+                responseStatus = ResponseStatus.OK;
             }
             catch (System.ServiceModel.CommunicationException ce)
             {
-                (proxy as IClientChannel).Abort();
-                result.Status = ResponseStatus.Error;
-                result.Message = ce.Message;
-
-                LogWriter("CommunicationException", ce);
+                message = GetErrMessage(ce, EnumExeptionType.CommunicationException);
             }
             catch (TimeoutException te)
             {
-                (proxy as IClientChannel).Abort();
-                result.Status = ResponseStatus.Error;
-                result.Message = te.Message;
-
-                LogWriter("CommunicationException", te);
+                message = GetErrMessage(te, EnumExeptionType.TimeoutException);
             }
             catch (Exception ex)
             {
-                (proxy as IClientChannel).Abort();
-                result.Status = ResponseStatus.Error;
-                result.Message = ex.Message;
+                message = GetErrMessage(ex, EnumExeptionType.Exception);
+            }
+            finally
+            {
+                result.Status = responseStatus;
+                result.Message = message;
+                if (result.Status == ResponseStatus.Error)
+                {
+                    Log.Error(result.Message);
 
-                LogWriter("Exception", ex);
-                //throw;
+                    try
+                    {
+                        (proxy as IClientChannel).Abort();
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Error(e.Message);
+                    }
+                }
             }
 
             return result;
@@ -193,54 +202,66 @@ namespace Xy.Pis.Proxy
         private static Response<TResult> InvokeRemoteService<T, TResult>(T proxy, Func<T, TResult> func)
              where T : IServiceBase
         {
-            Response<TResult> result = new Response<TResult>(ServiceType.Remote);           
+            Response<TResult> result = new Response<TResult>(ServiceType.Remote);
+            ResponseStatus responseStatus = ResponseStatus.Error;
+            string message = string.Empty;
 
             try
             {
                 result.Result = func(proxy);
-                (proxy as IClientChannel).Close();                                
+                (proxy as IClientChannel).Close();
+                responseStatus = ResponseStatus.OK;
             }
             catch (System.ServiceModel.CommunicationException ce)
             {
-                (proxy as IClientChannel).Abort();
-                result.Status = ResponseStatus.Error;
-                result.Message = ce.Message;
-
-                LogWriter("CommunicationException", ce);
+                message = GetErrMessage(ce, EnumExeptionType.CommunicationException);
             }
             catch (TimeoutException te)
             {
-                (proxy as IClientChannel).Abort();
-                result.Status = ResponseStatus.Error;
-                result.Message = te.Message;
-
-                LogWriter("TimeoutException", te);
+                message = GetErrMessage(te, EnumExeptionType.TimeoutException);
             }
             catch (Exception ex)
             {
-                (proxy as IClientChannel).Abort();
-                result.Status = ResponseStatus.Error;
-                result.Message = ex.Message;
-
-                LogWriter("Exception", ex);
-                //throw;
+                message = GetErrMessage(ex, EnumExeptionType.Exception);
+            }
+            finally
+            {
+                result.Status = responseStatus;
+                result.Message = message;
+                if (result.Status == ResponseStatus.Error)
+                {
+                    Log.Error(result.Message);
+                    try
+                    {
+                        (proxy as IClientChannel).Abort();
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Error(e.Message);
+                    }
+                }
             }
 
             return result;
         }
 
-        private static void LogWriter(string type, Exception ex)
+        private static string GetErrMessage(Exception ex, EnumExeptionType exeptionType)
         {
-            if (ex != null)
+            string errMessage = string.Empty;
+            Exception innerException = ex.GetInnerException();
+            if (innerException != null)
             {
-                if (string.IsNullOrEmpty(type))
-                    type = "Exception";
-
-                Log.ErrorFormat("{2}: {0} \n{1}", ex.Message, ex.StackTrace, type);
-                if (ex.InnerException != null)
-                    Log.ErrorFormat("InnerException: {0} \n{1}", ex.InnerException.Message, ex.InnerException.StackTrace);
+                errMessage = string.Format("{0}: {1} \n{2}", exeptionType.ToString(), innerException.Message, ex.StackTrace);
             }
+
+            return errMessage;
         }
 
-    }
+        private enum EnumExeptionType
+        {
+            Exception = 0,
+            TimeoutException = 1,
+            CommunicationException = 2,
+        }
+    }    
 }

@@ -37,7 +37,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04 Proxy", "04 Proxy", "{EA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xy.Pis.Proxy", "Xy.Pis.Proxy\Xy.Pis.Proxy.csproj", "{DF186572-37B9-45F9-BB9A-0FEA5151B322}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "db", "db", "{0EAF52DC-C99B-4431-99C3-0576B2F3CC62}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DB Scripts", "DB Scripts", "{0EAF52DC-C99B-4431-99C3-0576B2F3CC62}"
 	ProjectSection(SolutionItems) = preProject
 		DB\AdditionalMeal.sql = DB\AdditionalMeal.sql
 	EndProjectSection

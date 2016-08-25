@@ -16,9 +16,9 @@ namespace Xy.Pis.Service
     {
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
        
-        public static void Init(params Type[] excludeTypes)
+        public static void Init(string connectionString, params Type[] excludeTypes)
         {
-            Core.Initializer.Init<XyDbContext>();
+            Core.Initializer.Init<XyDbContext>(connectionString);
             
             var fromAssembly = typeof(IAdditionalMealService).Assembly;
             var toAssembly = typeof(Logistics.AdditionalMealService).Assembly;

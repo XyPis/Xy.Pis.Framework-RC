@@ -30,14 +30,15 @@ namespace Xy.Pis.Service.UnitTests
 
             additionalMealDto.Details.Add(new AdditionalMealDetailsDTO()
             {
-                FoodId = 26,
+                FoodId = 10,
                 Qty = 1,
                 AdditionalMealType = "B",
                 UnitPrice = unitPrice
             });
+
             additionalMealDto.Details.Add(new AdditionalMealDetailsDTO()
             {
-                FoodId = 27,
+                FoodId = 11,
                 Qty = 2,
                 AdditionalMealType = "B",
                 UnitPrice = unitPrice
@@ -45,28 +46,31 @@ namespace Xy.Pis.Service.UnitTests
 
             additionalMealDto.Details.Add(new AdditionalMealDetailsDTO()
             {
-                FoodId = 28,
+                FoodId = 12,
                 Qty = 1,
                 AdditionalMealType = "L",
                 UnitPrice = unitPrice
             });
+
             additionalMealDto.Details.Add(new AdditionalMealDetailsDTO()
             {
-                FoodId = 29,
+                FoodId = 13,
                 Qty = 1,
                 AdditionalMealType = "L",
                 UnitPrice = unitPrice
             });
+
             additionalMealDto.Details.Add(new AdditionalMealDetailsDTO()
             {
-                FoodId = 29,
+                FoodId = 15,
                 Qty = 2,
                 AdditionalMealType = "D",
                 UnitPrice = unitPrice
             });
+
             additionalMealDto.Details.Add(new AdditionalMealDetailsDTO()
             {
-                FoodId = 30,
+                FoodId = 15,
                 Qty = 1,
                 AdditionalMealType = "D"
             });

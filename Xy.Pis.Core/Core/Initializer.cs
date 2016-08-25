@@ -18,9 +18,9 @@ namespace Xy.Pis.Core
         /// 初始化数据库上下文和工作单元
         /// </summary>
         /// <typeparam name="TDbContext"></typeparam>
-        public static void Init<TDbContext>() where TDbContext : DbContext
+        public static void Init<TDbContext>(string connectionString) where TDbContext : DbContext
         {
-            IoC.RegisterType<DbContext, TDbContext>();
+            IoC.RegisterType<DbContext, TDbContext>(new InjectionConstructor(connectionString));
             IoC.RegisterType<IUnitOfWork, EFUnitOfWork<TDbContext>>();
         }
     }

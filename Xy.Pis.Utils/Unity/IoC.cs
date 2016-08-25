@@ -34,9 +34,15 @@ namespace Xy.Pis.Utils.Unity
         {
             UnityContext.Instance.RegisterType<TFrom, TTo>(lifetimeManager);
         }
+
         public static void RegisterType<TFrom, TTo>() where TTo : TFrom
         {
             UnityContext.Instance.RegisterType<TFrom, TTo>();
+        }
+
+        public static void RegisterType<TFrom, TTo>(params InjectionMember[] injectionMembers) where TTo : TFrom
+        {
+            UnityContext.Instance.RegisterType<TFrom, TTo>(injectionMembers);
         }
     }
 }

@@ -13,7 +13,9 @@ namespace Xy.Pis.Service.UnitTests
         [AssemblyInitialize]
         public static void Test_Initialize(TestContext context) 
         {
-            Initializer.Init();
+            string connectionString = "test";
+
+            Initializer.Init(connectionString);
         }
     }
 }
