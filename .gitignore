@@ -183,9 +183,9 @@ UpgradeLog*.htm
 # Microsoft Fakes
 FakesAssemblies/
 
-# LightSwitch generated files
+# LightSwitch generated filespackages
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
 *.licx
-.nuget
+.nuget/*
