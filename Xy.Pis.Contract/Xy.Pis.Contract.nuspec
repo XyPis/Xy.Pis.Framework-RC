@@ -12,7 +12,4 @@
     <copyright>Copyright 2016</copyright>
     <tags />
   </metadata>
-  <files>
-    <file src="..\release\$id$.pdb" target="lib\net40" />   
-  </files>
 </package>

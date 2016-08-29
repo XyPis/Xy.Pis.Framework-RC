@@ -19,7 +19,7 @@
 
 internal static class ProductVersion
 {
-    public const string VersionString = "3.0.1.0";
+    public const string VersionString = "3.0.1.1";
 
     public const string InformationalVersion = VersionString;
 }

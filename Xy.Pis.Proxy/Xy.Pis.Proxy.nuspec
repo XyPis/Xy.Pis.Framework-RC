@@ -16,7 +16,4 @@
       <dependency id="Xy.Pis.Utils" version="$version$" />
     </dependencies>
   </metadata>
-  <files>
-    <file src="..\release\$id$.pdb" target="lib\net40" />
-  </files>
 </package>
