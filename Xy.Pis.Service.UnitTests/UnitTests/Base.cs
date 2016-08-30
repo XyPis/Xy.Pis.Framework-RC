@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using log4net;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Xy.Pis.Service.UnitTests
 {

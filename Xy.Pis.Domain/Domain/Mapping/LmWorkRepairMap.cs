@@ -34,16 +34,9 @@ namespace Xy.Pis.Domain.Mapping
             this.Property(t => t.OperId).HasColumnName("OperId");
             this.Property(t => t.OperTime).HasColumnName("OperTime");
 
-            // Relationships
-            //this.HasOptional(t => t.BsLocation)
-            //    .WithMany(t => t.LmWorkRepairs)
-            //    .HasForeignKey(d => d.LocationId);
             this.HasOptional(t => t.ReponsiblityLoc)
                 .WithMany(t => t.EngineeringMaintenances)
-                .HasForeignKey(d => d.RepairLocationId);
-            //this.HasOptional(t => t.BsUser)
-            //    .WithMany(t => t.LmWorkRepairs)
-            //    .HasForeignKey(d => d.OperId);
+                .HasForeignKey(d => d.RepairLocationId);          
         }
     }
 }

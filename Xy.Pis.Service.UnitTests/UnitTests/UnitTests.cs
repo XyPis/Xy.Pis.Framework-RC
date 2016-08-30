@@ -1,9 +1,9 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AutoMapper;
 using System.Linq.Expressions;
-using Xy.Pis.Core;
+using AutoMapper;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Xy.Pis.Contract.Message.Logistics;
+using Xy.Pis.Core;
 
 namespace Xy.Pis.Service.UnitTests
 {
@@ -20,9 +20,9 @@ namespace Xy.Pis.Service.UnitTests
             public abstract int ID { get; set; }
         }
 
-        public class Child //: Parent
+        public class Child
         {
-            public  int ID
+            public int ID
             {
                 get;
                 set;

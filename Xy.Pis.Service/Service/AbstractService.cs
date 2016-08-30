@@ -1,23 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Practices.Unity;
-using System.Reflection;
-using System.Linq.Expressions;
-using System.Transactions;
 using System.Data.Entity;
-using log4net;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
+using System.Text;
+using System.Transactions;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using Xy.Pis.Core;
+using log4net;
+using Microsoft.Practices.Unity;
 using Xy.Pis.Contract.Service;
+using Xy.Pis.Core;
 using Xy.Pis.Utils.Unity;
 
 namespace Xy.Pis.Service
 {
     public abstract class AbstractService<TEntity, TDTO> : Profile, IService<TDTO> 
-        where TEntity: EntityBase, new()
+        where TEntity : EntityBase, new()
         where TDTO : DTOBase, new()
     {
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);        
@@ -26,13 +26,7 @@ namespace Xy.Pis.Service
         public virtual ICommandWrapper CommandWrapper
         {
             get { return IoC.Resolve<ICommandWrapper>(); }
-        }
-
-        protected override void Configure()
-        {
-            Mapper.CreateMap<TEntity, TDTO>();
-            Mapper.CreateMap<TDTO, TEntity>();
-        }
+        }        
 
         public virtual TDTO Add(TDTO dto)
         {
@@ -40,7 +34,7 @@ namespace Xy.Pis.Service
 
             var entity = dto.MapTo<TEntity>();
 
-            using (var command = CommandWrapper)
+            using (var command = this.CommandWrapper)
             {                
                 command.Execute(uow =>
                 {
@@ -51,7 +45,7 @@ namespace Xy.Pis.Service
             }
         }
 
-        public virtual Tuple<Int32, Int32> AddOrUpdate(IEnumerable<TDTO> dtos)
+        public virtual Tuple<int, int> AddOrUpdate(IEnumerable<TDTO> dtos)
         {
             dtos.Validation();
 
@@ -60,7 +54,7 @@ namespace Xy.Pis.Service
             int addedRows = 0;
             int updatedRows = 0;
 
-            using (var command = CommandWrapper)
+            using (var command = this.CommandWrapper)
             {
                 command.Execute(uow =>
                 {
@@ -92,7 +86,7 @@ namespace Xy.Pis.Service
 
         public virtual void DeleteById(object key)
         {
-            using (var command = CommandWrapper)
+            using (var command = this.CommandWrapper)
             {
                 command.Execute(uow =>
                 {
@@ -103,7 +97,7 @@ namespace Xy.Pis.Service
 
         public virtual int DeleteAll()
         {
-            using (var command = CommandWrapper)
+            using (var command = this.CommandWrapper)
             {
                 return command.Execute(uow =>
                 {
@@ -118,7 +112,7 @@ namespace Xy.Pis.Service
             
             var entity = dto.MapTo<TEntity>();
 
-            using (var command = CommandWrapper)
+            using (var command = this.CommandWrapper)
             {
                 command.Execute(uow =>
                 {
@@ -129,7 +123,7 @@ namespace Xy.Pis.Service
 
         public virtual TDTO GetById(object key) 
         {
-            using (var command = CommandWrapper)
+            using (var command = this.CommandWrapper)
             {
                 return command.Execute(uow =>
                 {
@@ -140,11 +134,11 @@ namespace Xy.Pis.Service
         
         public virtual IEnumerable<TDTO> GetAll() 
         {
-            using (var command = CommandWrapper)
+            using (var command = this.CommandWrapper)
             {                
                 return command.Execute(uow =>
                 {
-                    return uow.Get<TEntity>().MapTo<TDTO>();//.ProjectTo<TDTO>();
+                    return uow.Get<TEntity>().MapTo<TDTO>();
                 });
             }
         }        
@@ -154,7 +148,7 @@ namespace Xy.Pis.Service
             dtos.Validation();
             var entities = dtos.MapTo<TEntity>().ToList();
 
-            using (var command = CommandWrapper)
+            using (var command = this.CommandWrapper)
             {
                 return command.Execute(uow => 
                 {
@@ -177,7 +171,7 @@ namespace Xy.Pis.Service
 
             var entities = dtos.MapTo<TEntity>().ToList();
 
-            using (var command = CommandWrapper)
+            using (var command = this.CommandWrapper)
             {
                 return command.Execute(uow =>
                 {
@@ -200,7 +194,7 @@ namespace Xy.Pis.Service
 
             var entities = dtos.MapTo<TEntity>().ToList();
 
-            using (var command = CommandWrapper)
+            using (var command = this.CommandWrapper)
             {
                 return command.Execute(uow =>
                 {
@@ -222,7 +216,7 @@ namespace Xy.Pis.Service
             dtos.Validation();
             var entities = dtos.MapTo<TEntity>();
 
-            using (var command = CommandWrapper)
+            using (var command = this.CommandWrapper)
             {
                 command.Execute(uow =>
                 {                    
@@ -236,7 +230,7 @@ namespace Xy.Pis.Service
             dtos.Validation();
             var entities = dtos.MapTo<TEntity>();
 
-            using (var command = CommandWrapper)
+            using (var command = this.CommandWrapper)
             {
                 command.Execute(uow =>
                 {
@@ -250,7 +244,7 @@ namespace Xy.Pis.Service
             dtos.Validation();
             var entities = dtos.MapTo<TEntity>();
 
-            using (var command = CommandWrapper)
+            using (var command = this.CommandWrapper)
             {
                 command.Execute(uow =>
                 {
@@ -263,7 +257,7 @@ namespace Xy.Pis.Service
         {
             var expression = Mapper.Map<Expression<Func<TEntity, bool>>>(predicate);
             
-            using (var command = CommandWrapper)
+            using (var command = this.CommandWrapper)
             {
                 return command.Execute(uow =>
                 {
@@ -276,7 +270,7 @@ namespace Xy.Pis.Service
         {
             var predicate = Mapper.Map<Expression<Func<TEntity, bool>>>(expression);
 
-            using (var command = CommandWrapper)
+            using (var command = this.CommandWrapper)
             {
                 return command.Execute(uow =>
                 {
@@ -287,21 +281,25 @@ namespace Xy.Pis.Service
 
         public virtual int Update(Expression<Func<TDTO, bool>> filterExpression, Expression<Func<TDTO, TDTO>> updateExpression)
         {
-            //dto.Validation();
-            
-            //TEntity entity1 = dto.MapTo<TEntity>();
-            
+            // dto.Validation();
+
+            // TEntity entity1 = dto.MapTo<TEntity>();            
             var filterExpressionForEntity = Mapper.Map<Expression<Func<TEntity, bool>>>(filterExpression);
             var updateExpressionForEntity = Mapper.Map<Expression<Func<TEntity, TEntity>>>(updateExpression);            
 
-            using (var command = CommandWrapper)
+            using (var command = this.CommandWrapper)
             {
                 return command.Execute(uow =>
                 {
                     return uow.Update<TEntity>(filterExpressionForEntity, updateExpressionForEntity);
                 });
             }
-        }        
-        
+        }
+
+        protected override void Configure()
+        {
+            Mapper.CreateMap<TEntity, TDTO>();
+            Mapper.CreateMap<TDTO, TEntity>();
+        }
     }
 }

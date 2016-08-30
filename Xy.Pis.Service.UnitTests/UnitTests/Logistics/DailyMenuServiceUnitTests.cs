@@ -1,13 +1,13 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Practices.Unity;
-using log4net;
 using System.Reflection;
-using Xy.Pis.Contract.Service.Logistics;
+using log4net;
+using Microsoft.Practices.Unity;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Xy.Pis.Contract.Message.Logistics;
+using Xy.Pis.Contract.Service.Logistics;
 using Xy.Pis.Proxy;
 
 namespace Xy.Pis.Service.UnitTests.Logistics

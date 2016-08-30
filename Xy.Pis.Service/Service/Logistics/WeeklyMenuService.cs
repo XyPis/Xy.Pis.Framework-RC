@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.Objects.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Practices.Unity;
 using System.Reflection;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
-using System.Data.Objects.SqlClient;
-using System.Data.Entity;
+using System.Text;
+using System.Threading.Tasks;
 using log4net;
+using Microsoft.Practices.Unity;
 using Xy.Pis.Contract.Message.Logistics;
 using Xy.Pis.Contract.Service.Logistics;
 using Xy.Pis.Domain;
@@ -25,7 +25,7 @@ namespace Xy.Pis.Service.Logistics
         {
             using (var command = CommandWrapper)
             {
-                return command.Execute((uow => 
+                return command.Execute(uow => 
                 {
                     var query = uow.Get<LmWeekFood>();
                     bool any = query.Any();
@@ -37,7 +37,7 @@ namespace Xy.Pis.Service.Logistics
                     {
                         return DateTime.MinValue;
                     }
-                }));
+                });
             }
         }
 
@@ -55,7 +55,6 @@ namespace Xy.Pis.Service.Logistics
 
                     if (weeklyMenu != null)
                     {
-
                         uow.Update<LmWeekFood>(weeklyMenu);
                     }
                     else

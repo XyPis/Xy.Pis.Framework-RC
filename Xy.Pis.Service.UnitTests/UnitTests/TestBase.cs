@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Reflection;
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Xy.Pis.Contract.Message.Logistics;
 using Xy.Pis.Contract.Service.Logistics;
@@ -13,9 +13,9 @@ namespace Xy.Pis.Service.UnitTests
     [TestClass]
     public class TestBase : Base
     {       
-        protected AdditionalMealDTO PrepareData(int hospId, int locationId, DateTime orderDate, decimal unitPrice)
+        protected virtual AdditionalMealDTO PrepareData(int hospId, int locationId, DateTime orderDate, decimal unitPrice)
         {
-            int userId = 999999;       
+            int userId = 999999;
 
             AdditionalMealDTO additionalMealDto = new AdditionalMealDTO()
             {
@@ -77,6 +77,5 @@ namespace Xy.Pis.Service.UnitTests
 
             return additionalMealDto;
         }
-
     }
 }

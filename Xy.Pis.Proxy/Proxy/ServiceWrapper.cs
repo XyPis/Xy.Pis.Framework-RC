@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Reflection;
 using System.ServiceModel;
-using System.Diagnostics;
+using System.Text;
 using log4net;
 using Xy.Pis.Contract.Service;
-using Xy.Pis.Utils.Unity;
 using Xy.Pis.Utils.Exceptions;
+using Xy.Pis.Utils.Unity;
 
 namespace Xy.Pis.Proxy
 {
@@ -16,12 +16,19 @@ namespace Xy.Pis.Proxy
     {
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        static Type[] _remoteService = new Type[]
+        private static Type[] remoteService = new Type[]
         {
-           //typeof(IAdditionalMealService)
+           // typeof(IAdditionalMealService)
         };
 
-        public static Response<String> Invoke<T>(Action<T> action)
+        private enum EnumExeptionType
+        {
+            Exception = 0,
+            TimeoutException = 1,
+            CommunicationException = 2,
+        }
+
+        public static Response<string> Invoke<T>(Action<T> action)
             where T : IServiceBase
         {
             T proxy = GetService<T>();
@@ -32,7 +39,7 @@ namespace Xy.Pis.Proxy
             if (Log.IsDebugEnabled)
             {
                 st.Start();
-                Log.DebugFormat("Request to {0} service {1} ......", (isRemoteService ? "remote" : "local"), typeof(T));
+                Log.DebugFormat("Request to {0} service {1} ......", isRemoteService ? "remote" : "local", typeof(T));
                 Log.DebugFormat("Client Method: {0}", action.Method);
             }
 
@@ -58,7 +65,7 @@ namespace Xy.Pis.Proxy
             if (Log.IsDebugEnabled)
             {
                 st.Start();
-                Log.DebugFormat("Request to {0} service {1} ......", (isRemoteService ? "remote" : "local"), typeof(T));
+                Log.DebugFormat("Request to {0} service {1} ......", isRemoteService ? "remote" : "local", typeof(T));
                 Log.DebugFormat("Client Method: {0}", func.Method);
             }
 
@@ -80,7 +87,7 @@ namespace Xy.Pis.Proxy
             {
                 ServiceType type = ServiceType.Local;
 
-                if (_remoteService.Where(t => t == typeof(T)).Any())
+                if (remoteService.Where(t => t == typeof(T)).Any())
                 {
                     type = ServiceType.Remote;
                 }
@@ -113,10 +120,10 @@ namespace Xy.Pis.Proxy
             return (service as IClientChannel) != null ? true : false;
         }
 
-        private static Response<String> InvokeLocalService<T>(T proxy, Action<T> action)
+        private static Response<string> InvokeLocalService<T>(T proxy, Action<T> action)
           where T : IServiceBase
         {
-            Response<String> result = new Response<String>(ServiceType.Local);
+            Response<string> result = new Response<string>(ServiceType.Local);
 
             try
             {
@@ -152,10 +159,10 @@ namespace Xy.Pis.Proxy
             return result;
         }
 
-        private static Response<String> InvokeRemoteService<T>(T proxy, Action<T> action)
+        private static Response<string> InvokeRemoteService<T>(T proxy, Action<T> action)
              where T : IServiceBase
         {
-            Response<String> result = new Response<String>(ServiceType.Remote);
+            Response<string> result = new Response<string>(ServiceType.Remote);
             ResponseStatus responseStatus = ResponseStatus.Error;
             string message = string.Empty;
 
@@ -255,13 +262,6 @@ namespace Xy.Pis.Proxy
             }
 
             return errMessage;
-        }
-
-        private enum EnumExeptionType
-        {
-            Exception = 0,
-            TimeoutException = 1,
-            CommunicationException = 2,
-        }
-    }    
+        }       
+    }
 }

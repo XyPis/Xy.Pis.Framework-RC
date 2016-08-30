@@ -9,14 +9,13 @@ namespace Xy.Pis.Contract.Message.Logistics
     {
         public WeeklyMenuDTO()
         {
-            //this.DailyMenus = new List<DailyMenuDto>();
         }
 
         [DataMember]
-        public string lsData { get; set; }
+        public string LsData { get; set; }
 
         [DataMember]
-        public Nullable<int> CreatorId { get; set; }
+        public int? CreatorId { get; set; }
 
         [DataMember]
         public System.DateTime CreateTime { get; set; }
@@ -25,7 +24,7 @@ namespace Xy.Pis.Contract.Message.Logistics
         public System.DateTime LastModifyTime { get; set; }
 
         [DataMember]
-        public Nullable<int> LastModify { get; set; }
+        public int? LastModify { get; set; }
 
         [DataMember]
         public System.DateTime StartDate { get; set; }
@@ -38,8 +37,5 @@ namespace Xy.Pis.Contract.Message.Logistics
 
         [DataMember]
         public string WbCode { get; set; }
-
-        //[DataMember]
-        //public virtual ICollection<DailyMenuDto> DailyMenus { get; set; }
     }
 }

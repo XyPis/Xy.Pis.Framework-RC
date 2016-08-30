@@ -1,12 +1,12 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using log4net;
 using Microsoft.Practices.Unity;
-using System.Reflection;
-using System.Linq.Expressions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Xy.Pis.Contract.Message.Logistics;
 using Xy.Pis.Contract.Service.Logistics;
 using Xy.Pis.Proxy;
@@ -16,55 +16,30 @@ namespace Xy.Pis.Service.UnitTests.Logistics
     [TestClass]
     public partial class EngineeringMaintenanceServiceTests : TestBase
     {
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
-        int Add()
-        {
-            var expectedDto = new EngineeringMaintenanceDTO() 
-            {
-                Name = "柜子",
-                Position = "万寿楼",                
-                LocationId = 1517,
-                RepairLocationId = 1559,
-                CompletionBeginTime = DateTime.Now.AddDays(-5),
-                CompletionEndTime = DateTime.Now.AddDays(-4),
-                LsStatus = 2,
-                Memo = "",
-                OperId = 9,
-                OperTime = DateTime.Now
-            };
-
-            var response = ServiceWrapper.Invoke<IEngineeringMaintenanceService, EngineeringMaintenanceDTO>(x => x.Add(expectedDto));
-            
-            Assert.IsTrue(response.Status == ResponseStatus.OK);
-            Assert.IsNotNull(response.Result);
-            Assert.AreNotEqual(0, response.Result.ID);          
-
-            return response.Result.ID;
-        }
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);        
 
         [TestMethod]
         public void Test_EngineeringMaintenanceService_Add()
         {
-            int ID = Add();
+            int id = this.Add();
 
-            Assert.AreNotEqual(0, ID);
+            Assert.AreNotEqual(0, id);
         }
 
         [TestMethod]
         public void Test_EngineeringMaintenanceService_GetAll()
         {
-            int ID = Add();
+            int id = this.Add();
             var response = ServiceWrapper.Invoke<IEngineeringMaintenanceService, IEnumerable<EngineeringMaintenanceDTO>>(x => x.GetAll());
             Assert.IsTrue(response.Status == ResponseStatus.OK);
-            Assert.IsTrue(response.Result.Where(x => x.ID == ID).Any());
+            Assert.IsTrue(response.Result.Where(x => x.ID == id).Any());
         }
 
         [TestMethod]
         public void Test_EngineeringMaintenanceService_GetById()
         {
-            int ID = Add();
-            var getResponse = ServiceWrapper.Invoke<IEngineeringMaintenanceService, EngineeringMaintenanceDTO>(x => x.GetById(ID));
+            int id = this.Add();
+            var getResponse = ServiceWrapper.Invoke<IEngineeringMaintenanceService, EngineeringMaintenanceDTO>(x => x.GetById(id));
             Assert.IsTrue(getResponse.Status == ResponseStatus.OK);
             Assert.IsNotNull(getResponse.Result);
         }
@@ -72,8 +47,8 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         [TestMethod]
         public void Test_EngineeringMaintenanceService_Update()
         {
-            int ID = Add();
-            var getResponse = ServiceWrapper.Invoke<IEngineeringMaintenanceService, EngineeringMaintenanceDTO>(x => x.GetById(ID));
+            int id = this.Add();
+            var getResponse = ServiceWrapper.Invoke<IEngineeringMaintenanceService, EngineeringMaintenanceDTO>(x => x.GetById(id));
             Assert.IsTrue(getResponse.Status == ResponseStatus.OK);
             Assert.IsNotNull(getResponse.Result);
 
@@ -88,8 +63,8 @@ namespace Xy.Pis.Service.UnitTests.Logistics
         [TestMethod]
         public void Test_EngineeringMaintenanceService_Delete()
         {
-            int ID = Add();
-            var getResponse = ServiceWrapper.Invoke<IEngineeringMaintenanceService, EngineeringMaintenanceDTO>(x => x.GetById(ID));
+            int id = this.Add();
+            var getResponse = ServiceWrapper.Invoke<IEngineeringMaintenanceService, EngineeringMaintenanceDTO>(x => x.GetById(id));
             Assert.IsTrue(getResponse.Status == ResponseStatus.OK);
 
             EngineeringMaintenanceDTO dto = getResponse.Result;
@@ -114,7 +89,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
                 CompletionBeginTime = DateTime.Now.AddDays(-5),
                 CompletionEndTime = null,
                 LsStatus = 1,
-                Memo = "",
+                Memo = string.Empty,
                 OperId = 9,
                 OperTime = DateTime.Now
             });
@@ -128,7 +103,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
                 CompletionBeginTime = DateTime.Now.AddDays(-5),
                 CompletionEndTime = null,
                 LsStatus = 1,
-                Memo = "",
+                Memo = string.Empty,
                 OperId = 9,
                 OperTime = DateTime.Now
             });
@@ -156,5 +131,30 @@ namespace Xy.Pis.Service.UnitTests.Logistics
             Assert.IsTrue(getResponse.Status == ResponseStatus.OK);
             Assert.IsTrue(getResponse.Result.Count() > 0);
         }
+
+         private int Add()
+         {
+             var expectedDto = new EngineeringMaintenanceDTO()
+             {
+                 Name = "柜子",
+                 Position = "万寿楼",
+                 LocationId = 1517,
+                 RepairLocationId = 1559,
+                 CompletionBeginTime = DateTime.Now.AddDays(-5),
+                 CompletionEndTime = DateTime.Now.AddDays(-4),
+                 LsStatus = 2,
+                 Memo = string.Empty,
+                 OperId = 9,
+                 OperTime = DateTime.Now
+             };
+
+             var response = ServiceWrapper.Invoke<IEngineeringMaintenanceService, EngineeringMaintenanceDTO>(x => x.Add(expectedDto));
+
+             Assert.IsTrue(response.Status == ResponseStatus.OK);
+             Assert.IsNotNull(response.Result);
+             Assert.AreNotEqual(0, response.Result.ID);
+
+             return response.Result.ID;
+         }
     }
 }

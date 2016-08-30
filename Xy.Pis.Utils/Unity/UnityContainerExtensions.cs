@@ -1,15 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using System.Reflection;
 using Microsoft.Practices.Unity;
 
 namespace Xy.Pis.Utils.Unity
 {
     public static class UnityContainerExtensions
     {
+        internal enum EnumRegisterType
+        {
+            FromType = 0,
+            ToType = 1,
+        }
+
         public static void RegisterTypeInAssembly(this IUnityContainer unityContainer, Assembly fromAssembly, Assembly toAssembly, params Type[] excludeTypes)
         {
             var fromTypes = GetTypes(fromAssembly, EnumRegisterType.FromType);
@@ -20,8 +26,10 @@ namespace Xy.Pis.Utils.Unity
                 Type fromType = fromTypes[key];
                 if (excludeTypes.Any()) 
                 {
-                    if (excludeTypes.Where(x => x.Name == fromType.Name).Any()) 
+                    if (excludeTypes.Where(x => x.Name == fromType.Name).Any())
+                    {
                         continue;
+                    }                        
                 }                
                 
                 foreach (var servieKey in toTypes.Keys)
@@ -38,7 +46,7 @@ namespace Xy.Pis.Utils.Unity
             }
         }
 
-        static Dictionary<string, Type> GetTypes(Assembly assembly, EnumRegisterType registerType)
+        private static Dictionary<string, Type> GetTypes(Assembly assembly, EnumRegisterType registerType)
         {
             var types = new Dictionary<string, Type>();
 
@@ -65,18 +73,11 @@ namespace Xy.Pis.Utils.Unity
                     }
                 }
                 else 
-                {
-                   
+                {                   
                 }
             }
 
             return types;
-        }
-
-        internal enum EnumRegisterType
-        {
-            FromType = 0,
-            ToType = 1,
         }
     }    
 }

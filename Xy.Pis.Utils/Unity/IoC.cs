@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Reflection;
-using Microsoft.Practices.Unity;
+using System.Text;
 using log4net;
+using Microsoft.Practices.Unity;
 
 namespace Xy.Pis.Utils.Unity
 {

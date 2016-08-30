@@ -11,9 +11,9 @@ namespace Xy.Pis.Contract.Message.Logistics
         public string Name { get; set; }
         
         [DataMember]
-        public Nullable<int> Type { get; set; }
+        public int? Type { get; set; }
 
         [DataMember]
-        public Nullable<decimal> UnitPrice { get; set; }
+        public decimal? UnitPrice { get; set; }
     }
 }

@@ -19,7 +19,7 @@ namespace Xy.Pis.Contract.Message
         public string Name { get; set; }
 
         [DataMember]
-        public Nullable<int> HospitalId { get; set; }
+        public int? HospitalId { get; set; }
 
         [DataMember]
         public short LsInOut { get; set; }
@@ -55,10 +55,10 @@ namespace Xy.Pis.Contract.Message
         public short IconIndex { get; set; }
 
         [DataMember]
-        public Nullable<int> SpecialityId { get; set; }
+        public int? SpecialityId { get; set; }
 
         [DataMember]
-        public Nullable<short> BedSum { get; set; }
+        public short? BedSum { get; set; }
 
         [DataMember]
         public string BaSysCode { get; set; }
@@ -67,13 +67,13 @@ namespace Xy.Pis.Contract.Message
         public string Director { get; set; }
 
         [DataMember]
-        public Nullable<int> DeptTypeId { get; set; }
+        public int? DeptTypeId { get; set; }
 
         [DataMember]
-        public Nullable<bool> IsCostApp { get; set; }
+        public bool? IsCostApp { get; set; }
 
         [DataMember]
-        public Nullable<short> AppLevel { get; set; }
+        public short? AppLevel { get; set; }
 
         [DataMember]
         public string PyCode { get; set; }
@@ -82,7 +82,7 @@ namespace Xy.Pis.Contract.Message
         public string WbCode { get; set; }
 
         [DataMember]
-        public Nullable<int> Area { get; set; }
+        public int? Area { get; set; }
 
         [DataMember]
         public string F5 { get; set; }
@@ -97,13 +97,13 @@ namespace Xy.Pis.Contract.Message
         public string F8 { get; set; }
 
         [DataMember]
-        public Nullable<int> OuRoomId { get; set; }
+        public int? OuRoomId { get; set; }
 
         [DataMember]
-        public Nullable<int> InRoomId { get; set; }
+        public int? InRoomId { get; set; }
 
         [DataMember]
-        public Nullable<bool> IsPriceSub { get; set; }
+        public bool? IsPriceSub { get; set; }
         
         [DataMember]
         public virtual ICollection<Logistics.AdditionalMealDTO> AdditionalMeals { get; set; }

@@ -31,16 +31,16 @@ namespace Xy.Pis.Contract.Message.Logistics
         public int OrderStatus { get; set; }
 
         [DataMember]
-        public Nullable<int> Auditor { get; set; }
+        public int? Auditor { get; set; }
 
         [DataMember]
-        public Nullable<System.DateTime> AuditDate { get; set; }
+        public DateTime? AuditDate { get; set; }
 
         [DataMember]
-        public Nullable<int> Canceller { get; set; }
+        public int? Canceller { get; set; }
 
         [DataMember]
-        public Nullable<System.DateTime> CancellationDate { get; set; }
+        public DateTime? CancellationDate { get; set; }
 
         [DataMember]
         public int AddUser { get; set; }
@@ -57,13 +57,13 @@ namespace Xy.Pis.Contract.Message.Logistics
         [DataMember]
         public virtual ICollection<AdditionalMealDetailsDTO> Details { get; set; }
 
-        //[DataMember]
-        //public virtual LocationDto Location { get; set; }
+        // [DataMember]
+        // public virtual LocationDto Location { get; set; }
 
-        //[DataMember]
-        //public virtual UserDto User { get; set; }
+        // [DataMember]
+        // public virtual UserDto User { get; set; }
 
-        //[DataMember]
-        //public virtual InHosInfoDto InHosInfo { get; set; }
+        // [DataMember]
+        // public virtual InHosInfoDto InHosInfo { get; set; }
     }
 }

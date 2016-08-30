@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Reflection;
-using Microsoft.Practices.Unity;
+using System.Text;
 using log4net;
+using Microsoft.Practices.Unity;
 using Xy.Pis.Contract.Service.Logistics;
 using Xy.Pis.Core;
-using Xy.Pis.Utils.Unity;
 using Xy.Pis.Utils.AutoMapper;
+using Xy.Pis.Utils.Unity;
 
 namespace Xy.Pis.Service
 {

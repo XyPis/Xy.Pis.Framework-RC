@@ -93,6 +93,8 @@
     <Compile Include="Service\Constants.cs" />
     <Compile Include="Service\Initializer.cs" />
     <Compile Include="Service\Logistics\AdditionalMealService.cs" />
+    <Compile Include="Service\Logistics\LocationFullNameResolver.cs" />
+    <Compile Include="Service\Logistics\UnitPriceResolver.cs" />
     <Compile Include="Service\Logistics\DailyMenuService.cs" />
     <Compile Include="Service\Logistics\EngineeringMaintenanceService.cs" />
     <Compile Include="Service\Logistics\FixedAssetsService.cs" />

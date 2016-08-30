@@ -15,7 +15,7 @@ namespace Xy.Pis.Domain.Mapping
                 .IsRequired()
                 .HasMaxLength(50);
 
-            this.Property(t => t.lsAction)
+            this.Property(t => t.LsAction)
                 .IsRequired()
                 .HasMaxLength(500);
 
@@ -40,7 +40,7 @@ namespace Xy.Pis.Domain.Mapping
             this.Property(t => t.ID).HasColumnName("ID");
             this.Property(t => t.Name).HasColumnName("Name");
             this.Property(t => t.LsClass).HasColumnName("LsClass");
-            this.Property(t => t.lsAction).HasColumnName("lsAction");
+            this.Property(t => t.LsAction).HasColumnName("lsAction");
             this.Property(t => t.Effect).HasColumnName("Effect");
             this.Property(t => t.Photo).HasColumnName("Photo");
             this.Property(t => t.TimeFrame).HasColumnName("TimeFrame");

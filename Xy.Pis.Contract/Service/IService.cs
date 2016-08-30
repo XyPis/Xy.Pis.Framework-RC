@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Linq.Expressions;
 using System.ServiceModel;
+using System.Text;
 
 namespace Xy.Pis.Contract.Service
 {
@@ -14,8 +14,8 @@ namespace Xy.Pis.Contract.Service
         [OperationContract]
         TDTO Add(TDTO dto);
         
-        [OperationContract]        
-        Tuple<Int32, Int32> AddOrUpdate(IEnumerable<TDTO> dtos);
+        [OperationContract]
+        Tuple<int, int> AddOrUpdate(IEnumerable<TDTO> dtos);
 
         [OperationContract]
         void Delete(TDTO dto);
@@ -44,11 +44,11 @@ namespace Xy.Pis.Contract.Service
         [OperationContract]
         int UpdateBatch(IEnumerable<TDTO> dtos);
 
-        //void BulkInsert(IEnumerable<TDTO> dtos);
+        // void BulkInsert(IEnumerable<TDTO> dtos);
 
-        //void BulkUpdate(IEnumerable<TDTO> dtos);
+        // void BulkUpdate(IEnumerable<TDTO> dtos);
 
-        //void BulkDelete(IEnumerable<TDTO> dtos);
+        // void BulkDelete(IEnumerable<TDTO> dtos);
         
         // Lambda expression support
         IEnumerable<TDTO> Get(Expression<Func<TDTO, bool>> queryExpression);

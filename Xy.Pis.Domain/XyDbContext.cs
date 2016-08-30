@@ -19,21 +19,30 @@ namespace Xy.Pis
         }
 
         public DbSet<AdditionalMealDetails> AdditionalMealDetails { get; set; }
+        
         public DbSet<AdditionalMeal> AdditionalMeals { get; set; }
+        
         public DbSet<BsLocation> BsLocations { get; set; }
+        
         public DbSet<BsUser> BsUsers { get; set; }        
+        
         public DbSet<InHosInfo> InHosInfoes { get; set; }
+        
         public DbSet<LmFood> LmFoodMaps { get; set; }
+        
         public DbSet<LmWeekFood> LmWeekFoods { get; set; }
+        
         public DbSet<BsItem> BsItems { get; set; }
+        
         public DbSet<LmWorkRepair> LmWorkRepairs { get; set; }
+        
         public DbSet<InStopMealRegister> InStopMealRegisters { get; set; }
+        
         public DbSet<LocationEquipment> LocationEquipments { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-			modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
-
+            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
             modelBuilder.Configurations.Add(new AdditionalMealDetailsMap());
             modelBuilder.Configurations.Add(new AdditionalMealMap());
             modelBuilder.Configurations.Add(new BsLocationMap());

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using System.Linq.Expressions;
 using AutoMapper;
 
 namespace Xy.Pis
@@ -23,16 +23,22 @@ namespace Xy.Pis
         public static void Validation(this DTOBase dtos)
         {
             if (dtos == null)
+            {
                 throw new ArgumentNullException("dto");
+            }                
         }
 
         public static void Validation(this IEnumerable<DTOBase> dtos)
         {
             if (dtos == null)
-                throw new ArgumentNullException("dtos");
+            {
+                throw new ArgumentException("DTOs can not be null", "dtos");
+            }                
 
             if (!dtos.Any())
-                throw new ArgumentOutOfRangeException("dtos");
+            {
+                throw new ArgumentException("DTOs can not be empty", "dtos");
+            }                
         }
     }
 }

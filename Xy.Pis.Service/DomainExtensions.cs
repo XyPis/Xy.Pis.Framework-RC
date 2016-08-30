@@ -22,16 +22,22 @@ namespace Xy.Pis
         public static void Validation(this EntityBase entity)
         {
             if (entity == null)
-                throw new ArgumentNullException("entity");
+            {
+                throw new ArgumentException("Entity can not be null", "entity");
+            }                
         }
 
         public static void Validation(this IEnumerable<EntityBase> entities)
         {
             if (entities == null)
-                throw new ArgumentNullException("entities");
+            {
+                throw new ArgumentException("Entities can not be null", "entities");
+            }
 
             if (!entities.Any())
-                throw new ArgumentOutOfRangeException("entities");
+            {
+                throw new ArgumentOutOfRangeException("Entities can not be empty", "entities");
+            }                
         }
     }
 }

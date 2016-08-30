@@ -9,7 +9,10 @@ namespace Xy.Pis.Utils.Exceptions
     {
         public static Exception GetInnerException(this Exception ex)
         {
-            if (ex.InnerException == null) return ex;
+            if (ex.InnerException == null) 
+            {
+                return ex;
+            } 
 
             return ex.InnerException.GetInnerException();
         }

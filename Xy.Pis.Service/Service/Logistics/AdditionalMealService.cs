@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Data.Entity;
-using System.Reflection;
-using System.Transactions;
-using System.Linq.Expressions;
 using System.Data.Objects.SqlClient;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
+using System.Text;
+using System.Transactions;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using log4net;
@@ -18,21 +18,8 @@ namespace Xy.Pis.Service.Logistics
 {
     public class AdditionalMealService : AbstractService<AdditionalMeal, AdditionalMealDTO>, IAdditionalMealService
     {
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);           
 
-        #region AutoMapper Configuration
-        protected override void Configure()
-        {
-            Mapper.CreateMap<AdditionalMealDetails, AdditionalMealDetailsDTO>();
-            Mapper.CreateMap<AdditionalMealDetailsDTO, AdditionalMealDetails>();
-
-            Mapper.CreateMap<AdditionalMeal, AdditionalMealDTO>()
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.InHosInfo.Name))
-                .ForMember(dest => dest.LocFullName, opt => opt.ResolveUsing<LocFullNameResolver>())
-                ;
-            Mapper.CreateMap<AdditionalMealDTO, AdditionalMeal>();
-        }
-        #endregion
         public AdditionalMealDTO GetLastAdditionalMealByHospId(int hospId)
         {
             using (var command = CommandWrapper)
@@ -61,7 +48,6 @@ namespace Xy.Pis.Service.Logistics
             }
         }
 
-        #region Single Entity Operations
         public override AdditionalMealDTO Add(AdditionalMealDTO dto)
         {
             return base.Add(dto);
@@ -77,7 +63,7 @@ namespace Xy.Pis.Service.Logistics
             {
                 command.Execute(uow =>
                 {
-                    //Remove details first
+                    // Remove details first
                     uow.Delete<AdditionalMealDetails>(x => x.AdditionalMealId == additionMealID);
                    
                     uow.Delete<AdditionalMeal>(x => x.Id == additionMealID);                                        
@@ -101,10 +87,7 @@ namespace Xy.Pis.Service.Logistics
                 });
             }
         }
-        #endregion Single Entity Operations
 
-
-        #region Batch Entities Operations
         public override int AddBatch(IEnumerable<AdditionalMealDTO> dtos)
         {
             return base.AddBatch(dtos);
@@ -128,10 +111,9 @@ namespace Xy.Pis.Service.Logistics
 
         public override int UpdateBatch(IEnumerable<AdditionalMealDTO> dtos)
         {
-             // 更新方式视场景而定: 
-             // a) 所有更新实体生成一条更新语句 
-             // b) 每个更新实体生成一条更新语句
-
+            // 更新方式视场景而定: 
+            // a) 所有更新实体生成一条更新语句 
+            // b) 每个更新实体生成一条更新语句
             dtos.Validation();
 
             var additionalMeals = dtos.MapTo<AdditionalMeal>();
@@ -154,9 +136,7 @@ namespace Xy.Pis.Service.Logistics
                 });
             }
         }
-        #endregion Batch Entities Operations
 
-        #region Bulk Operations
         public override void BulkInsert(IEnumerable<AdditionalMealDTO> dtos)
         {
             dtos.Validation();
@@ -239,7 +219,17 @@ namespace Xy.Pis.Service.Logistics
                 });
             }
         }
-        #endregion Bulk Operations               
+
+        protected override void Configure()
+        {
+            Mapper.CreateMap<AdditionalMealDetails, AdditionalMealDetailsDTO>();
+            Mapper.CreateMap<AdditionalMealDetailsDTO, AdditionalMealDetails>();
+
+            Mapper.CreateMap<AdditionalMeal, AdditionalMealDTO>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.InHosInfo.Name))
+                .ForMember(dest => dest.LocFullName, opt => opt.ResolveUsing<LocationFullNameResolver>());
+            Mapper.CreateMap<AdditionalMealDTO, AdditionalMeal>();
+        }
 
         protected string GetFullLocName(AdditionalMeal source)
         {
@@ -258,26 +248,5 @@ namespace Xy.Pis.Service.Logistics
 
             return string.Empty;
         }
-    }
-
-    public class LocFullNameResolver : ValueResolver<AdditionalMeal, string>
-    {
-        protected override string ResolveCore(AdditionalMeal source)
-        {
-            if (source != null)
-            {
-                InHosInfo hosInfo = source.InHosInfo;
-                if (hosInfo != null)
-                {
-                    BsBed bedInfo = source.InHosInfo.BedInfo;
-                    if (bedInfo != null)
-                    {
-                        return string.Concat(bedInfo.BsBedFloor.Name, bedInfo.RoomNo, "号房", bedInfo.Name, "床");
-                    }
-                }
-            }
-
-            return string.Empty;
-        }
-    }
+    }    
 }

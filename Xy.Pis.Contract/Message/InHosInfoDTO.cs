@@ -34,19 +34,19 @@ namespace Xy.Pis.Contract.Message
         public int NTime { get; set; }
 
         [DataMember]
-        public Nullable<System.DateTime> InTime { get; set; }
+        public DateTime? InTime { get; set; }
 
         [DataMember]
-        public Nullable<System.DateTime> OutTime { get; set; }
+        public DateTime? OutTime { get; set; }
 
         [DataMember]
-        public Nullable<short> LsMarriage { get; set; }
+        public short? LsMarriage { get; set; }
 
         [DataMember]
         public string BloodGroup { get; set; }
 
         [DataMember]
-        public Nullable<int> CountryId { get; set; }
+        public int? CountryId { get; set; }
         
         [DataMember]
         public string Residence { get; set; }
@@ -61,7 +61,7 @@ namespace Xy.Pis.Contract.Message
         public bool IsOversea { get; set; }
 
         [DataMember]
-        public Nullable<System.DateTime> PassTime { get; set; }
+        public DateTime? PassTime { get; set; }
 
         [DataMember]
         public string IdCardNo { get; set; }
@@ -73,34 +73,34 @@ namespace Xy.Pis.Contract.Message
         public string Occupation { get; set; }
 
         [DataMember]
-        public Nullable<int> WorktypeId { get; set; }
+        public int? WorktypeId { get; set; }
 
         [DataMember]
         public int PatTypeId { get; set; }
 
         [DataMember]
-        public Nullable<int> CertificateId { get; set; }
+        public int? CertificateId { get; set; }
 
         [DataMember]
-        public Nullable<short> LsInType { get; set; }
+        public short? LsInType { get; set; }
 
         [DataMember]
-        public Nullable<short> LsInWay { get; set; }
+        public short? LsInWay { get; set; }
 
         [DataMember]
-        public Nullable<short> LsInIllness { get; set; }
+        public short? LsInIllness { get; set; }
 
         [DataMember]
-        public Nullable<int> DocMz { get; set; }
+        public int? DocMz { get; set; }
 
         [DataMember]
-        public Nullable<int> DoctorId { get; set; }
+        public int? DoctorId { get; set; }
 
         [DataMember]
         public int LocIn { get; set; }
 
         [DataMember]
-        public Nullable<int> LocationId { get; set; }
+        public int? LocationId { get; set; }
 
         [DataMember]
         public bool IsYbMt { get; set; }
@@ -109,13 +109,13 @@ namespace Xy.Pis.Contract.Message
         public string YbRegNo { get; set; }
 
         [DataMember]
-        public Nullable<decimal> ArrearAmount { get; set; }
+        public decimal? ArrearAmount { get; set; }
 
         [DataMember]
-        public Nullable<decimal> Height { get; set; }
+        public decimal? Height { get; set; }
 
         [DataMember]
-        public Nullable<decimal> Weight { get; set; }
+        public decimal? Weight { get; set; }
 
         [DataMember]
         public string PhoneHome { get; set; }
@@ -145,7 +145,7 @@ namespace Xy.Pis.Contract.Message
         public string LinkmanName { get; set; }
 
         [DataMember]
-        public Nullable<int> RelationId { get; set; }
+        public int? RelationId { get; set; }
 
         [DataMember]
         public string LinkmanPhone { get; set; }
@@ -163,7 +163,7 @@ namespace Xy.Pis.Contract.Message
         public short LsInStatus { get; set; }
 
         [DataMember]
-        public Nullable<System.DateTime> LeaveTime { get; set; }
+        public DateTime? LeaveTime { get; set; }
 
         [DataMember]
         public string Status { get; set; }
@@ -178,10 +178,10 @@ namespace Xy.Pis.Contract.Message
         public bool IsEndChg { get; set; }
 
         [DataMember]
-        public Nullable<int> EndChgOperID { get; set; }
+        public int? EndChgOperID { get; set; }
 
         [DataMember]
-        public Nullable<System.DateTime> EndchgoperTime { get; set; }
+        public DateTime? EndchgoperTime { get; set; }
 
         [DataMember]
         public string AgeString { get; set; }
@@ -190,16 +190,16 @@ namespace Xy.Pis.Contract.Message
         public string PyCode { get; set; }
 
         [DataMember]
-        public Nullable<int> BedId { get; set; }
+        public int? BedId { get; set; }
 
         [DataMember]
-        public Nullable<int> NursingGradeId { get; set; }
+        public int? NursingGradeId { get; set; }
 
         [DataMember]
         public string FirstLinkmanName { get; set; }
 
         [DataMember]
-        public Nullable<int> FirstRelationId { get; set; }
+        public int? FirstRelationId { get; set; }
 
         [DataMember]
         public string FirstLinkmanIdCard { get; set; }
@@ -223,7 +223,7 @@ namespace Xy.Pis.Contract.Message
         public string SecondLinkmanName { get; set; }
 
         [DataMember]
-        public Nullable<int> SecondRelationId { get; set; }
+        public int? SecondRelationId { get; set; }
 
         [DataMember]
         public string SecondLinkmanIdCard { get; set; }
@@ -244,46 +244,46 @@ namespace Xy.Pis.Contract.Message
         public string SecondLinkmanPhone { get; set; }
         
         [DataMember]
-        public Nullable<int> BedYearTypeId { get; set; }
+        public int? BedYearTypeId { get; set; }
 
         [DataMember]
-        public Nullable<short> LsOutManagementType { get; set; }
+        public short? LsOutManagementType { get; set; }
 
         [DataMember]
-        public Nullable<int> AddRatioId { get; set; }
+        public int? AddRatioId { get; set; }
 
         [DataMember]
-        public Nullable<short> LsEconomicSource { get; set; }
+        public short? LsEconomicSource { get; set; }
 
         [DataMember]
-        public Nullable<int> MealTypeId { get; set; }
+        public int? MealTypeId { get; set; }
 
         [DataMember]
-        public Nullable<int> ServiceChargeId { get; set; }
+        public int? ServiceChargeId { get; set; }
 
         [DataMember]
-        public Nullable<System.DateTime> AgreementBeginDate { get; set; }
+        public DateTime? AgreementBeginDate { get; set; }
 
         [DataMember]
-        public Nullable<System.DateTime> AgreementEndDate { get; set; }
+        public DateTime? AgreementEndDate { get; set; }
 
         [DataMember]
         public bool IsCheckInCharge { get; set; }
 
         [DataMember]
-        public Nullable<decimal> OneTimeFacilityFee { get; set; }
+        public decimal? OneTimeFacilityFee { get; set; }
 
         [DataMember]
-        public Nullable<decimal> Discount { get; set; }
+        public decimal? Discount { get; set; }
 
         [DataMember]
-        public Nullable<decimal> ServiceChargeAmount { get; set; }
+        public decimal? ServiceChargeAmount { get; set; }
         
         [DataMember]
-        public Nullable<decimal> BedAmount { get; set; }
+        public decimal? BedAmount { get; set; }
 
         [DataMember]
-        public Nullable<decimal> NursingCost { get; set; }
+        public decimal? NursingCost { get; set; }
 
         [DataMember]
         public virtual ICollection<Logistics.AdditionalMealDTO> AdditionalMeals { get; set; }

@@ -41,22 +41,22 @@ namespace Xy.Pis.Contract.Message
         public short IconIndex { get; set; }
         
         [DataMember]
-        public Nullable<bool> IsUserInputWB { get; set; }
+        public bool? IsUserInputWB { get; set; }
         
         [DataMember]
-        public Nullable<bool> IsUserInputPY { get; set; }
+        public bool? IsUserInputPY { get; set; }
         
         [DataMember]
-        public Nullable<bool> IsUserInputCode { get; set; }
+        public bool? IsUserInputCode { get; set; }
         
         [DataMember]
-        public Nullable<bool> IsUserInputName { get; set; }
+        public bool? IsUserInputName { get; set; }
         
         [DataMember]
-        public Nullable<bool> IsUserInputStrokeCode { get; set; }
+        public bool? IsUserInputStrokeCode { get; set; }
         
         [DataMember]
-        public Nullable<bool> IsUserInputEngDesc { get; set; }
+        public bool? IsUserInputEngDesc { get; set; }
         
         [DataMember]
         public string Introduce { get; set; }
@@ -71,19 +71,19 @@ namespace Xy.Pis.Contract.Message
         public string Mobile { get; set; }
         
         [DataMember]
-        public Nullable<int> LevelId { get; set; }
+        public int? LevelId { get; set; }
         
         [DataMember]
-        public Nullable<int> DocLevId { get; set; }
+        public int? DocLevId { get; set; }
         
         [DataMember]
-        public Nullable<int> HospitalId { get; set; }
+        public int? HospitalId { get; set; }
         
         [DataMember]
-        public Nullable<int> CareGroupId { get; set; }
+        public int? CareGroupId { get; set; }
         
         [DataMember]
-        public Nullable<int> CareGroupId1 { get; set; }
+        public int? CareGroupId1 { get; set; }
         
         [DataMember]
         public string F5 { get; set; }
@@ -98,9 +98,9 @@ namespace Xy.Pis.Contract.Message
         public string WbCode { get; set; }
         
         [DataMember]
-        public Nullable<bool> IsUserInputF1 { get; set; }
+        public bool? IsUserInputF1 { get; set; }
         
         [DataMember]
-        public Nullable<int> UserLevelId { get; set; }
+        public int? UserLevelId { get; set; }
     }
 }

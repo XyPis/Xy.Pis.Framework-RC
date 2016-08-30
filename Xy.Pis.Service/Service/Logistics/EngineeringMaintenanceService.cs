@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.ServiceModel;
 using System.Linq.Expressions;
+using System.ServiceModel;
+using System.Text;
 using AutoMapper;
 using Xy.Pis.Contract.Message.Logistics;
 using Xy.Pis.Contract.Service.Logistics;
@@ -16,12 +16,11 @@ namespace Xy.Pis.Service.Logistics
         public virtual IEnumerable<EngineeringMaintenanceDTO> FullTextSearch(string text)
         {
             if (string.IsNullOrWhiteSpace(text))
+            {
                 throw new ArgumentException("Searching text can not be null or empty", "text");
+            }                
 
-            Expression<Func<LmWorkRepair, bool>> predicate = x => x.Name.Contains(text)
-                || x.Position.Contains(text)
-                || x.Memo.Contains(text)
-                ;
+            Expression<Func<LmWorkRepair, bool>> predicate = x => x.Name.Contains(text) || x.Position.Contains(text) || x.Memo.Contains(text);
 
             using (var command = CommandWrapper)
             {

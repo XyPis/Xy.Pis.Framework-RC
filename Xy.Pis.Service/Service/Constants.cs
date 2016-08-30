@@ -7,6 +7,6 @@ namespace Xy.Pis.Service
 {
     internal class Constants
     {
-        public const int SINGLE_ROW = 1;
+        public const int SingleRow = 1;
     }
 }

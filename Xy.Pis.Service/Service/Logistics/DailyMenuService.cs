@@ -11,16 +11,6 @@ namespace Xy.Pis.Service.Logistics
 {
     public class DailyMenuService : AbstractService<LmFood, FoodDTO>, IDailyMenuService
     {
-        protected override void Configure()
-        {
-            Mapper.CreateMap<FoodDTO, LmFood>();
-            Mapper.CreateMap<LmFood, FoodDTO>()
-                .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.LsClass))
-                .ForMember(dest => dest.UnitPrice, opt => opt.ResolveUsing<UnitPriceResolver>())
-                //.ForMember(dest => dest.UnitPrice, opt => opt.MapFrom(src => GetUnitPrice(src)))
-                ;
-        }
-
         public IEnumerable<FoodDTO> GetMenuListByType(int type)
         {
             using (var command = CommandWrapper)
@@ -33,26 +23,23 @@ namespace Xy.Pis.Service.Logistics
             }
         }
 
-        protected Nullable<decimal> GetUnitPrice(LmFood source)
+        protected decimal? GetUnitPrice(LmFood source)
         {
-            Nullable<decimal> unitPrie = null;
+            decimal? unitPrie = null;
             if (source.BsItem != null)
+            {
                 unitPrie = source.BsItem.PriceIn;
+            }                
 
             return unitPrie;
         }
-    }
 
-    public class UnitPriceResolver : ValueResolver<LmFood, Nullable<decimal>>
-    {
-        protected override Nullable<decimal> ResolveCore(LmFood source)
+        protected override void Configure()
         {
-            Nullable<decimal> unitPrice = null;
-
-            if (source.BsItem != null)
-                unitPrice = source.BsItem.PriceIn;
-
-            return unitPrice;
+            Mapper.CreateMap<FoodDTO, LmFood>();
+            Mapper.CreateMap<LmFood, FoodDTO>()
+                .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.LsClass))
+                .ForMember(dest => dest.UnitPrice, opt => opt.ResolveUsing<UnitPriceResolver>());
         }
-    }
+    }    
 }

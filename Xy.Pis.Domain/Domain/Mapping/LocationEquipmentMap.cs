@@ -9,11 +9,7 @@ namespace Xy.Pis.Domain.Mapping
         {
             // Primary Key
             this.HasKey(t => t.ID);
-
-            // Properties
-            //this.Property(t => t.ID)
-            //    .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-
+             
             this.Property(t => t.Code)
                 .HasMaxLength(100);
 

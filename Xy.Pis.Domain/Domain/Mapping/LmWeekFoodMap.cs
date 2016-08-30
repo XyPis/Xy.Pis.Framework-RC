@@ -11,7 +11,7 @@ namespace Xy.Pis.Domain.Mapping
             this.HasKey(t => t.Id);
 
             // Properties
-            this.Property(t => t.lsData)
+            this.Property(t => t.LsData)
                 .IsRequired();
 
             this.Property(t => t.PyCode)
@@ -23,7 +23,7 @@ namespace Xy.Pis.Domain.Mapping
             // Table & Column Mappings
             this.ToTable("lmWeekFood");
             this.Property(t => t.Id).HasColumnName("Id");
-            this.Property(t => t.lsData).HasColumnName("lsData");
+            this.Property(t => t.LsData).HasColumnName("lsData");
             this.Property(t => t.CreatorId).HasColumnName("CreatorId");
             this.Property(t => t.CreateTime).HasColumnName("CreateTime");
             this.Property(t => t.LastModifyTime).HasColumnName("LastModifyTime");

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using System.Reflection;
 using AutoMapper;
 
 namespace Xy.Pis.Utils.AutoMapper
@@ -25,7 +25,10 @@ namespace Xy.Pis.Utils.AutoMapper
         {
             foreach (var type in assembly.GetTypes())
             {
-                if (type.IsAbstract || type.IsInterface) continue;                    
+                if (type.IsAbstract || type.IsInterface) 
+                {
+                    continue;
+                }
 
                 if (typeof(Profile).IsAssignableFrom(type))
                 {

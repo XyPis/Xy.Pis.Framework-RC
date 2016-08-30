@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Runtime.Serialization;
+using System.Text;
 
 namespace Xy.Pis.Contract.Message.Logistics
 {
@@ -19,19 +19,19 @@ namespace Xy.Pis.Contract.Message.Logistics
         public string Spec { get; set; }
 
         [DataMember]
-        public Nullable<int> Type { get; set; }
+        public int? Type { get; set; }
 
         [DataMember]
         public string UseLocation { get; set; }
 
         [DataMember]
-        public Nullable<int> ManageManId { get; set; }
+        public int? ManageManId { get; set; }
 
         [DataMember]
         public string StorageLocation { get; set; }
 
         [DataMember]
-        public Nullable<System.DateTime> BuyInDate { get; set; }
+        public DateTime? BuyInDate { get; set; }
 
         [DataMember]
         public int Num { get; set; }
@@ -46,7 +46,7 @@ namespace Xy.Pis.Contract.Message.Logistics
         public string HasUsedTime { get; set; }
 
         [DataMember]
-        public Nullable<System.DateTime> OperTime { get; set; }
+        public DateTime? OperTime { get; set; }
 
         [DataMember]
         public string VoucherNo { get; set; }
@@ -57,5 +57,4 @@ namespace Xy.Pis.Contract.Message.Logistics
         [DataMember]
         public string Memo { get; set; }
     }
-
 }
