@@ -12,6 +12,7 @@ namespace Xy.Pis.Core
     /// <summary>
     /// 数据库上下文和工作单元初始化类
     /// </summary>
+    ///
     public class Initializer
     {
         /// <summary>

@@ -27,18 +27,7 @@ namespace Xy.Pis.Core
 
         public DbContext EFContext { get; set; }
 
-        public bool IsConnectionOpen { get { return EFContext != null; } }
-
-        private IRepository<TEntity> GetRepository<TEntity>()
-           where TEntity : class, new()
-        {
-            if (!repositories.ContainsKey(typeof(TEntity)))
-            {
-                repositories.Add(new KeyValuePair<Type, object>(typeof(TEntity), new EFRepository<TEntity>(EFContext)));
-            }
-
-            return (IRepository<TEntity>)repositories[typeof(TEntity)];
-        }
+        public bool IsConnectionOpen { get { return EFContext != null; } }        
 
         public void Add<TEntity>(TEntity entity) 
             where TEntity : class, new()
@@ -212,6 +201,17 @@ namespace Xy.Pis.Core
             where TEntityInner : class, new()
         {
             return GetRepository<TEntityOuter>().Get().GroupJoin(GetRepository<TEntityInner>().Get(), outerKeySelector, innerKeySelector, (p, q) => resultSelector(p, q.FirstOrDefault()), comparer).AsQueryable();
-        }        
+        }
+
+        private IRepository<TEntity> GetRepository<TEntity>()
+           where TEntity : class, new()
+        {
+            if (!repositories.ContainsKey(typeof(TEntity)))
+            {
+                repositories.Add(new KeyValuePair<Type, object>(typeof(TEntity), new EFRepository<TEntity>(EFContext)));
+            }
+
+            return (IRepository<TEntity>)repositories[typeof(TEntity)];
+        }
     }
 }

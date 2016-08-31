@@ -82,7 +82,9 @@
     <Compile Include="Json\JsonUtils.cs" />
     <Compile Include="Unity\IoC.cs" />
     <Compile Include="Unity\UnityContainerExtensions.cs" />
-    <Compile Include="Unity\UnityContext.cs" />
+    <Compile Include="Unity\UnityContext.cs">
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

@@ -281,19 +281,21 @@ namespace Xy.Pis.Service
 
         public virtual int Update(Expression<Func<TDTO, bool>> filterExpression, Expression<Func<TDTO, TDTO>> updateExpression)
         {
+            throw new NotImplementedException();
+
             // dto.Validation();
 
-            // TEntity entity1 = dto.MapTo<TEntity>();            
-            var filterExpressionForEntity = Mapper.Map<Expression<Func<TEntity, bool>>>(filterExpression);
-            var updateExpressionForEntity = Mapper.Map<Expression<Func<TEntity, TEntity>>>(updateExpression);            
+            // TEntity entity1 = dto.MapTo<TEntity>();
+            ////var filterExpressionForEntity = Mapper.Map<Expression<Func<TEntity, bool>>>(filterExpression);
+            ////var updateExpressionForEntity = Mapper.Map<Expression<Func<TEntity, TEntity>>>(updateExpression);            
 
-            using (var command = this.CommandWrapper)
-            {
-                return command.Execute(uow =>
-                {
-                    return uow.Update<TEntity>(filterExpressionForEntity, updateExpressionForEntity);
-                });
-            }
+            ////using (var command = this.CommandWrapper)
+            ////{
+            ////    return command.Execute(uow =>
+            ////    {
+            ////        return uow.Update<TEntity>(filterExpressionForEntity, updateExpressionForEntity);
+            ////    });
+            ////}
         }
 
         protected override void Configure()

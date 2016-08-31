@@ -9,23 +9,18 @@ namespace Xy.Pis
 {
     public static class DomainExtensions
     {
-        public static T MapTo<T>(this EntityBase entity)
-        {
-            return (entity == null) ? default(T) : Mapper.Map<EntityBase, T>(entity);
-        }
-
-        public static IEnumerable<T> MapTo<T>(this IEnumerable<EntityBase> entities)
-        {
-            return (entities == null) ? new List<T>() : Mapper.Map<IEnumerable<EntityBase>, IEnumerable<T>>(entities);
-        }
-
         public static void Validation(this EntityBase entity)
         {
             if (entity == null)
             {
                 throw new ArgumentException("Entity can not be null", "entity");
-            }                
+            }
         }
+
+        public static T MapTo<T>(this EntityBase entity)
+        {
+            return (entity == null) ? default(T) : Mapper.Map<EntityBase, T>(entity);
+        }        
 
         public static void Validation(this IEnumerable<EntityBase> entities)
         {
@@ -39,5 +34,10 @@ namespace Xy.Pis
                 throw new ArgumentOutOfRangeException("Entities can not be empty", "entities");
             }                
         }
+
+        public static IEnumerable<T> MapTo<T>(this IEnumerable<EntityBase> entities)
+        {
+            return (entities == null) ? new List<T>() : Mapper.Map<IEnumerable<EntityBase>, IEnumerable<T>>(entities);
+        }        
     }
 }

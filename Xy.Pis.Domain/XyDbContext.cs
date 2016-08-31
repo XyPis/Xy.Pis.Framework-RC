@@ -1,6 +1,7 @@
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using System.Reflection;
 using Xy.Pis.Domain;
 using Xy.Pis.Domain.Mapping;
 
@@ -42,21 +43,9 @@ namespace Xy.Pis
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Configurations.AddFromAssembly(Assembly.GetExecutingAssembly());
+
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
-            modelBuilder.Configurations.Add(new AdditionalMealDetailsMap());
-            modelBuilder.Configurations.Add(new AdditionalMealMap());
-            modelBuilder.Configurations.Add(new BsLocationMap());
-            modelBuilder.Configurations.Add(new BsUserMap());
-            modelBuilder.Configurations.Add(new InHosInfoMap());
-            modelBuilder.Configurations.Add(new LmFoodMap());
-            modelBuilder.Configurations.Add(new LmWeekFoodMap());
-            modelBuilder.Configurations.Add(new BsItemMap());
-            modelBuilder.Configurations.Add(new BsBedMap());
-            modelBuilder.Configurations.Add(new BsBedFloorMap());
-            modelBuilder.Configurations.Add(new BsBedRoomTypeMap());
-            modelBuilder.Configurations.Add(new InStopMealRegisterMap());
-            modelBuilder.Configurations.Add(new LmWorkRepairMap());
-            modelBuilder.Configurations.Add(new LocationEquipmentMap());
         }
     }
 }

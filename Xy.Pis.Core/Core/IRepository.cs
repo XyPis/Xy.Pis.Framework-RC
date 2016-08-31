@@ -1,8 +1,8 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Linq.Expressions;
+using System.Text;
 using Z.EntityFramework.Extensions;
 
 namespace Xy.Pis.Core
@@ -37,7 +37,7 @@ namespace Xy.Pis.Core
         void DeleteBatch(IEnumerable<T> entities);
 
         void BulkInsert(IEnumerable<T> entities);
-    
+
         void BulkDelete(IEnumerable<T> entities);
 
         void BulkUpdate(IEnumerable<T> entities);

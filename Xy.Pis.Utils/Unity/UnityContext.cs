@@ -22,7 +22,7 @@ namespace Xy.Pis.Utils.Unity
         {
             internal static readonly IUnityContainer Instance = new UnityContainer();
 
-            static Nested() 
+            static Nested()
             {
             }
         }

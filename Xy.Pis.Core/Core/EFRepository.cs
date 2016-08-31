@@ -1,88 +1,88 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Data.Entity;
-using System.Reflection;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
+using System.Text;
 using EntityFramework.Extensions;
-using Z.EntityFramework.Extensions;
 using log4net;
+using Z.EntityFramework.Extensions;
 
 namespace Xy.Pis.Core
-{   
-    internal class EFRepository<TEntity> : IRepository<TEntity> 
+{
+    internal class EFRepository<TEntity> : IRepository<TEntity>
         where TEntity : class, new()
-    {
+    {                
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        private DbSet<TEntity> EFSet { get; set; }
-
-        private DbContext EFContext { get; set; }
-
-        public EFRepository(DbContext efContext)
+        public EFRepository(DbContext context)
         {
-            efContext.Database.CommandTimeout = 600000;
+            context.Database.CommandTimeout = 600000;
 
-            //Log.DebugFormat("Database CommandTimeout: {0} ms", efContext.Database.CommandTimeout);
-            
-            EFSet = efContext.Set<TEntity>();
-            EFContext = efContext;            
+            ////Log.DebugFormat("Database CommandTimeout: {0} ms", efContext.Database.CommandTimeout);
+
+            this.EFSet = context.Set<TEntity>();
+            this.EFContext = context;
         }
+
+        private DbSet<TEntity> EFSet { get; set; }         
+
+        private DbContext EFContext { get; set; }        
 
         public virtual void Add(TEntity entity)
         {
-            EFSet.Add(entity);
+            this.EFSet.Add(entity);
         }        
 
         public virtual void Delete(TEntity entity)
         {
-            if (EFContext.Entry<TEntity>(entity).State == EntityState.Detached)
+            if (this.EFContext.Entry<TEntity>(entity).State == EntityState.Detached)
             {
-                EFSet.Attach(entity);
+                this.EFSet.Attach(entity);
             }
 
-            EFSet.Remove(entity);
+            this.EFSet.Remove(entity);
         }
 
         public virtual void Update(TEntity entity)
         {
-            if (EFContext.Entry<TEntity>(entity).State == EntityState.Detached)
+            if (this.EFContext.Entry<TEntity>(entity).State == EntityState.Detached)
             {
-                EFSet.Attach(entity);
+                this.EFSet.Attach(entity);
             }
             else
             {
-                EFContext.Entry<TEntity>(entity).CurrentValues.SetValues(entity);
+                this.EFContext.Entry<TEntity>(entity).CurrentValues.SetValues(entity);
             }
 
-            EFContext.Entry<TEntity>(entity).State = EntityState.Modified;
+            this.EFContext.Entry<TEntity>(entity).State = EntityState.Modified;
         }
 
         public virtual TEntity GetById(params object[] ids)
         {
-            return EFSet.Find(ids);
+            return this.EFSet.Find(ids);
         }
 
         public virtual IQueryable<TEntity> Get()
         {
-            return EFSet;
+            return this.EFSet;
         }
 
         public virtual void DeleteById(params object[] ids)
         {
-            Delete(GetById(ids));
+            this.Delete(this.GetById(ids));
         }
 
         public virtual int DeleteAll()
         {
-            return EFSet.Delete();
+            return this.EFSet.Delete();
         }
 
         #region Lambda Expression Operations
         public virtual IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null)
         {
-            IQueryable<TEntity> query = EFSet;
+            IQueryable<TEntity> query = this.EFSet;
 
             if (filter != null)
             {
@@ -101,15 +101,14 @@ namespace Xy.Pis.Core
 
         public virtual List<TEntity> Get(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includeProperties = "")
         {
-            IQueryable<TEntity> query = EFSet;
+            IQueryable<TEntity> query = this.EFSet;
 
             if (filter != null)
             {
                 query = query.Where(filter);
             }
 
-            foreach (var includeProperty in includeProperties.Split
-                (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
             {
                 query = query.Include(includeProperty);
             }
@@ -126,12 +125,12 @@ namespace Xy.Pis.Core
 
         public virtual int Update(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, TEntity>> updateExpression)
         {
-            return EFSet.Where(filterExpression).Update(updateExpression);
+            return this.EFSet.Where(filterExpression).Update(updateExpression);
         }
 
         public virtual int Delete(Expression<Func<TEntity, bool>> queryExpression)
         {
-            return EFSet.Where(queryExpression).Delete();
+            return this.EFSet.Where(queryExpression).Delete();
         }
         #endregion
 

@@ -1,35 +1,21 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Linq.Expressions;
-using Z.EntityFramework.Extensions;
 using System.Data.Entity;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Text;
+using Z.EntityFramework.Extensions;
 
 namespace Xy.Pis.Core
-{    
-    /// <summary>
-    /// 工作单元接口，提供一系列介于工作单元的实体操作方法。
-    /// </summary>
+{
     public interface IUnitOfWork : IDisposable
-    {
-        /// <summary>
-        /// Entity Framework DBContext
-        /// </summary>
+    {        
         DbContext EFContext { get; set; }
     
-        /// <summary>
-        /// 指示数据库连接是否打开
-        /// </summary>
         bool IsConnectionOpen { get; }
 
-        /// <summary>
-        /// 插入单个实体到数据库
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <param name="entity">待插入实体对象</param>
         void Add<TEntity>(TEntity entity) where TEntity : class, new();
-       
+
         void Update<TEntity>(TEntity entity) where TEntity : class, new();
        
         TEntity GetById<TEntity>(params object[] ids) where TEntity : class, new();
@@ -84,5 +70,5 @@ namespace Xy.Pis.Core
         void BulkDelete<TEntity>(IEnumerable<TEntity> entities) where TEntity : class, new();
 
         void BulkUpdate<TEntity>(IEnumerable<TEntity> entities) where TEntity : class, new();        
-    }
+    }    
 }
