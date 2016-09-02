@@ -21,6 +21,11 @@ namespace Xy.Pis.Utils.AutoMapper
             });             
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="assembly"></param>
         private static void AddProfile(IConfiguration config, Assembly assembly)
         {
             foreach (var type in assembly.GetTypes())
