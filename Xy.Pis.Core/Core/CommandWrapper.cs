@@ -24,6 +24,11 @@ namespace Xy.Pis.Core
         
         public IUnitOfWork UnitOfWork { get; set; }
        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="work"></param>
+        /// <param name="option"></param>
         public void Execute(Action<IUnitOfWork> work, TransactionOption option = TransactionOption.CTX)
         {
             if (work == null)
