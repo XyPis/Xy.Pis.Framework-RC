@@ -17,6 +17,10 @@ namespace Xy.Pis.Core
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private bool disposed = false;                
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="uow"></param>
         public CommandWrapper(IUnitOfWork uow)
         {
             this.UnitOfWork = uow;
