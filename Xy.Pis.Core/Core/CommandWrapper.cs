@@ -79,6 +79,13 @@ namespace Xy.Pis.Core
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="work"></param>
+        /// <param name="option"></param>
+        /// <returns></returns>
         public TResult Execute<TResult>(Func<IUnitOfWork, TResult> work, TransactionOption option = TransactionOption.CTX)
         {
             if (work == null)
