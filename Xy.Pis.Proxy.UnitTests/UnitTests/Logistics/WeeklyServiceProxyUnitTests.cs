@@ -1,11 +1,11 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Reflection;
+using System.Threading.Tasks;
 using log4net;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Xy.Pis.Contract.Service.Logistics;
 
 namespace Xy.Pis.Proxy.UnitTests.Logistics
@@ -13,7 +13,7 @@ namespace Xy.Pis.Proxy.UnitTests.Logistics
     [TestClass]
     public partial class WeeklyServiceProxyUnitTests : TestBase
     {
-        private ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
        
         [TestMethod]
         public void Test_WeeklyMenuService_GetLastSunday() 

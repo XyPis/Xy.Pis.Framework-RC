@@ -1,7 +1,7 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Reflection;
 using log4net;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Xy.Pis.Proxy.UnitTests
 {
@@ -13,10 +13,9 @@ namespace Xy.Pis.Proxy.UnitTests
         [AssemblyInitialize]
         public static void Test_Initialize(TestContext context) 
         {
-            //Log.DebugFormat("Log is debug enabled: {0}", Log.IsDebugEnabled);
-            //Log.DebugFormat("Client Service Proxy Initialize ..........");
-            //Initializer.Init();
+            ////Log.DebugFormat("Log is debug enabled: {0}", Log.IsDebugEnabled);
+            ////Log.DebugFormat("Client Service Proxy Initialize ..........");
+            ////Initializer.Init();
         }
     }
-} 
- 
+}
