@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <BuildFolder>$(MSBuildProjectDirectory)\Build</BuildFolder>
+    <ReleaseFolder>$(BuildFolder)\Release\</ReleaseFolder>
+    <VersionFile>$(ReleaseFolder)\Xy.Pis.Core.dll</VersionFile>
+    <PackageFolder>$(BuildFolder)\Package</PackageFolder>
+    <ToolFolder>$(MSBuildProjectDirectory)\..\Tools</ToolFolder>
+    <SourceFolder>$(MSBuildProjectDirectory)</SourceFolder>    
+    <SolutionFileName>$(SourceFolder)\Xy.Pis.Framework.sln</SolutionFileName>
+    <MSBuildCommunityTasksPath>$(ToolFolder)\MSBuildTasks\tools</MSBuildCommunityTasksPath>
+    <XUnitTasksPath>$(ToolFolder)\xunit.runners\tools</XUnitTasksPath>  
+    
+    <!-- Overrider properties -->
+    <IntermediateOutputPath>$(BuildFolder)\obj\</IntermediateOutputPath>
+    <OutputPath>$(ReleaseFolder)</OutputPath>
+  </PropertyGroup>
+      
+  <!-- Version Number -->
+  <PropertyGroup>
+
+    <BuildConfiguration  Condition=" '$(BuildConfiguration)' == '' ">Release</BuildConfiguration>
+
+  </PropertyGroup>
+      
+  <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.targets"/>
+  <Import Project="$(MSBuildProjectDirectory)\packages\xunit.MSBuild.1.9.2.3\build\xunit.MSBuild.targets" Condition="Exists('$(MSBuildProjectDirectory)\packages\xunit.MSBuild.1.9.2.3\build\xunit.MSBuild.targets')" />
+  
+  <Target Name="Clean">
+    <DeleteTree Directories="$(BuildFolder)" ContinueOnError="true" />
+    <DeleteTree Directories="**\obj\**;**\bin\**" />    
+  </Target>            
+  
+  <Target Name="Compile" DependsOnTargets="Clean">
+    <MakeDir Directories="$(BuildFolder)" Condition="!EXISTS($(BuildFolder))" />
+    <MakeDir Directories="$(ReleaseFolder)" Condition="!EXISTS($(ReleaseFolder))" />
+    <MakeDir Directories="$(IntermediateOutputPath)" Condition="!EXISTS($(IntermediateOutputPath))" />
+    <MakeDir Directories="$(PackageFolder)" Condition="!EXISTS($(PackageFolder))" />
+    
+    <NuGetRestore Solution="$(SolutionFileName)" />
+    <MSBuild Projects="$(SolutionFileName)" Properties="OutputPath=$(OutputPath);IntermediateOutputPath=$(IntermediateOutputPath);Configuration=$(BuildConfiguration)"/>
+  </Target>
+
+  <Target Name="Test" DependsOnTargets="Compile">
+    <CallTarget Targets="ExecuteXUnitTests" />
+  </Target>
+
+  <Target Name="Package" DependsOnTargets="Test">    
+    <ItemGroup>
+      <ProjectsToBePacked Include="$(SourceFolder)\**\*.csproj" Exclude="$(SourceFolder)\**\*Test*.csproj"/>
+    </ItemGroup>
+
+    <NuGetPack ToolPath="$(ToolFolder)"
+               File="%(ProjectsToBePacked.Identity)"
+               OutputDirectory="$(PackageFolder)"               
+               Symbols="true"  />
+  </Target>
+  
+  <Target Name="Zip" DependsOnTargets="Compile;RetrieveIdentities">
+    <ItemGroup>
+      <ZipFiles Include="$(ReleaseFolder)\*" />
+    </ItemGroup>
+
+    <Zip Files="@(ZipFiles)"
+         WorkingDirectory="$(ReleaseFolder)"
+         ZipFileName="$(ReleaseFolder).v%(MyAssemblyIdentities.Version).zip" />
+  </Target>
+    
+  <Target Name="Publish" DependsOnTargets="Package">
+    
+    <ItemGroup>
+      <NuGetPackages Include="$(PackageFolder)\*.nupkg" Exclude="$(PackageFolder)\*.symbols.nupkg"/>
+      <NuGetSymbols Include="$(PackageFolder)\*.symbols.nupkg" />
+    </ItemGroup>
+
+    <!-- Push to MyGet on Build -->
+    <NuGetPush ToolPath="$(ToolFolder)"
+               File="%(NuGetPackages.Identity)"
+               APIKey="123"
+               Source="http://localhost:88/" />
+
+    <!-- Push to Symbols on Build -->
+    <NuGetPush ToolPath="$(ToolFolder)"
+               File="%(NuGetSymbols.Identity)"
+               APIKey="123"
+               Source="http://localhost:88/" />
+  </Target>
+
+  <Target Name="Build">
+    <CallTarget Targets="Package;Zip" />
+    <CallTarget Targets="Publish" />
+  </Target> 
+
+ <Target Name="RetrieveIdentities">
+    <GetAssemblyIdentity AssemblyFiles="$(VersionFile)">
+      <Output TaskParameter="Assemblies"
+              ItemName="MyAssemblyIdentities"/>
+    </GetAssemblyIdentity>
+
+    <Message Text="Assembly Version: %(MyAssemblyIdentities.Version)"/>
+    <Message Text="File Name: $(VersionFile)"/>
+  </Target>
+</Project>
