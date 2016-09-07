@@ -22,7 +22,7 @@ namespace Xy.Pis.Proxy.UnitTests.Logistics
             Assert.NotEqual(DateTime.MinValue, lastSunDay);
         }
 
-        [Fact(Skip="重构未完成")]
+        [Fact(Skip = "重构未完成")]
         public void Test_WeeklyMenuService_GetWeeklyMenu()
         {
             ClientProxy proxy = new ClientProxy();

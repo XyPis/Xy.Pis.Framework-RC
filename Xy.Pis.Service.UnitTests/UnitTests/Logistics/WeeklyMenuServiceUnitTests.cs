@@ -32,7 +32,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
             Assert.True(response.Result.Any());
         }
 
-        [Fact(Skip="重构未完成")]
+        [Fact(Skip = "重构未完成")]
         public void Test_WeeklyMenuService_Retrieve()
         {
             int weeklyMenuId = 15;

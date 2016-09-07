@@ -82,8 +82,8 @@
   <Target Name="Publish" DependsOnTargets="Package">
     
     <ItemGroup>
-      <NuGetPackages Include="$(PackageDir)\*.nupkg"/>
-      <!--<NuGetSymbols Include="$(PackageDir)\*.symbols.nupkg" />-->
+      <NuGetPackages Include="$(PackageDir)\*.nupkg" Exclude="$(PackageDir)\*.symbols.nupkg"/>
+      <NuGetSymbols Include="$(PackageDir)\*.symbols.nupkg" />
     </ItemGroup>
 
     <!-- Push to MyGet on Build -->
@@ -91,12 +91,12 @@
                File="%(NuGetPackages.Identity)"
                APIKey="123"
                Source="http://localhost:88/" />
-
+    
     <!-- Push to Symbols on Build -->
-    <!--<NuGetPush ToolPath="$(ToolsDir)"
+    <NuGetPush ToolPath="$(ToolsDir)"
                File="%(NuGetSymbols.Identity)"
                APIKey="123"
-               Source="http://localhost:88/" />-->
+               Source="http://localhost:88/" />      
   </Target>
 
   <Target Name="Build">

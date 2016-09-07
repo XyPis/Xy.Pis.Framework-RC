@@ -10,6 +10,10 @@ namespace Xy.Pis.Utils.AutoMapper
 {
     public sealed class AutoMapperBootStrapper
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="assemblies"></param>
         public static void Initialize(Assembly[] assemblies)
         {
             Mapper.Initialize(cfg =>

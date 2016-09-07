@@ -38,7 +38,7 @@ namespace Xy.Pis.Core
             if (work == null)
             {
                 throw new ArgumentException("Work can not be null", "work");
-            }                
+            }
 
             Tuple<bool, Exception> result = null;
 
