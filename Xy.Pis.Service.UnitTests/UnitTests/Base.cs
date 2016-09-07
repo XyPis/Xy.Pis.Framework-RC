@@ -10,7 +10,7 @@ namespace Xy.Pis.Service.UnitTests
 
         public Base()
         {
-            string connectionString = "test";
+            string connectionString = "testdbContext";
 
             Initializer.Init(connectionString);
         }

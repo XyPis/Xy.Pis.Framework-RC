@@ -1,43 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-  <PropertyGroup>
-    <SourceFolder>$(MSBuildProjectDirectory)</SourceFolder>
-    <JenkinsHome>E:\Program Files (x86)\Jenkins</JenkinsHome>
-    <ToolFolder>$(JenkinsHome)\Tools</ToolFolder>    
-    <BuildFolder>$(MSBuildProjectDirectory)\Build</BuildFolder>
-    <ReleaseFolder>$(BuildFolder)\Release\</ReleaseFolder>    
-    <PackageFolder>$(BuildFolder)\Package</PackageFolder>
-    <VersionFile>$(ReleaseFolder)\Xy.Pis.Core.dll</VersionFile>    
-    <SolutionFileName>$(SourceFolder)\Xy.Pis.Framework.sln</SolutionFileName>
-    <MSBuildCommunityTasksPath>$(ToolFolder)\MSBuildTasks\tools</MSBuildCommunityTasksPath>
-    <XUnitTasksPath>$(ToolFolder)\xunit.MSBuild.1.9.2.3</XUnitTasksPath>
+  <!-- Jenkins home directory and solution base directory -->
+  <PropertyGroup>    
+    <VersionFileName>Xy.Pis.Core.dll</VersionFileName>
+    <SolutionFileName>Xy.Pis.Framework.sln</SolutionFileName>
+    <JenkinsDir>E:\Program Files (x86)\Jenkins</JenkinsDir>
+    <ToolsDir>$(JenkinsDir)\Tools</ToolsDir>
     
-    <!-- Overrider properties -->
-    <IntermediateOutputPath>$(BuildFolder)\obj\</IntermediateOutputPath>
-    <OutputPath>$(ReleaseFolder)</OutputPath>
+    <BaseDir>$(MSBuildStartupDirectory)</BaseDir>    
+    <BuildDir>$(BaseDir)\Build</BuildDir>
+
+    <ReleaseDir>$(BuildDir)\Release</ReleaseDir>
+    <PackageDir>$(BuildDir)\Package</PackageDir>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <VersionFile>$(ReleaseDir)\$(VersionFileName)</VersionFile>
+    <SolutionFullName>$(MSBuildStartupDirectory)\$(SolutionFileName)</SolutionFullName>
   </PropertyGroup>
   
   <PropertyGroup>
-    <BuildConfiguration Condition=" '$(BuildConfiguration)' == '' ">Release</BuildConfiguration>
+    <MSBuildCommunityTasksPath>$(ToolsDir)\MSBuildTasks\tools</MSBuildCommunityTasksPath>
+    <XUnitTasksPath>$(ToolsDir)\xunit.MSBuild.1.9.2.3</XUnitTasksPath>    
+    <!-- Overrider properties -->
+    <IntermediateOutputPath>$(BuildDir)\obj\</IntermediateOutputPath>
+    <OutputPath>$(ReleaseDir)\</OutputPath>
   </PropertyGroup>
-      
+    
   <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.targets" />
   <Import Project="$(XUnitTasksPath)\build\xunit.MSBuild.targets" />
+
+  <PropertyGroup>
+    <BuildConfiguration Condition=" '$(BuildConfiguration)' == '' ">Release</BuildConfiguration>
+  </PropertyGroup>      
   
   <Target Name="Clean">
-    <DeleteTree Directories="$(BuildFolder)" ContinueOnError="true" />
+    <DeleteTree Directories="$(BuildDir)" ContinueOnError="true" />
     <DeleteTree Directories="**\obj\**;**\bin\**" />    
   </Target>
   
   <Target Name="Compile" DependsOnTargets="Clean">
-    <MakeDir Directories="$(BuildFolder)" Condition="!EXISTS($(BuildFolder))" />
-    <MakeDir Directories="$(ReleaseFolder)" Condition="!EXISTS($(ReleaseFolder))" />
+    <MakeDir Directories="$(BuildDir)" Condition="!EXISTS($(BuildDir))" />
+    <MakeDir Directories="$(ReleaseDir)" Condition="!EXISTS($(ReleaseDir))" />
     <MakeDir Directories="$(IntermediateOutputPath)" Condition="!EXISTS($(IntermediateOutputPath))" />
-    <MakeDir Directories="$(PackageFolder)" Condition="!EXISTS($(PackageFolder))" />
+    <MakeDir Directories="$(PackageDir)" Condition="!EXISTS($(PackageDir))" />
     
-    <NuGetRestore Solution="$(SolutionFileName)" />
-    <MSBuild Projects="$(SolutionFileName)" Properties="OutputPath=$(OutputPath);IntermediateOutputPath=$(IntermediateOutputPath);Configuration=$(BuildConfiguration)"/>
+    <NuGetRestore Solution="$(SolutionFullName)" />
+    <MSBuild Projects="$(SolutionFullName)" 
+             Properties="OutputPath=$(OutputPath);IntermediateOutputPath=$(IntermediateOutputPath);Configuration=$(BuildConfiguration)"/>
   </Target>
 
   <Target Name="Test" DependsOnTargets="Compile">
@@ -47,43 +58,45 @@
 
   <Target Name="Package" DependsOnTargets="Test">    
     <ItemGroup>
-      <ProjectsToBePacked Include="$(SourceFolder)\**\*.nuspec" Exclude="$(SourceFolder)\**\*Test*.nuspec"/>
+      <ProjectsToBePacked Include="$(BaseDir)\**\*.csproj" Exclude="$(BaseDir)\**\*Test*.csproj"/>
     </ItemGroup>
-
-    <NuGetPack ToolPath="$(ToolFolder)"
+    
+    <NuGetPack ToolPath="$(ToolsDir)"
                File="%(ProjectsToBePacked.Identity)"
-               OutputDirectory="$(PackageFolder)"               
+               OutputDirectory="$(PackageDir)"
+               BasePath="$(BuildDir)"
+               Properties="OutputPath=$(OutputPath);IntermediateOutputPath=$(IntermediateOutputPath);Configuration=$(BuildConfiguration)"
                Symbols="true"  />
   </Target>
   
   <Target Name="Zip" DependsOnTargets="Compile;RetrieveIdentities">
     <ItemGroup>
-      <ZipFiles Include="$(ReleaseFolder)\*" />
+      <ZipFiles Include="$(ReleaseDir)\*" />
     </ItemGroup>
 
     <Zip Files="@(ZipFiles)"
-         WorkingDirectory="$(ReleaseFolder)"
-         ZipFileName="$(ReleaseFolder).v%(MyAssemblyIdentities.Version).zip" />
+         WorkingDirectory="$(ReleaseDir)"
+         ZipFileName="$(ReleaseDir).v%(MyAssemblyIdentities.Version).zip" />
   </Target>
     
   <Target Name="Publish" DependsOnTargets="Package">
     
     <ItemGroup>
-      <NuGetPackages Include="$(PackageFolder)\*.nupkg" Exclude="$(PackageFolder)\*.symbols.nupkg"/>
-      <NuGetSymbols Include="$(PackageFolder)\*.symbols.nupkg" />
+      <NuGetPackages Include="$(PackageDir)\*.nupkg"/>
+      <!--<NuGetSymbols Include="$(PackageDir)\*.symbols.nupkg" />-->
     </ItemGroup>
 
     <!-- Push to MyGet on Build -->
-    <NuGetPush ToolPath="$(ToolFolder)"
+    <NuGetPush ToolPath="$(ToolsDir)"
                File="%(NuGetPackages.Identity)"
                APIKey="123"
                Source="http://localhost:88/" />
 
     <!-- Push to Symbols on Build -->
-    <NuGetPush ToolPath="$(ToolFolder)"
+    <!--<NuGetPush ToolPath="$(ToolsDir)"
                File="%(NuGetSymbols.Identity)"
                APIKey="123"
-               Source="http://localhost:88/" />
+               Source="http://localhost:88/" />-->
   </Target>
 
   <Target Name="Build">
