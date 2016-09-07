@@ -2,15 +2,16 @@
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <PropertyGroup>
+    <SourceFolder>$(MSBuildProjectDirectory)</SourceFolder>
     <JenkinsHome>E:\Program Files (x86)\Jenkins</JenkinsHome>
-    <ToolFolder>$(JenkinsHome)\Tools</ToolFolder>
+    <ToolFolder>$(JenkinsHome)\Tools</ToolFolder>    
     <BuildFolder>$(MSBuildProjectDirectory)\Build</BuildFolder>
-    <ReleaseFolder>$(BuildFolder)\Release\</ReleaseFolder>
-    <VersionFile>$(ReleaseFolder)\Xy.Pis.Core.dll</VersionFile>
-    <PackageFolder>$(BuildFolder)\Package</PackageFolder>   
-    <SourceFolder>$(MSBuildProjectDirectory)</SourceFolder>    
+    <ReleaseFolder>$(BuildFolder)\Release\</ReleaseFolder>    
+    <PackageFolder>$(BuildFolder)\Package</PackageFolder>
+    <VersionFile>$(ReleaseFolder)\Xy.Pis.Core.dll</VersionFile>    
     <SolutionFileName>$(SourceFolder)\Xy.Pis.Framework.sln</SolutionFileName>
     <MSBuildCommunityTasksPath>$(ToolFolder)\MSBuildTasks\tools</MSBuildCommunityTasksPath>
+    <XUnitTasksPath>$(ToolFolder)\xunit.MSBuild.1.9.2.3\tools</XUnitTasksPath>
     
     <!-- Overrider properties -->
     <IntermediateOutputPath>$(BuildFolder)\obj\</IntermediateOutputPath>
@@ -22,7 +23,7 @@
   </PropertyGroup>
       
   <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.targets"/>
-  <Import Project="$(MSBuildProjectDirectory)\packages\xunit.MSBuild.1.9.2.3\build\xunit.MSBuild.targets" Condition="Exists('$(MSBuildProjectDirectory)\packages\xunit.MSBuild.1.9.2.3\build\xunit.MSBuild.targets')" />
+  <Import Project="$(XUnitTasksPath)\build\xunit.MSBuild.targets" Condition="Exists('$(MSBuildProjectDirectory)\packages\xunit.MSBuild.1.9.2.3\build\xunit.MSBuild.targets')" />
   
   <Target Name="Clean">
     <DeleteTree Directories="$(BuildFolder)" ContinueOnError="true" />
