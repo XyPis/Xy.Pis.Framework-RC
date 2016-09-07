@@ -47,7 +47,7 @@
 
   <Target Name="Package" DependsOnTargets="Test">    
     <ItemGroup>
-      <ProjectsToBePacked Include="$(SourceFolder)\**\*.csproj" Exclude="$(SourceFolder)\**\*Test*.csproj"/>
+      <ProjectsToBePacked Include="$(SourceFolder)\**\*.nuspec" Exclude="$(SourceFolder)\**\*Test*.nuspec"/>
     </ItemGroup>
 
     <NuGetPack ToolPath="$(ToolFolder)"
