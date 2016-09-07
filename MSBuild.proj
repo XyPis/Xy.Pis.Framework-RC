@@ -22,8 +22,8 @@
     <BuildConfiguration Condition=" '$(BuildConfiguration)' == '' ">Release</BuildConfiguration>
   </PropertyGroup>
       
-  <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.targets"/>
-  <Import Project="$(XUnitTasksPath)\build\xunit.MSBuild.targets" Condition="Exists('$(MSBuildProjectDirectory)\packages\xunit.MSBuild.1.9.2.3\build\xunit.MSBuild.targets')" />
+  <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.targets" />
+  <Import Project="$(XUnitTasksPath)\build\xunit.MSBuild.targets" />
   
   <Target Name="Clean">
     <DeleteTree Directories="$(BuildFolder)" ContinueOnError="true" />
