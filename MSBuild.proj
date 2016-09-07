@@ -41,7 +41,7 @@
   </Target>
 
   <Target Name="Test" DependsOnTargets="Compile">
-    <Message Text="MSBuildCommunityTasksPath: $(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.targets" />
+    <Message Text="XUnitTasksPath: $(XUnitTasksPath)\build\xunit.MSBuild.targets" />
     <CallTarget Targets="ExecuteXUnitTests" />
   </Target>
 
