@@ -2,26 +2,23 @@
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <PropertyGroup>
+    <JenkinsHome>E:\Program Files (x86)\Jenkins</JenkinsHome>
+    <ToolFolder>$(JenkinsHome)\Tools</ToolFolder>
     <BuildFolder>$(MSBuildProjectDirectory)\Build</BuildFolder>
     <ReleaseFolder>$(BuildFolder)\Release\</ReleaseFolder>
     <VersionFile>$(ReleaseFolder)\Xy.Pis.Core.dll</VersionFile>
-    <PackageFolder>$(BuildFolder)\Package</PackageFolder>
-    <ToolFolder>$(MSBuildProjectDirectory)\..\Tools</ToolFolder>
+    <PackageFolder>$(BuildFolder)\Package</PackageFolder>   
     <SourceFolder>$(MSBuildProjectDirectory)</SourceFolder>    
     <SolutionFileName>$(SourceFolder)\Xy.Pis.Framework.sln</SolutionFileName>
     <MSBuildCommunityTasksPath>$(ToolFolder)\MSBuildTasks\tools</MSBuildCommunityTasksPath>
-    <XUnitTasksPath>$(ToolFolder)\xunit.runners\tools</XUnitTasksPath>  
     
     <!-- Overrider properties -->
     <IntermediateOutputPath>$(BuildFolder)\obj\</IntermediateOutputPath>
     <OutputPath>$(ReleaseFolder)</OutputPath>
   </PropertyGroup>
-      
-  <!-- Version Number -->
+  
   <PropertyGroup>
-
-    <BuildConfiguration  Condition=" '$(BuildConfiguration)' == '' ">Release</BuildConfiguration>
-
+    <BuildConfiguration Condition=" '$(BuildConfiguration)' == '' ">Release</BuildConfiguration>
   </PropertyGroup>
       
   <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.targets"/>
@@ -30,7 +27,7 @@
   <Target Name="Clean">
     <DeleteTree Directories="$(BuildFolder)" ContinueOnError="true" />
     <DeleteTree Directories="**\obj\**;**\bin\**" />    
-  </Target>            
+  </Target>
   
   <Target Name="Compile" DependsOnTargets="Clean">
     <MakeDir Directories="$(BuildFolder)" Condition="!EXISTS($(BuildFolder))" />

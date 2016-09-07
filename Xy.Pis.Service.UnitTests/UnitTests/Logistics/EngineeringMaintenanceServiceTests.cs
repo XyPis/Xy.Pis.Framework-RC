@@ -6,75 +6,74 @@ using System.Linq.Expressions;
 using System.Reflection;
 using log4net;
 using Microsoft.Practices.Unity;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Xy.Pis.Contract.Message.Logistics;
 using Xy.Pis.Contract.Service.Logistics;
 using Xy.Pis.Proxy;
 
 namespace Xy.Pis.Service.UnitTests.Logistics
-{
-    [TestClass]
+{    
     public partial class EngineeringMaintenanceServiceTests : TestBase
     {
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);        
 
-        [TestMethod]
+        [Fact]
         public void Test_EngineeringMaintenanceService_Add()
         {
             int id = this.Add();
 
-            Assert.AreNotEqual(0, id);
+            Assert.NotEqual(0, id);
         }
 
-        [TestMethod]
+        [Fact]
         public void Test_EngineeringMaintenanceService_GetAll()
         {
             int id = this.Add();
             var response = ServiceWrapper.Invoke<IEngineeringMaintenanceService, IEnumerable<EngineeringMaintenanceDTO>>(x => x.GetAll());
-            Assert.IsTrue(response.Status == ResponseStatus.OK);
-            Assert.IsTrue(response.Result.Where(x => x.ID == id).Any());
+            Assert.True(response.Status == ResponseStatus.OK);
+            Assert.True(response.Result.Where(x => x.ID == id).Any());
         }
 
-        [TestMethod]
+        [Fact]
         public void Test_EngineeringMaintenanceService_GetById()
         {
             int id = this.Add();
             var getResponse = ServiceWrapper.Invoke<IEngineeringMaintenanceService, EngineeringMaintenanceDTO>(x => x.GetById(id));
-            Assert.IsTrue(getResponse.Status == ResponseStatus.OK);
-            Assert.IsNotNull(getResponse.Result);
+            Assert.True(getResponse.Status == ResponseStatus.OK);
+            Assert.NotNull(getResponse.Result);
         }
 
-        [TestMethod]
+        [Fact]
         public void Test_EngineeringMaintenanceService_Update()
         {
             int id = this.Add();
             var getResponse = ServiceWrapper.Invoke<IEngineeringMaintenanceService, EngineeringMaintenanceDTO>(x => x.GetById(id));
-            Assert.IsTrue(getResponse.Status == ResponseStatus.OK);
-            Assert.IsNotNull(getResponse.Result);
+            Assert.True(getResponse.Status == ResponseStatus.OK);
+            Assert.NotNull(getResponse.Result);
 
             var dto = getResponse.Result;
             dto.Memo = "数据更新测试...";
             dto.OperId = 6768;
 
             var updateResponse = ServiceWrapper.Invoke<IEngineeringMaintenanceService>(x => x.Update(dto));
-            Assert.IsTrue(updateResponse.Status == ResponseStatus.OK);            
+            Assert.True(updateResponse.Status == ResponseStatus.OK);            
         }
 
-        [TestMethod]
+        [Fact]
         public void Test_EngineeringMaintenanceService_Delete()
         {
             int id = this.Add();
             var getResponse = ServiceWrapper.Invoke<IEngineeringMaintenanceService, EngineeringMaintenanceDTO>(x => x.GetById(id));
-            Assert.IsTrue(getResponse.Status == ResponseStatus.OK);
+            Assert.True(getResponse.Status == ResponseStatus.OK);
 
             EngineeringMaintenanceDTO dto = getResponse.Result;
-            Assert.IsNotNull(dto);
+            Assert.NotNull(dto);
 
             var deleteResponse = ServiceWrapper.Invoke<IEngineeringMaintenanceService>(x => x.Delete(dto));
-            Assert.IsTrue(deleteResponse.Status == ResponseStatus.OK);            
+            Assert.True(deleteResponse.Status == ResponseStatus.OK);            
         }
 
-        [TestMethod]
+        [Fact]
         public void Test_EngineeringMaintenanceService_AddOrUpdate()
         {
             var getResponse = ServiceWrapper.Invoke<IEngineeringMaintenanceService, IEnumerable<EngineeringMaintenanceDTO>>(x => x.GetAll().Where(y => y.OperId != 6768));
@@ -119,17 +118,17 @@ namespace Xy.Pis.Service.UnitTests.Logistics
             addOrUpdateDTOs.AddRange(updateDTOs);
 
             var updateResponse = ServiceWrapper.Invoke<IEngineeringMaintenanceService, Tuple<int, int>>(x => x.AddOrUpdate(addOrUpdateDTOs));
-            Assert.IsTrue(updateResponse.Status == ResponseStatus.OK);
-            Assert.AreEqual(addDTOs.Count, updateResponse.Result.Item1);
-            Assert.AreEqual(updateDTOs.Count, updateResponse.Result.Item2);
+            Assert.True(updateResponse.Status == ResponseStatus.OK);
+            Assert.Equal(addDTOs.Count, updateResponse.Result.Item1);
+            Assert.Equal(updateDTOs.Count, updateResponse.Result.Item2);
         }        
 
-         [TestMethod]
+         [Fact]
         public void Test_EngineeringMaintenanceService_GetByLambdaExpression()
         {
             var getResponse = ServiceWrapper.Invoke<IEngineeringMaintenanceService, IEnumerable<EngineeringMaintenanceDTO>>(x => x.Get(y => y.Name.Contains("柜子") || y.Memo.Contains("柜子") || y.Position.Contains("万寿楼")));
-            Assert.IsTrue(getResponse.Status == ResponseStatus.OK);
-            Assert.IsTrue(getResponse.Result.Count() > 0);
+            Assert.True(getResponse.Status == ResponseStatus.OK);
+            Assert.True(getResponse.Result.Count() > 0);
         }
 
          private int Add()
@@ -150,9 +149,9 @@ namespace Xy.Pis.Service.UnitTests.Logistics
 
              var response = ServiceWrapper.Invoke<IEngineeringMaintenanceService, EngineeringMaintenanceDTO>(x => x.Add(expectedDto));
 
-             Assert.IsTrue(response.Status == ResponseStatus.OK);
-             Assert.IsNotNull(response.Result);
-             Assert.AreNotEqual(0, response.Result.ID);
+             Assert.True(response.Status == ResponseStatus.OK);
+             Assert.NotNull(response.Result);
+             Assert.NotEqual(0, response.Result.ID);
 
              return response.Result.ID;
          }

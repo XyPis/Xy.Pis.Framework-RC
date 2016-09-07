@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using log4net;
 using Microsoft.Practices.Unity;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Xy.Pis.Contract.Message.Logistics;
 using Xy.Pis.Contract.Service.Logistics;
 using Xy.Pis.Proxy;
@@ -14,7 +14,7 @@ namespace Xy.Pis.Service.UnitTests.Logistics
 {
     public partial class AdditionalMealServiceUnitTests : TestBase
     {       
-        [TestMethod]
+        [Fact]
         public void Test_AdditionalMealService_AddBatch()
         {
             IList<AdditionalMealDTO> dtoList = new List<AdditionalMealDTO>();             
@@ -30,15 +30,15 @@ namespace Xy.Pis.Service.UnitTests.Logistics
             }
 
             var response = ServiceWrapper.Invoke<IAdditionalMealService, int>(x => x.AddBatch(dtoList));
-            Assert.IsTrue(response.Status == ResponseStatus.OK);
+            Assert.True(response.Status == ResponseStatus.OK);
         }
 
-        [TestMethod]
+        [Fact]
         public void Test_AdditionalMealService_UpdateBatch()
         {
             int[] ids = new int[] { this.Add(), this.Add(), this.Add() };
             var getResponse = ServiceWrapper.Invoke<IAdditionalMealService, IEnumerable<AdditionalMealDTO>>(x => x.GetAll().Where(y => ids.Contains(y.ID)));
-            Assert.IsTrue(getResponse.Status == ResponseStatus.OK);
+            Assert.True(getResponse.Status == ResponseStatus.OK);
             
             foreach (var dto in getResponse.Result)
             {
@@ -53,20 +53,20 @@ namespace Xy.Pis.Service.UnitTests.Logistics
             }
 
             var updateResponse = ServiceWrapper.Invoke<IAdditionalMealService, int>(x => x.UpdateBatch(getResponse.Result));
-            Assert.IsTrue(updateResponse.Status == ResponseStatus.OK);
+            Assert.True(updateResponse.Status == ResponseStatus.OK);
 
-            // Assert.AreEqual(getResponse.Result.Count, updateResponse.Result);
+            // Assert.Equal(getResponse.Result.Count, updateResponse.Result);
         }
 
-        [TestMethod]
+        [Fact]
         public void Test_AdditionalMealService_DeleteBatch()
         {
             this.Add();
             var getResponse = ServiceWrapper.Invoke<IAdditionalMealService, IEnumerable<AdditionalMealDTO>>(x => x.GetAll());
-            Assert.IsTrue(getResponse.Status == ResponseStatus.OK);
-            Assert.IsNotNull(getResponse.Result);
+            Assert.True(getResponse.Status == ResponseStatus.OK);
+            Assert.NotNull(getResponse.Result);
             var deleteResponse = ServiceWrapper.Invoke<IAdditionalMealService, int>(x => x.DeleteBatch(getResponse.Result));
-            Assert.IsTrue(deleteResponse.Status == ResponseStatus.OK);
+            Assert.True(deleteResponse.Status == ResponseStatus.OK);
         }
     }
 }

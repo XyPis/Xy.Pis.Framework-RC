@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Linq.Expressions;
 using AutoMapper;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Xy.Pis.Contract.Message.Logistics;
 using Xy.Pis.Core;
 
 namespace Xy.Pis.Service.UnitTests
-{
-    [TestClass]
+{    
     public class UnitTests
     {
-        [TestMethod]
+        [Fact]
         public void Test_UnitTests_TestMethod1()
         {
         }

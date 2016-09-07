@@ -3,14 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Xy.Pis.Contract.Message.Logistics;
 using Xy.Pis.Contract.Service.Logistics;
 using Xy.Pis.Proxy;
 
 namespace Xy.Pis.Service.UnitTests
-{
-    [TestClass]
+{    
     public class TestBase : Base
     {       
         protected virtual AdditionalMealDTO PrepareData(int hospId, int locationId, DateTime orderDate, decimal unitPrice)
