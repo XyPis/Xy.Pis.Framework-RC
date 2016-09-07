@@ -40,6 +40,7 @@
   </Target>
 
   <Target Name="Test" DependsOnTargets="Compile">
+    <Message Text="MSBuildCommunityTasksPath: $(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.targets" />
     <CallTarget Targets="ExecuteXUnitTests" />
   </Target>
 
