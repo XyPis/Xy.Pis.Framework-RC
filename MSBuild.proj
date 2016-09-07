@@ -11,7 +11,7 @@
     <VersionFile>$(ReleaseFolder)\Xy.Pis.Core.dll</VersionFile>    
     <SolutionFileName>$(SourceFolder)\Xy.Pis.Framework.sln</SolutionFileName>
     <MSBuildCommunityTasksPath>$(ToolFolder)\MSBuildTasks\tools</MSBuildCommunityTasksPath>
-    <XUnitTasksPath>$(ToolFolder)\xunit.MSBuild.1.9.2.3\tools</XUnitTasksPath>
+    <XUnitTasksPath>$(ToolFolder)\xunit.MSBuild.1.9.2.3</XUnitTasksPath>
     
     <!-- Overrider properties -->
     <IntermediateOutputPath>$(BuildFolder)\obj\</IntermediateOutputPath>
