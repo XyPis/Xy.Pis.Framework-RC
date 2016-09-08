@@ -34,6 +34,9 @@ namespace Xy.Pis.Contract.Message.Logistics
         [DataMember]
         public decimal? UnitPrice { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [DataMember]
         public virtual FoodDTO Food { get; set; }
     }
