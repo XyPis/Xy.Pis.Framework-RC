@@ -4,6 +4,9 @@ using System.Runtime.Serialization;
 
 namespace Xy.Pis.Contract.Message.Logistics
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [DataContract]
     public partial class AdditionalMealDetailsDTO : DTOBase
     {
