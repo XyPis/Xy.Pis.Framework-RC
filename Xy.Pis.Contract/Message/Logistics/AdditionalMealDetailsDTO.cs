@@ -25,6 +25,9 @@ namespace Xy.Pis.Contract.Message.Logistics
         [DataMember]
         public int Qty { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [DataMember]
         public string AdditionalMealType { get; set; }
 
