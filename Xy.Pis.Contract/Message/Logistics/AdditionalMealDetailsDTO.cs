@@ -13,6 +13,9 @@ namespace Xy.Pis.Contract.Message.Logistics
         [DataMember]
         public int AdditionalMealId { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [DataMember]
         public int FoodId { get; set; }
 
