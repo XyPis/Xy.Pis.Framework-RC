@@ -6,8 +6,8 @@
     <VersionFileName>Xy.Pis.Core.dll</VersionFileName>
     <SolutionFileName>Xy.Pis.Framework.sln</SolutionFileName>
     <JenkinsDir>E:\Program Files (x86)\Jenkins</JenkinsDir>
-    <ToolsDir>$(JenkinsDir)\Tools</ToolsDir>
-    
+    <ToolsDir>$(MSBuildStartupDirectory)\packages</ToolsDir>
+    <NuGetExePath>$(MSBuildStartupDirectory)\.nuget</NuGetExePath>
     <BaseDir>$(MSBuildStartupDirectory)</BaseDir>    
     <BuildDir>$(BaseDir)\Build</BuildDir>
 
@@ -21,8 +21,8 @@
   </PropertyGroup>
   
   <PropertyGroup>
-    <MSBuildCommunityTasksPath>$(ToolsDir)\MSBuildTasks\tools</MSBuildCommunityTasksPath>
-    <XUnitTasksPath>$(ToolsDir)\xunit.MSBuild.1.9.2.3</XUnitTasksPath>    
+    <MSBuildCommunityTasksPath>$(ToolsDir)\MSBuildTasks.*\tools</MSBuildCommunityTasksPath>
+    <XUnitTasksPath>$(ToolsDir)\xunit.MSBuild.*</XUnitTasksPath>    
     <!-- Overrider properties -->
     <IntermediateOutputPath>$(BuildDir)\obj\</IntermediateOutputPath>
     <OutputPath>$(ReleaseDir)\</OutputPath>
@@ -61,7 +61,7 @@
       <ProjectsToBePacked Include="$(BaseDir)\**\*.csproj" Exclude="$(BaseDir)\**\*Test*.csproj"/>
     </ItemGroup>
     
-    <NuGetPack ToolPath="$(ToolsDir)"
+    <NuGetPack ToolPath="$(NuGetExePath)"
                File="%(ProjectsToBePacked.Identity)"
                OutputDirectory="$(PackageDir)"
                BasePath="$(BuildDir)"
@@ -87,18 +87,18 @@
     </ItemGroup>
 
     <!-- Push to MyGet on Build -->
-    <NuGetPush ToolPath="$(ToolsDir)"
+    <NuGetPush ToolPath="$(NuGetExePath)"
                File="%(NuGetPackages.Identity)"
                APIKey="123"
                Source="http://localhost:88/" />
     
     <!-- Push to Symbols on Build -->
-    <NuGetPush ToolPath="$(ToolsDir)"
+    <NuGetPush ToolPath="$(NuGetExePath)"
                File="%(NuGetSymbols.Identity)"
                APIKey="123"
                Source="http://localhost:88/" />      
   </Target>
-
+ 
   <Target Name="Build">
     <CallTarget Targets="Package;Zip" />
     <CallTarget Targets="Publish" />
