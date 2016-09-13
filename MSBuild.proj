@@ -3,7 +3,7 @@
 
   <!-- Jenkins home directory and solution base directory -->
   <PropertyGroup>
-    <Source>http://120.24.239.82:88/</Source>
+    <Source>http://120.24.239.82:88/nuget</Source>
     <VersionFileName>Xy.Pis.Core.dll</VersionFileName>
     <SolutionFileName>Xy.Pis.Framework.sln</SolutionFileName>
     <JenkinsDir>E:\Program Files (x86)\Jenkins</JenkinsDir>
