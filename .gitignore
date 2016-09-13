@@ -18,6 +18,7 @@ bld/
 
 # Roslyn cache directories
 *.ide/
+.nuget/
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
