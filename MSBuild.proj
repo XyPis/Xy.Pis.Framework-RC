@@ -7,9 +7,8 @@
     <VersionFileName>Xy.Pis.Core.dll</VersionFileName>
     <SolutionFileName>Xy.Pis.Framework.sln</SolutionFileName>
     <JenkinsDir>E:\Program Files (x86)\Jenkins</JenkinsDir>
-    <PackagesDir>$(MSBuildStartupDirectory)\packages</PackagesDir>
-    <NuGetExePath>$(MSBuildStartupDirectory)\.nuget</NuGetExePath>
-    <BaseDir>$(MSBuildStartupDirectory)</BaseDir>    
+    <ToolsDir>$(JenkinsDir)\Tools</ToolsDir>    
+    <BaseDir>$(MSBuildStartupDirectory)</BaseDir>
     <BuildDir>$(BaseDir)\Build</BuildDir>
 
     <ReleaseDir>$(BuildDir)\Release</ReleaseDir>
@@ -22,8 +21,8 @@
   </PropertyGroup>
   
   <PropertyGroup>
-    <MSBuildCommunityTasksPath>$(PackagesDir)\MSBuildTasks.*\tools</MSBuildCommunityTasksPath>
-    <XUnitTasksPath>$(PackagesDir)\xunit.MSBuild.*</XUnitTasksPath>    
+    <MSBuildCommunityTasksPath>$(ToolsDir)\MSBuildTasks.*\tools</MSBuildCommunityTasksPath>
+    <XUnitTasksPath>$(ToolsDir)\xunit.MSBuild.*</XUnitTasksPath>    
     <!-- Overrider properties -->
     <IntermediateOutputPath>$(BuildDir)\obj\</IntermediateOutputPath>
     <OutputPath>$(ReleaseDir)\</OutputPath>
@@ -35,8 +34,8 @@
 
   <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.targets" />
   <Import Project="$(XUnitTasksPath)\build\xunit.MSBuild.targets" />
-  
-  <Target Name="Clean">   
+
+  <Target Name="Clean">
     <DeleteTree Directories="$(BuildDir)" ContinueOnError="true" />
     <DeleteTree Directories="**\obj\**;**\bin\**" />    
   </Target>
@@ -46,8 +45,9 @@
     <MakeDir Directories="$(ReleaseDir)" Condition="!EXISTS($(ReleaseDir))" />
     <MakeDir Directories="$(IntermediateOutputPath)" Condition="!EXISTS($(IntermediateOutputPath))" />
     <MakeDir Directories="$(PackageDir)" Condition="!EXISTS($(PackageDir))" />
-    
+
     <NuGetRestore Solution="$(SolutionFullName)" Source="$(Source)" />
+    
     <MSBuild Projects="$(SolutionFullName)" 
              Properties="OutputPath=$(OutputPath);IntermediateOutputPath=$(IntermediateOutputPath);Configuration=$(BuildConfiguration)"/>
   </Target>
@@ -62,7 +62,7 @@
       <ProjectsToBePacked Include="$(BaseDir)\**\*.csproj" Exclude="$(BaseDir)\**\*Test*.csproj"/>
     </ItemGroup>
     
-    <NuGetPack ToolPath="$(NuGetExePath)"
+    <NuGetPack ToolPath="$(ToolsDir)"
                File="%(ProjectsToBePacked.Identity)"
                OutputDirectory="$(PackageDir)"
                BasePath="$(BuildDir)"
