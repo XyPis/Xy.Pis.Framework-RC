@@ -32,8 +32,7 @@
     <BuildConfiguration Condition=" '$(BuildConfiguration)' == '' ">Release</BuildConfiguration>
   </PropertyGroup>
 
-  <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.targets" />
-  <Import Project="$(XUnitTasksPath)\build\xunit.MSBuild.targets" />
+  <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.targets" />  
 
   <Target Name="Clean">
     <DeleteTree Directories="$(BuildDir)" ContinueOnError="true" />
@@ -45,9 +44,6 @@
     <MakeDir Directories="$(ReleaseDir)" Condition="!EXISTS($(ReleaseDir))" />
     <MakeDir Directories="$(IntermediateOutputPath)" Condition="!EXISTS($(IntermediateOutputPath))" />
     <MakeDir Directories="$(PackageDir)" Condition="!EXISTS($(PackageDir))" />
-
-    <!--<Message Text="Import 1: $(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.targets"/>
-    <Message Text="Import 2: $(XUnitTasksPath)\build\xunit.MSBuild.targets"/>-->
     
     <NuGetRestore Solution="$(SolutionFullName)" Source="$(Source)" />
     
