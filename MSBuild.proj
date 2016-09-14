@@ -46,8 +46,8 @@
     <MakeDir Directories="$(IntermediateOutputPath)" Condition="!EXISTS($(IntermediateOutputPath))" />
     <MakeDir Directories="$(PackageDir)" Condition="!EXISTS($(PackageDir))" />
 
-    <Message Text="Import 1: $(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.targets"/>
-    <Message Text="Import 2: $(XUnitTasksPath)\build\xunit.MSBuild.targets"/>
+    <!--<Message Text="Import 1: $(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.targets"/>
+    <Message Text="Import 2: $(XUnitTasksPath)\build\xunit.MSBuild.targets"/>-->
     
     <NuGetRestore Solution="$(SolutionFullName)" Source="$(Source)" />
     
