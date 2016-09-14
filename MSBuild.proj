@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-
+  
   <!-- Jenkins home directory and solution base directory -->
   <PropertyGroup>
     <Source>http://120.24.239.82:88/nuget</Source>
     <VersionFileName>Xy.Pis.Core.dll</VersionFileName>
     <SolutionFileName>Xy.Pis.Framework.sln</SolutionFileName>
     <JenkinsDir>E:\Program Files (x86)\Jenkins</JenkinsDir>
-    <ToolsDir>$(JenkinsDir)\Tools</ToolsDir>    
+    <ToolsDir>$(JenkinsDir)\tools</ToolsDir>    
     <BaseDir>$(MSBuildStartupDirectory)</BaseDir>
     <BuildDir>$(BaseDir)\Build</BuildDir>
 
@@ -35,6 +35,21 @@
   <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.targets" />
   <Import Project="$(XUnitTasksPath)\build\xunit.MSBuild.targets" />
 
+  <UsingTask AssemblyFile="$(MSBuildCommunityTasksPath)\xunit.runner.msbuild.dll" TaskName="Xunit.Runner.MSBuild.xunit" />
+
+  <PropertyGroup Condition="'$(RunXunitTests)' == ''">
+    <RunXunitTests Condition="'$(Configuration)' == 'Release'">true</RunXunitTests>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <BuildDependsOn>$(BuildDependsOn);ExecuteXUnitTests</BuildDependsOn>
+    <RebuildDependsOn>$(RebuildDependsOn);ExecuteXUnitTests</RebuildDependsOn>
+  </PropertyGroup>
+
+  <Target Name="ExecuteXUnitTests11" Condition="'$(RunXunitTests)' == 'true'" >
+    <xunit Assembly="$(OutputPath)$(AssemblyName).dll" xml="$(OutputPath)$(AssemblyName).xml" />
+  </Target>
+  
   <Target Name="Clean">
     <DeleteTree Directories="$(BuildDir)" ContinueOnError="true" />
     <DeleteTree Directories="**\obj\**;**\bin\**" />    
@@ -54,7 +69,7 @@
 
   <Target Name="Test" DependsOnTargets="Compile">
     <Message Text="XUnitTasksPath: $(XUnitTasksPath)\build\xunit.MSBuild.targets" />
-    <CallTarget Targets="ExecuteXUnitTests" />
+    <CallTarget Targets="ExecuteXUnitTests11" />
   </Target>
 
   <Target Name="Package" DependsOnTargets="Test">    
@@ -113,4 +128,5 @@
     <Message Text="Assembly Version: %(MyAssemblyIdentities.Version)"/>
     <Message Text="File Name: $(VersionFile)"/>
   </Target>
+
 </Project>
