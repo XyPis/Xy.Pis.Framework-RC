@@ -35,21 +35,6 @@
   <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.targets" />
   <Import Project="$(XUnitTasksPath)\build\xunit.MSBuild.targets" />
 
-  <UsingTask AssemblyFile="$(MSBuildCommunityTasksPath)\xunit.runner.msbuild.dll" TaskName="Xunit.Runner.MSBuild.xunit" />
-
-  <PropertyGroup Condition="'$(RunXunitTests)' == ''">
-    <RunXunitTests Condition="'$(Configuration)' == 'Release'">true</RunXunitTests>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <BuildDependsOn>$(BuildDependsOn);ExecuteXUnitTests</BuildDependsOn>
-    <RebuildDependsOn>$(RebuildDependsOn);ExecuteXUnitTests</RebuildDependsOn>
-  </PropertyGroup>
-
-  <Target Name="ExecuteXUnitTests11" Condition="'$(RunXunitTests)' == 'true'" >
-    <xunit Assembly="$(OutputPath)$(AssemblyName).dll" xml="$(OutputPath)$(AssemblyName).xml" />
-  </Target>
-  
   <Target Name="Clean">
     <DeleteTree Directories="$(BuildDir)" ContinueOnError="true" />
     <DeleteTree Directories="**\obj\**;**\bin\**" />    
@@ -61,18 +46,16 @@
     <MakeDir Directories="$(IntermediateOutputPath)" Condition="!EXISTS($(IntermediateOutputPath))" />
     <MakeDir Directories="$(PackageDir)" Condition="!EXISTS($(PackageDir))" />
 
+    <Message Text="Import 1: $(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.targets"/>
+    <Message Text="Import 2: $(XUnitTasksPath)\build\xunit.MSBuild.targets"/>
+    
     <NuGetRestore Solution="$(SolutionFullName)" Source="$(Source)" />
     
     <MSBuild Projects="$(SolutionFullName)" 
              Properties="OutputPath=$(OutputPath);IntermediateOutputPath=$(IntermediateOutputPath);Configuration=$(BuildConfiguration)"/>
   </Target>
 
-  <Target Name="Test" DependsOnTargets="Compile">
-    <Message Text="XUnitTasksPath: $(XUnitTasksPath)\build\xunit.MSBuild.targets" />
-    <CallTarget Targets="ExecuteXUnitTests11" />
-  </Target>
-
-  <Target Name="Package" DependsOnTargets="Test">    
+  <Target Name="Package" DependsOnTargets="Compile">    
     <ItemGroup>
       <ProjectsToBePacked Include="$(BaseDir)\**\*.csproj" Exclude="$(BaseDir)\**\*Test*.csproj"/>
     </ItemGroup>
@@ -116,7 +99,7 @@
   </Target>
  
   <Target Name="Build">
-    <CallTarget Targets="Package;Zip" />    
+    <CallTarget Targets="Package" />    
   </Target> 
 
  <Target Name="RetrieveIdentities">
