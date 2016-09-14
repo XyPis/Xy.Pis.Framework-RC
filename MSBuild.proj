@@ -30,10 +30,12 @@
 
   <PropertyGroup>
     <BuildConfiguration Condition=" '$(BuildConfiguration)' == '' ">Release</BuildConfiguration>
+    <RunXunitTests></RunXunitTests>
   </PropertyGroup>
 
-  <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.targets" />  
-
+  <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.targets" />    
+  <Import Project="$(XUnitTasksPath)\build\xunit.MSBuild.targets" />
+  
   <Target Name="Clean">
     <DeleteTree Directories="$(BuildDir)" ContinueOnError="true" />
     <DeleteTree Directories="**\obj\**;**\bin\**" />    
@@ -50,8 +52,14 @@
     <MSBuild Projects="$(SolutionFullName)" 
              Properties="OutputPath=$(OutputPath);IntermediateOutputPath=$(IntermediateOutputPath);Configuration=$(BuildConfiguration)"/>
   </Target>
-
-  <Target Name="Package" DependsOnTargets="Compile">    
+  
+  <Target Name="Test" DependsOnTargets="Compile">  
+    <Message Text="************************************************************************************"/>
+    <CallTarget Targets="ExecuteXUnitTests" />
+    <Message Text="####################################################################################"/>
+  </Target>
+    
+  <Target Name="Package" DependsOnTargets="Test">    
     <ItemGroup>
       <ProjectsToBePacked Include="$(BaseDir)\**\*.csproj" Exclude="$(BaseDir)\**\*Test*.csproj"/>
     </ItemGroup>
