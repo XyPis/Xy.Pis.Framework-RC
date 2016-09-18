@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  
-  <!-- Jenkins home directory and solution base directory -->
   <PropertyGroup>
     <Source>http://120.24.239.82:88/nuget</Source>
     <VersionFileName>Xy.Pis.Core.dll</VersionFileName>
@@ -10,7 +8,7 @@
     <ToolsDir>$(JenkinsDir)\tools</ToolsDir>    
     <BaseDir>$(MSBuildStartupDirectory)</BaseDir>
     <BuildDir>$(BaseDir)\Build</BuildDir>
-
+    
     <ReleaseDir>$(BuildDir)\Release</ReleaseDir>
     <PackageDir>$(BuildDir)\Package</PackageDir>
   </PropertyGroup>
@@ -25,20 +23,19 @@
     <XUnitTasksPath>$(ToolsDir)\xunit.MSBuild.*</XUnitTasksPath>    
     <!-- Overrider properties -->
     <IntermediateOutputPath>$(BuildDir)\obj\</IntermediateOutputPath>
-    <OutputPath>$(ReleaseDir)\</OutputPath>
+    <OutputPath>$(ReleaseDir)\</OutputPath>    
   </PropertyGroup>    
 
   <PropertyGroup>
     <BuildConfiguration Condition=" '$(BuildConfiguration)' == '' ">Release</BuildConfiguration>
-    <RunXunitTests></RunXunitTests>
   </PropertyGroup>
 
   <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.targets" />    
   <Import Project="$(XUnitTasksPath)\build\xunit.MSBuild.targets" />
   
-  <Target Name="Clean">
+  <Target Name="Clean">    
     <DeleteTree Directories="$(BuildDir)" ContinueOnError="true" />
-    <DeleteTree Directories="**\obj\**;**\bin\**" />    
+    <DeleteTree Directories="**\obj\**;**\bin\**" ContinueOnError="true" />    
   </Target>
   
   <Target Name="Compile" DependsOnTargets="Clean">
@@ -53,19 +50,17 @@
              Properties="OutputPath=$(OutputPath);IntermediateOutputPath=$(IntermediateOutputPath);Configuration=$(BuildConfiguration)"/>
   </Target>
   
-  <Target Name="Test" DependsOnTargets="Compile">  
-    <Message Text="************************************************************************************"/>
+  <Target Name="Test" DependsOnTargets="Compile">
     <CallTarget Targets="ExecuteXUnitTests" />
-    <Message Text="####################################################################################"/>
   </Target>
     
   <Target Name="Package" DependsOnTargets="Test">    
     <ItemGroup>
-      <ProjectsToBePacked Include="$(BaseDir)\**\*.csproj" Exclude="$(BaseDir)\**\*Test*.csproj"/>
+      <ProjectToBePack Include="$(BaseDir)\**\*.csproj" Exclude="$(BaseDir)\**\*Test*.csproj"/>
     </ItemGroup>
     
     <NuGetPack ToolPath="$(ToolsDir)"
-               File="%(ProjectsToBePacked.Identity)"
+               File="%(ProjectToBePack.Identity)"
                OutputDirectory="$(PackageDir)"
                BasePath="$(BuildDir)"
                Properties="OutputPath=$(OutputPath);IntermediateOutputPath=$(IntermediateOutputPath);Configuration=$(BuildConfiguration)"
@@ -85,33 +80,24 @@
   <Target Name="Publish" DependsOnTargets="Package">
     
     <ItemGroup>
+      <!-- nuget -->      
       <NuGetPackages Include="$(PackageDir)\*.nupkg" Exclude="$(PackageDir)\*.symbols.nupkg"/>
       <NuGetSymbols Include="$(PackageDir)\*.symbols.nupkg" />
     </ItemGroup>
-
-    <!-- Push to MyGet on Build -->
-    <NuGetPush ToolPath="$(NuGetExePath)"
-               File="%(NuGetPackages.Identity)"
-               APIKey="123"
-               Source="$(Source)" />
     
-    <!-- Push to Symbols on Build -->
-    <NuGetPush ToolPath="$(NuGetExePath)"
-               File="%(NuGetSymbols.Identity)"
-               APIKey="123"
-               Source="$(Source)" />      
+    <NuGetPush ToolPath="$(NuGetExePath)" File="%(NuGetPackages.Identity)" APIKey="123" Source="$(Source)" />
+        
+    <NuGetPush ToolPath="$(NuGetExePath)" File="%(NuGetSymbols.Identity)" APIKey="123" Source="$(Source)" />      
   </Target>
  
-  <Target Name="Build">
+  <Target Name="Build">    
     <CallTarget Targets="Package" />    
   </Target> 
 
  <Target Name="RetrieveIdentities">
     <GetAssemblyIdentity AssemblyFiles="$(VersionFile)">
-      <Output TaskParameter="Assemblies"
-              ItemName="MyAssemblyIdentities"/>
+      <Output TaskParameter="Assemblies" ItemName="MyAssemblyIdentities"/>
     </GetAssemblyIdentity>
-
     <Message Text="Assembly Version: %(MyAssemblyIdentities.Version)"/>
     <Message Text="File Name: $(VersionFile)"/>
   </Target>
