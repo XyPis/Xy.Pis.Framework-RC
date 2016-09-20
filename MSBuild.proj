@@ -53,7 +53,8 @@
   <Target Name="Test" DependsOnTargets="Compile">
     <CallTarget Targets="ExecuteXUnitTests" />
   </Target>
-    
+
+  
   <Target Name="Package" DependsOnTargets="Test">    
     <ItemGroup>
       <ProjectToBePack Include="$(BaseDir)\**\*.csproj" Exclude="$(BaseDir)\**\*Test*.csproj"/>
